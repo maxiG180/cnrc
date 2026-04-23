@@ -1,0 +1,244 @@
+MOBILE OPTIMIZATION AUDIT - CNRC
+Date: 2026-04-20
+Overall Score: 8.3/10
+
+SUMMARY
+=======
+Strong mobile optimization with excellent responsive patterns, image handling,
+and modern tooling. Minor touch target sizing issues that need attention.
+
+1. RESPONSIVE DESIGN PATTERNS: 9/10 - EXCELLENT
+=================================================
+Uses proper Tailwind breakpoints (sm:, md:, lg:) throughout.
+
+STRENGTHS:
+- Clamp() typography for fluid scaling across all devices
+  h1: clamp(2.5rem, 1.6rem + 4.5vw, 5rem)
+  h2: clamp(2rem, 1.4rem + 3vw, 3.25rem)
+  
+- Grid layouts scale properly by breakpoint
+  md:grid-cols-2 (mobile: 1 col, tablet: 2 cols)
+  lg:grid-cols-4 (mobile: 1, tablet: 2x2, desktop: 4)
+  
+- Container responsive padding
+  px-6 mobile, md:px-10 tablet+
+  
+- Section spacing adapts by breakpoint
+  py-12 md:py-16 lg:py-24
+
+KEY FILES: app/globals.css, components/shared/container.tsx
+
+2. TOUCH TARGET SIZES: 6/10 - NEEDS IMPROVEMENT
+================================================
+Standard: 44px x 44px (WCAG 2.1 AAA)
+
+ISSUES FOUND:
+
+1. Menu Toggle Button (header.tsx:60) - 40px x 40px
+   <button className="p-2 text-[color:var(--color-navy)]">
+   FIX: Change p-2 to p-3
+
+2. Close Button (mobile-nav.tsx:54) - 40px x 40px
+   <button type="button" onClick={onClose} className="p-2">
+   FIX: Change p-2 to p-3
+
+3. Gallery Chevrons (gallery.tsx:120-134) - 40px x 40px
+   p-2 + h-8 w-8 icons
+   FIX: Change p-2 to p-2.5
+
+GOOD EXAMPLES:
+- Form inputs: h-12 (48px) - GOOD
+- Service cards: p-8 full clickable area - GOOD
+- Contact form: h-12 inputs - GOOD
+
+3. FONT SIZES ON MOBILE: 9/10 - EXCELLENT
+==========================================
+Modern clamp() approach for fluid typography.
+
+FONT SIZE SCALES:
+             Mobile (320px)    Tablet (768px)    Desktop (1440px)
+h1           40px              63px              80px
+h2           32px              46px              52px
+h3           24px              28px              32px
+h4           18px              19px              22px
+body text    16px (standard)   16px              16px
+
+STRENGTHS:
+- Readable on mobile (h1 minimum 40px)
+- No jarring breakpoint jumps
+- Proper line-height (1.65 for body)
+- Good heading hierarchy
+
+MINOR ISSUE:
+- Form labels: text-[0.7rem] (11px) slightly tight
+- SUGGESTION: Use text-xs (12px) on mobile
+
+KEY FILES: app/globals.css, components/forms/contact-form.tsx
+
+4. IMAGE HANDLING & OPTIMIZATION: 9/10 - EXCELLENT
+===================================================
+Uses Next.js Image component with proper optimization.
+
+BEST PRACTICES FOUND:
+
+1. Responsive sizes attribute
+   sizes="(min-width:1024px) 40vw, 100vw"
+   
+   Device-specific downloads:
+   Mobile (320px): 100vw -> 320px width
+   Tablet (768px): 50-60vw -> 400-450px width
+   Desktop (1024px+): 25-40vw -> 300-600px width
+
+2. Priority loading
+   priority={i === 0}  // HeroSlider first image
+   Prevents LCP (Largest Contentful Paint) delays
+
+3. Aspect ratio preservation
+   aspect-[4/3], aspect-[4/5]
+   Prevents layout shift before image loads
+
+4. Object-fit strategies
+   object-cover (hero, gallery, property cards)
+   object-contain (lightbox full view)
+   object-top (portrait with focus area)
+
+5. Explicit image dimensions
+   width={320} height={70}  // Logo
+   Prevents layout shift on load
+
+ISSUE FOUND:
+- External images bypass optimization
+  https://www.cnrc.pt/wp-content/uploads/2026/04/Foto-Dr.-Antonio-Nunes-1-1152x1536.jpeg
+  https://www.cnrc.pt/wp-content/uploads/2026/03/20_Lisboa_-Sala-de-Reunioes-1_2.jpg
+  
+  FIX: Host in /public/images/ for full optimization
+
+KEY FILES: components/home/hero-slider.tsx, components/home/company-intro.tsx,
+           components/shared/gallery.tsx, components/imobiliario/property-card.tsx
+
+5. MOBILE-SPECIFIC COMPONENTS: 9/10 - EXCELLENT
+================================================
+
+MOBILE NAVIGATION (mobile-nav.tsx):
+- Drawer from right side: w-[88%] max-w-[420px]
+- Adaptive width prevents too narrow/wide drawer
+- Body scroll lock with position:fixed technique
+- Generous list spacing: space-y-2, py-3 on items
+- Collapsible sections with <details> element
+- Escape key handling for accessibility
+
+MOBILE-ONLY ELEMENTS:
+- Hamburger menu toggle: lg:hidden
+- Contact button: lg:hidden
+- Mobile form stacking: grid gap-5 md:grid-cols-2
+
+GOOD DESIGN DECISIONS:
+- Full-width buttons on mobile
+- Stacked forms on mobile, 2-col on tablet+
+- Responsive hero button spacing
+- Mobile-friendly footer layout
+
+MINOR ISSUE:
+- Close button padding (p-2) creates imbalance
+- Suggestion: Use p-3 for visual symmetry
+
+KEY FILES: components/layout/mobile-nav.tsx, components/forms/contact-form.tsx
+
+6. HARDCODED WIDTHS: 8/10 - GOOD
+=================================
+No critical hardcoded widths that break mobile layout.
+
+GOOD PATTERNS:
+1. Flexible containers: w-full with max-width
+2. Percentage-based drawer: w-[88%] max-w-[420px]
+3. Responsive images: fill or responsive aspect ratio
+4. CSS variables for container widths
+
+POTENTIAL ISSUE:
+- CEO signature width: w-[200px]
+  On 320px phone = 62.5% of viewport
+  Acceptable - rarely needs smaller than logo size
+  
+- MegaPanel dropdown: w-[min(92vw,880px)]
+  Good - uses min() for scaling
+
+7. VIEWPORT META TAGS: 10/10 - PERFECT
+========================================
+
+app/layout.tsx:58-62
+export const viewport: Viewport = {
+  themeColor: "#0F1B2D",
+  width: "device-width",
+  initialScale: 1,
+};
+
+ANALYSIS:
+✓ width: "device-width" - CORRECT
+✓ initialScale: 1 - CORRECT (no zoom forcing)
+✓ themeColor: "#0F1B2D" - Matches brand color
+✓ user-scalable: Not disabled (accessible default)
+✓ maximum-scale: Not restricted (accessible)
+✓ Uses Next.js 14+ viewport export (best practice)
+
+PERFECT IMPLEMENTATION - No changes needed.
+
+ACTION ITEMS
+============
+
+HIGH PRIORITY (Accessibility):
+1. Fix touch target sizing (10 minutes)
+   - Menu button: p-2 -> p-3
+   - Close button: p-2 -> p-3
+   - Gallery chevrons: p-2 -> p-2.5
+   Impact: WCAG AAA compliance, +2 points
+
+MEDIUM PRIORITY (Performance):
+2. Host external images locally (30 minutes)
+   - Move CEO photo to /public/images/
+   - Move meeting room photo to /public/images/
+   - Update Image src props
+   Impact: Better optimization, +1 point
+
+3. Responsive form labels (5 minutes)
+   - Change text-[0.7rem] to text-xs md:text-[0.7rem]
+   Impact: Better mobile readability, +0.5 points
+
+LOW PRIORITY (Nice-to-have):
+4. Gallery button refinement (5 minutes)
+   - Increase padding slightly
+   Impact: Slightly larger touch targets, +0.5 points
+
+STRENGTHS TO MAINTAIN
+======================
+- Clamp() typography - Industry best practice
+- Mobile navigation drawer - Excellent implementation
+- Next.js Image optimization - Consistent patterns
+- Responsive grid system - Clean breakpoint architecture
+- Container reusability - Well-designed component
+- Section spacing - Smart responsive values
+- Focus states - Gold outline on :focus-visible
+- Reduced motion support - prefers-reduced-motion CSS
+
+TESTING CHECKLIST
+=================
+[ ] iPhone SE (375px viewport)
+[ ] iPhone 12 mini (375px)
+[ ] iPhone 14/15 (390px)
+[ ] Samsung Galaxy A (360px)
+[ ] iPad (768px)
+[ ] Landscape orientation (568px x 320px)
+[ ] Touch targets with overlay tools
+[ ] Font sizes with browser zoom (100%-150%)
+[ ] Form inputs with mobile keyboard
+[ ] Image loading performance (4G throttle)
+[ ] VoiceOver (iOS) / TalkBack (Android)
+[ ] Menu drawer on low bandwidth
+
+CONCLUSION
+==========
+Codebase shows strong mobile optimization practices with modern tooling (Tailwind,
+Next.js Image, clamp() typography). The main improvement area is touch target sizing
+on a few interactive elements. Once the high-priority action items are addressed,
+this will be an excellent mobile experience.
+
+Final Score: 8.3/10 (Production-ready, minor improvements recommended)

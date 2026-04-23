@@ -1,0 +1,208 @@
+@import "tailwindcss";
+
+@theme {
+  /* CNRC brand palette — navy + bone + gold */
+  --color-navy: #0f1b2d;
+  --color-navy-deep: #0a1220;
+  --color-navy-soft: #1a2a44;
+  --color-bone: #f5f1e8;
+  --color-bone-soft: #ebe4d3;
+  --color-gold: #b89b5e;
+  --color-gold-bright: #d4b876;
+  --color-gold-dim: #8a7440;
+  --color-stone: #c5bfb0;
+  --color-stone-dark: #8a8577;
+  --color-ink: #0a0f18;
+  --color-danger: #a8324a;
+  --color-success: #3d7a57;
+
+  /* Typography — bound to next/font variables */
+  --font-sans: var(--font-inter, "Inter"), system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: var(--font-display, "Libre Baskerville"), Georgia, serif;
+
+  /* Shadows — soft, editorial */
+  --shadow-soft: 0 1px 2px 0 rgb(15 27 45 / 0.04), 0 4px 16px -4px rgb(15 27 45 / 0.08);
+  --shadow-strong: 0 4px 8px -2px rgb(15 27 45 / 0.10), 0 16px 40px -12px rgb(15 27 45 / 0.22);
+  --shadow-gold: 0 0 0 1px rgb(184 155 94 / 0.30), 0 8px 24px -8px rgb(184 155 94 / 0.35);
+
+  /* Radii — restrained, not pill-shaped */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+
+  /* Container */
+  --container-narrow: 72ch;
+  --container-content: 1100px;
+  --container-wide: 1400px;
+
+  /* Easing */
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  * {
+    border-color: color-mix(in oklab, var(--color-stone) 50%, transparent);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--color-bone);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    position: relative;
+  }
+
+  html, body {
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--color-navy);
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 1.6rem + 4.5vw, 5rem);
+    line-height: 1.08;
+  }
+  h2 {
+    font-size: clamp(2rem, 1.4rem + 3vw, 3.25rem);
+    line-height: 1.15;
+  }
+  h3 {
+    font-size: clamp(1.5rem, 1.1rem + 2vw, 2rem);
+    line-height: 1.25;
+  }
+  h4 {
+    font-size: clamp(1.125rem, 0.95rem + 0.9vw, 1.375rem);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    line-height: 1.65;
+  }
+
+  ::selection {
+    background: var(--color-navy);
+    color: var(--color-bone);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: var(--radius-xs);
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+}
+
+@layer components {
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--color-gold-dim);
+  }
+
+  .rule {
+    position: relative;
+    display: inline-block;
+  }
+  .rule::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.5rem;
+    width: 3rem;
+    height: 2px;
+    background: var(--color-gold);
+  }
+
+  .prose-legal {
+    max-width: var(--container-narrow);
+    color: color-mix(in oklab, var(--color-ink) 90%, transparent);
+  }
+  .prose-legal p {
+    margin-block: 1.15em;
+  }
+  .prose-legal strong {
+    color: var(--color-navy);
+    font-weight: 600;
+  }
+  .prose-legal h2 {
+    margin-top: 2.5em;
+    margin-bottom: 0.5em;
+  }
+  .prose-legal h3 {
+    margin-top: 2em;
+    margin-bottom: 0.4em;
+  }
+  .prose-legal ul {
+    padding-left: 1.25em;
+    list-style: none;
+  }
+  .prose-legal ul li {
+    position: relative;
+    padding-left: 1em;
+    margin-block: 0.35em;
+  }
+  .prose-legal ul li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.75em;
+    width: 0.5rem;
+    height: 1px;
+    background: var(--color-gold);
+  }
+  .prose-legal a {
+    color: var(--color-navy);
+    text-decoration: underline;
+    text-decoration-color: var(--color-gold);
+    text-underline-offset: 3px;
+  }
+}
+
+@keyframes vibrate {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+}
+
+/* Hide scrollbar for mobile galleries */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
