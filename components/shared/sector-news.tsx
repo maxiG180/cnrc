@@ -12,12 +12,16 @@ import { formatDatePT } from "@/lib/utils";
 
 const TOPICS: { query: string; label: string }[] = [
   {
+    label: "Recuperação de Crédito",
+    query: "\"recuperação de crédito\" OR cobrança OR dívidas OR incumprimento OR penhora",
+  },
+  {
     label: "Economia & Negócios",
     query: "economia OR empresas OR insolvência OR PME",
   },
   {
     label: "Justiça & Legislação",
-    query: "justiça OR penhora OR execução OR tribunal",
+    query: "justiça OR legislação OR execução OR tribunal",
   },
 ];
 
@@ -28,33 +32,109 @@ export async function SectorNews() {
     TOPICS.map((t) => fetchSectorNews(t.query, t.label)),
   );
 
+  const featured = pickFeatured(results);
   const allFailed = results.every((r) => r.status !== "ok");
   const globalState = allFailed ? deriveGlobalState(results) : null;
 
   return (
-    <Section tone="bone-soft" spacing="lg" className="!pt-0">
-      <Container size="wide">
-        <Reveal>
-          <p className="eyebrow">Atualidade do Setor</p>
-          <h2 className="mt-4">Notícias em tempo real.</h2>
-          <p className="mt-6 max-w-[60ch] text-lg leading-relaxed text-[color:var(--color-ink)]/75">
-            Manchetes selecionadas de fontes portuguesas sobre economia, empresas, justiça e legislação relevante para credores e mandatários.
+    <>
+      {featured && <FeaturedArticle article={featured.article} category={featured.category} />}
+
+      <Section tone="bone-soft" spacing="lg">
+        <Container size="wide">
+          <Reveal>
+            <p className="eyebrow">Atualidade do Setor</p>
+            <h2 className="mt-4">Manchetes por tópico.</h2>
+            <p className="mt-6 max-w-[60ch] text-lg leading-relaxed text-[color:var(--color-ink)]/75">
+              Notícias selecionadas de fontes portuguesas sobre recuperação de crédito, economia, empresas, justiça e legislação relevantes para credores e mandatários.
+            </p>
+          </Reveal>
+
+          {globalState ? (
+            <GlobalNotice state={globalState} />
+          ) : (
+            <div className="mt-14 space-y-16">
+              {results.map((result) => (
+                <TopicBlock
+                  key={result.label}
+                  result={result}
+                  excludeUrl={featured?.article.url}
+                />
+              ))}
+            </div>
+          )}
+
+          <p className="mt-16 text-xs text-[color:var(--color-ink)]/55 max-w-[70ch]">
+            Notícias agregadas automaticamente via GNews, com cache horária. Os conteúdos pertencem aos respetivos editores e não refletem necessariamente a posição da CNRC.
           </p>
-        </Reveal>
+        </Container>
+      </Section>
+    </>
+  );
+}
 
-        {globalState ? (
-          <GlobalNotice state={globalState} />
-        ) : (
-          <div className="mt-14 space-y-16">
-            {results.map((result) => (
-              <TopicBlock key={result.label} result={result} />
-            ))}
+function pickFeatured(
+  results: SectorNewsResult[],
+): { article: GNewsArticle; category: string } | null {
+  for (const r of results) {
+    if (r.status !== "ok") continue;
+    const withImage = r.articles.find((a) => Boolean(a.image));
+    if (withImage) return { article: withImage, category: r.label };
+  }
+  for (const r of results) {
+    if (r.status !== "ok") continue;
+    if (r.articles[0]) return { article: r.articles[0], category: r.label };
+  }
+  return null;
+}
+
+function FeaturedArticle({
+  article,
+  category,
+}: {
+  article: GNewsArticle;
+  category: string;
+}) {
+  return (
+    <Section tone="bone" spacing="lg">
+      <Container size="wide">
+        <a
+          href={article.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group grid gap-10 lg:grid-cols-12"
+        >
+          <div className="lg:col-span-7 relative aspect-[16/10] overflow-hidden bg-[color:var(--color-stone)]/20">
+            {article.image ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={article.image}
+                alt={article.title}
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center">
+                <span className="eyebrow text-[color:var(--color-stone-dark)]">{category}</span>
+              </div>
+            )}
           </div>
-        )}
-
-        <p className="mt-16 text-xs text-[color:var(--color-ink)]/55 max-w-[70ch]">
-          Notícias agregadas automaticamente via GNews. Os conteúdos pertencem aos respetivos editores e não refletem necessariamente a posição da CNRC.
-        </p>
+          <div className="lg:col-span-5 flex flex-col justify-center">
+            <p className="eyebrow text-[color:var(--color-gold-dim)]">
+              {category} · {article.source.name} · {formatDatePT(article.publishedAt)}
+            </p>
+            <h2 className="mt-5 text-3xl md:text-4xl leading-tight group-hover:text-[color:var(--color-gold-dim)] transition-colors">
+              {article.title}
+            </h2>
+            {article.description && (
+              <p className="mt-5 text-lg leading-relaxed text-[color:var(--color-ink)]/80">
+                {article.description}
+              </p>
+            )}
+            <span className="mt-8 inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[color:var(--color-navy)] group-hover:text-[color:var(--color-gold-dim)]">
+              Ler na fonte <ArrowUpRight className="h-3 w-3" />
+            </span>
+          </div>
+        </a>
       </Container>
     </Section>
   );
@@ -74,7 +154,7 @@ function GlobalNotice({ state }: { state: GlobalState }) {
   const messages: Record<GlobalState, { title: string; body: string }> = {
     rate_limited: {
       title: "Limite diário de pedidos atingido.",
-      body: "O feed de notícias externas voltará a estar disponível dentro de algumas horas. Entretanto, consulte os artigos editoriais acima.",
+      body: "O feed de notícias externas voltará a estar disponível dentro de algumas horas.",
     },
     unauthorized: {
       title: "Serviço de notícias indisponível.",
@@ -103,33 +183,52 @@ function GlobalNotice({ state }: { state: GlobalState }) {
   );
 }
 
-function TopicBlock({ result }: { result: SectorNewsResult }) {
+function TopicBlock({
+  result,
+  excludeUrl,
+}: {
+  result: SectorNewsResult;
+  excludeUrl?: string;
+}) {
+  const articles =
+    result.status === "ok"
+      ? result.articles.filter((a) => a.url !== excludeUrl)
+      : [];
+
   return (
     <div>
       <div className="flex items-baseline justify-between border-b border-[color:var(--color-stone)]/40 pb-4 gap-4 flex-wrap">
         <h3 className="text-2xl text-[color:var(--color-navy)]">{result.label}</h3>
-        {result.status === "ok" && (
+        {result.status === "ok" && articles.length > 0 && (
           <span className="eyebrow text-[color:var(--color-stone-dark)]">
-            {result.articles.length} {result.articles.length === 1 ? "artigo" : "artigos"}
+            {articles.length} {articles.length === 1 ? "artigo" : "artigos"}
           </span>
         )}
       </div>
 
-      {result.status === "ok" ? (
+      {result.status === "ok" && articles.length > 0 ? (
         <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {result.articles.map((article) => (
+          {articles.map((article) => (
             <SectorNewsCard key={article.url} article={article} category={result.label} />
           ))}
         </div>
       ) : (
-        <TopicNotice result={result} />
+        <TopicNotice
+          status={
+            result.status === "ok" ? "empty" : result.status
+          }
+        />
       )}
     </div>
   );
 }
 
-function TopicNotice({ result }: { result: Exclude<SectorNewsResult, { status: "ok" }> }) {
-  const messages: Record<typeof result.status, string> = {
+function TopicNotice({
+  status,
+}: {
+  status: "empty" | "rate_limited" | "unauthorized" | "error";
+}) {
+  const messages: Record<typeof status, string> = {
     empty: "Sem manchetes recentes para este tópico. Volte a consultar mais tarde.",
     rate_limited: "Limite de pedidos atingido neste tópico. Tente novamente mais tarde.",
     unauthorized: "Tópico temporariamente indisponível.",
@@ -138,7 +237,7 @@ function TopicNotice({ result }: { result: Exclude<SectorNewsResult, { status: "
   return (
     <div className="mt-8 flex items-center gap-3 text-sm text-[color:var(--color-ink)]/65 border border-dashed border-[color:var(--color-stone)]/40 px-6 py-5">
       <AlertCircle className="h-4 w-4 text-[color:var(--color-stone-dark)]" />
-      <span>{messages[result.status]}</span>
+      <span>{messages[status]}</span>
     </div>
   );
 }

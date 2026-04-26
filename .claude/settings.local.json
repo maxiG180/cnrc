@@ -4,7 +4,8 @@
       "Bash(npm install *)",
       "Bash(npm run *)",
       "Bash(node -p \"process.arch + ' ' + process.version\")",
-      "Bash(grep -q \"^\\\\.env\\\\.local$\\\\|^\\\\.env\\\\*\" .gitignore)"
+      "Bash(grep -q \"^\\\\.env\\\\.local$\\\\|^\\\\.env\\\\*\" .gitignore)",
+      "Bash(curl -s \"https://gnews.io/api/v4/search?q=economia%20OR%20empresas%20OR%20insolv%C3%AAncia%20OR%20PME&lang=pt&country=pt&max=6&apikey=0f6b511b74ef2f14550502ce21a05326\")"
     ]
   }
 }
