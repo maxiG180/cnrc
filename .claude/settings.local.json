@@ -3,7 +3,8 @@
     "allow": [
       "Bash(npm install *)",
       "Bash(npm run *)",
-      "Bash(node -p \"process.arch + ' ' + process.version\")"
+      "Bash(node -p \"process.arch + ' ' + process.version\")",
+      "Bash(grep -q \"^\\\\.env\\\\.local$\\\\|^\\\\.env\\\\*\" .gitignore)"
     ]
   }
 }

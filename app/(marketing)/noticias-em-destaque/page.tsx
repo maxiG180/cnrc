@@ -8,6 +8,7 @@ import { Container } from "@/components/shared/container";
 import { Reveal } from "@/components/shared/reveal";
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { CtaBanner } from "@/components/shared/cta-banner";
+import { SectorNews } from "@/components/shared/sector-news";
 import { getAllNews } from "@/lib/mdx";
 import { formatDatePT } from "@/lib/utils";
 
@@ -122,6 +123,8 @@ export default function NoticiasIndex() {
           </Container>
         </Section>
       )}
+
+      <SectorNews />
 
       <CtaBanner />
     </>
