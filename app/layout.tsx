@@ -7,6 +7,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { CookieBanner } from "@/components/cookie-banner";
 import { WhatsappWidget } from "@/components/shared/whatsapp-widget";
+import { ScrollToTop } from "@/components/scroll-to-top";
 import { JsonLd, localBusinessSchema } from "@/lib/schema-org";
 import { siteUrl } from "@/lib/metadata";
 import { company } from "@/content/shared/company-info";
@@ -70,8 +71,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <LenisProvider>
+          <ScrollToTop />
           <Header />
-          <main id="main" className="min-h-[60vh]">
+          <main id="main" className="min-h-[60vh] pt-[96px]">
             {children}
           </main>
           <Footer />

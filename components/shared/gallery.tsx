@@ -15,7 +15,7 @@ type GalleryProps = {
 export function Gallery({ images, columns = 3, className }: GalleryProps) {
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, startIndex: index });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
 
   const openAt = useCallback((i: number) => {
     setIndex(i);
@@ -23,7 +23,7 @@ export function Gallery({ images, columns = 3, className }: GalleryProps) {
   }, []);
 
   useEffect(() => {
-    if (!emblaApi) return;
+    if (!emblaApi || !open) return;
     emblaApi.scrollTo(index, true);
   }, [emblaApi, index, open]);
 
@@ -101,6 +101,7 @@ export function Gallery({ images, columns = 3, className }: GalleryProps) {
         <Lightbox
           images={images}
           emblaRef={emblaRef}
+          emblaApi={emblaApi}
           onClose={() => setOpen(false)}
           onPrev={() => emblaApi?.scrollPrev()}
           onNext={() => emblaApi?.scrollNext()}
@@ -113,18 +114,85 @@ export function Gallery({ images, columns = 3, className }: GalleryProps) {
 function Lightbox({
   images,
   emblaRef,
+  emblaApi,
   onClose,
   onPrev,
   onNext,
 }: {
   images: { src: string; alt: string }[];
   emblaRef: ReturnType<typeof useEmblaCarousel>[0];
+  emblaApi: ReturnType<typeof useEmblaCarousel>[1];
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
 }) {
   const dialogRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [scale, setScale] = useState(1);
+  const [thumbsEmblaRef, thumbsEmblaApi] = useEmblaCarousel({
+    containScroll: "keepSnaps",
+    dragFree: true,
+  });
+
   useEffect(() => dialogRef.current?.focus(), []);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const onSelect = () => {
+      setCurrentIndex(emblaApi.selectedScrollSnap());
+      setScale(1); // Reset zoom when changing images
+    };
+
+    emblaApi.on("select", onSelect);
+    onSelect();
+
+    return () => {
+      emblaApi.off("select", onSelect);
+    };
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!thumbsEmblaApi) return;
+    thumbsEmblaApi.scrollTo(currentIndex);
+  }, [currentIndex, thumbsEmblaApi]);
+
+  const scrollTo = useCallback((index: number) => {
+    if (!emblaApi) return;
+    emblaApi.scrollTo(index);
+  }, [emblaApi]);
+
+  const toggleZoom = useCallback(() => {
+    setScale(prev => prev > 1 ? 1 : 2);
+  }, []);
+
+  // Handle wheel event for zoom and prevent page scroll
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const delta = e.deltaY * -0.001;
+      const newScale = Math.min(Math.max(1, scale + delta), 3);
+      setScale(newScale);
+    };
+
+    // Add listener to window to catch all wheel events
+    window.addEventListener('wheel', handleWheel, { passive: false });
+
+    // Also prevent touchmove for mobile
+    const preventTouch = (e: TouchEvent) => {
+      if (e.touches.length > 1) return; // Allow pinch zoom
+      e.preventDefault();
+    };
+    document.body.addEventListener('touchmove', preventTouch, { passive: false });
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      document.body.removeEventListener('touchmove', preventTouch);
+    };
+  }, [scale]);
 
   return (
     <div
@@ -132,49 +200,94 @@ function Lightbox({
       tabIndex={-1}
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-[color:var(--color-navy-deep)]/95 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex flex-col bg-black/95"
     >
+      {/* Close Button */}
       <button
         type="button"
         onClick={onClose}
-        className="absolute right-5 top-5 z-10 rounded-full p-3 text-[color:var(--color-bone)] hover:bg-white/10"
+        className="absolute right-4 top-4 z-20 rounded-full p-2 text-white hover:bg-white/10 transition-colors"
         aria-label="Fechar galeria"
       >
         <X className="h-6 w-6" />
       </button>
-      <button
-        type="button"
-        onClick={onPrev}
-        className="absolute left-3 md:left-6 z-10 rounded-full p-2.5 text-[color:var(--color-bone)] hover:bg-white/10"
-        aria-label="Imagem anterior"
-      >
-        <ChevronLeft className="h-8 w-8" />
-      </button>
-      <button
-        type="button"
-        onClick={onNext}
-        className="absolute right-3 md:right-6 z-10 rounded-full p-2.5 text-[color:var(--color-bone)] hover:bg-white/10"
-        aria-label="Próxima imagem"
-      >
-        <ChevronRight className="h-8 w-8" />
-      </button>
 
-      <div className="overflow-hidden w-full h-full" ref={emblaRef}>
-        <div className="flex h-full">
-          {images.map((img) => (
-            <div key={img.src} className="relative shrink-0 grow-0 basis-full flex items-center justify-center p-8 md:p-16">
-              <div className="relative w-full h-full">
+      {/* Main Image Area */}
+      <div className="flex-1 relative flex items-center justify-center overflow-hidden">
+        {/* Navigation Arrows */}
+        <button
+          type="button"
+          onClick={onPrev}
+          className="absolute left-4 z-10 rounded-full p-2 bg-black/30 text-white hover:bg-black/50 transition-colors"
+          aria-label="Imagem anterior"
+        >
+          <ChevronLeft className="h-8 w-8" />
+        </button>
+        <button
+          type="button"
+          onClick={onNext}
+          className="absolute right-4 z-10 rounded-full p-2 bg-black/30 text-white hover:bg-black/50 transition-colors"
+          aria-label="Próxima imagem"
+        >
+          <ChevronRight className="h-8 w-8" />
+        </button>
+
+        {/* Carousel Container - Compact Size like DILS */}
+        <div className="overflow-hidden w-full max-w-3xl" ref={emblaRef}>
+          <div className="flex">
+            {images.map((img, idx) => (
+              <div key={img.src} className="relative shrink-0 grow-0 basis-full flex items-center justify-center px-4">
+                <div
+                  ref={idx === currentIndex ? imageRef : null}
+                  onClick={toggleZoom}
+                  className="relative w-full h-[60vh] max-h-[500px] transition-transform duration-200 cursor-zoom-in"
+                  style={{
+                    transform: idx === currentIndex ? `scale(${scale})` : 'scale(1)',
+                    cursor: scale > 1 ? 'zoom-out' : 'zoom-in'
+                  }}
+                >
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    fill
+                    sizes="(max-width: 768px) 90vw, 768px"
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Thumbnail Navigation */}
+      <div className="bg-black/60 backdrop-blur-sm py-3 px-4 border-t border-white/10">
+        <div className="max-w-4xl mx-auto overflow-hidden" ref={thumbsEmblaRef}>
+          <div className="flex gap-2 justify-center">
+            {images.map((img, i) => (
+              <button
+                key={`thumb-${img.src}-${i}`}
+                type="button"
+                onClick={() => scrollTo(i)}
+                className={cn(
+                  "relative shrink-0 w-16 h-12 overflow-hidden transition-all rounded",
+                  currentIndex === i
+                    ? "ring-2 ring-white/90 opacity-100"
+                    : "opacity-50 hover:opacity-75 hover:ring-1 hover:ring-white/30"
+                )}
+                aria-label={`Ver imagem ${i + 1}`}
+              >
                 <Image
                   src={img.src}
                   alt={img.alt}
                   fill
-                  sizes="100vw"
-                  className="object-contain"
-                  priority
+                  sizes="64px"
+                  className="object-cover"
                 />
-              </div>
-            </div>
-          ))}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>

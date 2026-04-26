@@ -6,7 +6,7 @@ import { Container } from "@/components/shared/container";
 import { Reveal } from "@/components/shared/reveal";
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { CtaBanner } from "@/components/shared/cta-banner";
-import { PropertyCard } from "@/components/imobiliario/property-card";
+import { ListingsView } from "@/components/imobiliario/listings-view";
 import { getListingsByCategory } from "@/lib/mdx";
 import {
   getImobiliarioCategory,
@@ -19,7 +19,11 @@ export async function generateStaticParams() {
   return imobiliarioCategories.map((c) => ({ category: c.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<Params>;
+}): Promise<Metadata> {
   const { category } = await params;
   const cat = getImobiliarioCategory(category);
   if (!cat) return {};
@@ -35,10 +39,11 @@ export default async function CategoryPage({ params }: { params: Promise<Params>
   const cat = getImobiliarioCategory(category);
   if (!cat) notFound();
 
-  const listings = getListingsByCategory(category);
+  const allListings = getListingsByCategory(category);
 
   return (
     <>
+      {/* Hero Section */}
       <Section tone="navy-deep" spacing="lg" className="pt-12">
         <Container size="wide">
           <div className="text-[color:var(--color-bone)]/80">
@@ -56,34 +61,27 @@ export default async function CategoryPage({ params }: { params: Promise<Params>
         </Container>
       </Section>
 
-      <Section tone="bone" spacing="lg">
-        <Container size="wide">
-          {listings.length === 0 ? (
+      {/* Listings */}
+      {allListings.length === 0 ? (
+        <Section tone="bone" spacing="lg">
+          <Container size="wide">
             <div className="border border-[color:var(--color-stone)]/40 bg-[color:var(--color-bone-soft)] p-12 text-center">
               <p className="eyebrow">Em atualização</p>
               <h2 className="mt-4 text-2xl">Sem imóveis publicados nesta categoria.</h2>
               <p className="mt-4 max-w-[52ch] mx-auto text-[color:var(--color-ink)]/75">
-                O nosso portefólio é atualizado regularmente. Contacte-nos para conhecer imóveis disponíveis e oportunidades em preparação.
+                O nosso portefólio é atualizado regularmente. Contacte-nos para conhecer imóveis
+                disponíveis e oportunidades em preparação.
               </p>
             </div>
-          ) : (
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {listings.map((l) => (
-                <PropertyCard
-                  key={l.slug}
-                  slug={l.slug}
-                  title={l.frontmatter.title}
-                  category={l.frontmatter.category}
-                  location={l.frontmatter.location}
-                  hero={l.frontmatter.hero}
-                  price={l.frontmatter.price}
-                  summary={l.frontmatter.summary}
-                />
-              ))}
-            </div>
-          )}
-        </Container>
-      </Section>
+          </Container>
+        </Section>
+      ) : (
+        <ListingsView
+          listings={allListings}
+          showCategoryTabs={false}
+          initialCategory={category}
+        />
+      )}
 
       <CtaBanner />
     </>

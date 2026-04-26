@@ -25,14 +25,41 @@ export type DiligenciaFrontmatter = {
 };
 
 export type ListingFrontmatter = {
+  // Core info
   title: string;
   category: string;
   location: string;
   price?: string;
+  summary?: string;
+
+  // Media
   hero?: string;
   videos?: string[];
   gallery?: string[];
-  summary?: string;
+
+  // Property specifications
+  bedrooms?: number;
+  bathrooms?: number;
+  area?: number; // m²
+  plotArea?: number; // m² (for land/terrenos)
+  year?: number; // construction year
+  energyRating?: string; // A+, A, B, C, D, E, F
+
+  // Location details
+  district?: string; // Lisboa, Porto, Faro, etc.
+  municipality?: string; // Cascais, Sintra, etc.
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
+
+  // Features & badges
+  features?: string[]; // piscina, jardim, garagem, varanda, etc.
+  badges?: string[]; // novo, investimento, exclusivo, reduzido
+
+  // SEO & Display
+  metaDescription?: string;
+  featured?: boolean; // highlight on homepage
 };
 
 function readMdx<T>(filePath: string) {

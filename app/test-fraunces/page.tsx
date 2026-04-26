@@ -85,7 +85,7 @@ export default function FrauncesTest() {
         {/* Hero Comparison - All Fonts */}
         <section>
           <h1 className="text-3xl font-bold mb-12 font-sans text-[color:var(--color-navy)]">
-            Comparação de Fontes Display — "J" e "F"
+            Comparação de Fontes Display — &quot;J&quot; e &quot;F&quot;
           </h1>
 
           {/* Grid of all fonts */}

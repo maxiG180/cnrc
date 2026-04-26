@@ -26,9 +26,9 @@ export function Header() {
     <header
       suppressHydrationWarning
       className={cn(
-        "sticky top-0 z-50 transition-colors duration-300",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         scrolled
-          ? "bg-[color:var(--color-bone)]/95 backdrop-blur border-b border-[color:var(--color-stone)]/40"
+          ? "bg-[color:var(--color-bone)]/80 backdrop-blur-md shadow-sm"
           : "bg-[color:var(--color-bone)]"
       )}
     >
