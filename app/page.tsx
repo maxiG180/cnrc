@@ -3,7 +3,7 @@ import { CtaBanner } from "@/components/shared/cta-banner";
 import { HeroSlider } from "@/components/home/hero-slider";
 import { ServicesGrid } from "@/components/home/services-grid";
 import { CompanyIntro } from "@/components/home/company-intro";
-import { ThreePillars } from "@/components/home/three-pillars";
+import { ImobiliarioPreview } from "@/components/home/imobiliario-preview";
 import { TrustSection } from "@/components/home/trust-section";
 import { StatsCounters } from "@/components/home/stats-counters";
 import { NewsTeaser } from "@/components/home/news-teaser";
@@ -22,7 +22,7 @@ export default function HomePage() {
       </Section>
 
       <Section tone="bone" spacing="lg">
-        <ThreePillars />
+        <ImobiliarioPreview />
       </Section>
 
       <Section tone="bone-soft" spacing="xl">

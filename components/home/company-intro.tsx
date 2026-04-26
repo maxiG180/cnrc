@@ -44,7 +44,7 @@ export function CompanyIntro() {
         <Reveal className="lg:col-span-5" delay={0.12}>
           <div className="relative aspect-[4/5] overflow-hidden bg-[color:var(--color-navy)]">
             <Image
-              src="https://www.cnrc.pt/wp-content/uploads/2026/04/Foto-Dr.-Antonio-Nunes-1-1152x1536.jpeg"
+              src="/Quem Somos/Foto-Dr.-Antonio-Nunes.png"
               alt={`Dr. António Nunes, CEO da ${company.shortName}`}
               fill
               sizes="(min-width:1024px) 40vw, 100vw"
