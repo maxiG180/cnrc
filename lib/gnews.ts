@@ -53,20 +53,41 @@ export async function fetchSectorNews(
 
   try {
     const res = await fetch(url.toString(), {
-      next: { revalidate: 3600 },
+      next: { revalidate: 86400 },
     });
 
     if (res.status === 401 || res.status === 403) {
       return { status: "unauthorized", label };
     }
     if (res.status === 429) {
+      if (process.env.NODE_ENV !== "production") {
+        console.warn(`[gnews] ${label} rate limited (HTTP 429)`);
+      }
       return { status: "rate_limited", label };
     }
     if (!res.ok) {
+      if (process.env.NODE_ENV !== "production") {
+        console.warn(`[gnews] ${label} HTTP ${res.status}`);
+      }
       return { status: "error", label, reason: `http_${res.status}` };
     }
 
     const data: GNewsResponse = await res.json();
+
+    if (data.errors && data.errors.length > 0) {
+      const joined = data.errors.join(" | ").toLowerCase();
+      if (process.env.NODE_ENV !== "production") {
+        console.warn(`[gnews] ${label} body errors:`, data.errors);
+      }
+      if (joined.includes("limit") || joined.includes("quota")) {
+        return { status: "rate_limited", label };
+      }
+      if (joined.includes("api key") || joined.includes("apikey")) {
+        return { status: "unauthorized", label };
+      }
+      return { status: "error", label, reason: "api_error" };
+    }
+
     if (!data.articles || data.articles.length === 0) {
       return { status: "empty", label };
     }

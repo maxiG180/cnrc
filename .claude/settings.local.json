@@ -5,7 +5,8 @@
       "Bash(npm run *)",
       "Bash(node -p \"process.arch + ' ' + process.version\")",
       "Bash(grep -q \"^\\\\.env\\\\.local$\\\\|^\\\\.env\\\\*\" .gitignore)",
-      "Bash(curl -s \"https://gnews.io/api/v4/search?q=economia%20OR%20empresas%20OR%20insolv%C3%AAncia%20OR%20PME&lang=pt&country=pt&max=6&apikey=0f6b511b74ef2f14550502ce21a05326\")"
+      "Bash(curl -s \"https://gnews.io/api/v4/search?q=economia%20OR%20empresas%20OR%20insolv%C3%AAncia%20OR%20PME&lang=pt&country=pt&max=6&apikey=0f6b511b74ef2f14550502ce21a05326\")",
+      "Bash(curl -s -w \"\\\\nHTTP %{http_code}\\\\n\" \"https://gnews.io/api/v4/search?q=justi%C3%A7a%20OR%20legisla%C3%A7%C3%A3o%20OR%20execu%C3%A7%C3%A3o%20OR%20tribunal&lang=pt&country=pt&max=6&apikey=0f6b511b74ef2f14550502ce21a05326\")"
     ]
   }
 }
