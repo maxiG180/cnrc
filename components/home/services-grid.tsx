@@ -60,7 +60,7 @@ export function ServicesGrid() {
         <div className="hidden lg:flex items-center justify-center bg-[color:var(--color-bone)] p-8 md:p-10">
           <div className="w-32 h-32 relative">
             <Image
-              src="/images/Logo_CNRC.png"
+              src="/Logos/CNRC/Logo_CNRC.png"
               alt="CNRC"
               fill
               className="object-contain"

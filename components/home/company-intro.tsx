@@ -26,7 +26,7 @@ export function CompanyIntro() {
           <div className="mt-10 flex items-end gap-6">
             <div className="flex flex-col items-center w-[200px]">
               <Image
-                src="/images/assinatura-ceo.png"
+                src="/assinatura-ceo.png"
                 alt="Assinatura Dr. António Nunes"
                 width={200}
                 height={75}
@@ -42,16 +42,16 @@ export function CompanyIntro() {
         </Reveal>
 
         <Reveal className="lg:col-span-5" delay={0.12}>
-          <div className="relative aspect-[4/5] overflow-hidden bg-[color:var(--color-navy)]">
+          <div className="relative aspect-[4/5] overflow-hidden bg-transparent">
             <Image
-              src="/Quem Somos/Foto-Dr.-Antonio-Nunes.png"
+              src="/Quem Somos/Foto-Dr.-Antonio-Nunes-bg-removed.png"
               alt={`Dr. António Nunes, CEO da ${company.shortName}`}
               fill
               sizes="(min-width:1024px) 40vw, 100vw"
               className="object-cover object-top"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--color-navy-deep)]/60 via-transparent to-transparent" />
-            <div className="absolute bottom-6 left-6 right-6 text-[color:var(--color-bone)]">
+            <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6 text-[color:var(--color-navy-deep)]">
               <p className="font-display text-2xl">{company.ceo}</p>
               <p className="text-xs tracking-[0.2em] uppercase opacity-80 mt-1">CEO · {company.shortName}</p>
             </div>

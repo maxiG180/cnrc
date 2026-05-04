@@ -9,7 +9,7 @@ export function TrustSection() {
         <Reveal className="lg:col-span-6">
           <div className="relative aspect-[4/3] overflow-hidden">
             <Image
-              src="/images/12_Lisboa_-Sala-de-Audiencias-1.jpg"
+              src="/Quem Somos/As Nossas Instalações/Lisboa/12_Lisboa_-Sala-de-Audiencias-1.jpg"
               alt="Sala de reuniões do escritório de Lisboa"
               fill
               sizes="(min-width:1024px) 50vw, 100vw"

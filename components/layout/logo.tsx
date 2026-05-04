@@ -15,7 +15,7 @@ export function Logo({ variant = "dark", className, withTagline = false }: LogoP
   return (
     <Link href="/" className={cn("group inline-flex items-center gap-3", className)} aria-label="CNRC — Camacho Nunes Recuperação de Crédito, página inicial">
       <Image
-        src={variant === "light" ? "/images/Logo_CNRC_Light.png" : "/images/Logo_CNRC.png"}
+        src={variant === "light" ? "/Logos/CNRC/Logo_CNRC_Light.png" : "/Logos/CNRC/Logo_CNRC.png"}
         alt="CNRC Logo"
         width={320}
         height={70}
