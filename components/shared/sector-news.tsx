@@ -1,7 +1,9 @@
+import Link from "next/link";
 import { AlertCircle, ArrowUpRight, Clock } from "lucide-react";
 import { Section } from "@/components/shared/section";
 import { Container } from "@/components/shared/container";
 import { Reveal } from "@/components/shared/reveal";
+import { getAllNews } from "@/lib/mdx";
 import {
   fetchSectorNews,
   isGNewsConfigured,
@@ -10,31 +12,107 @@ import {
 } from "@/lib/gnews";
 import { formatDatePT } from "@/lib/utils";
 
-const TOPICS: { query: string; label: string }[] = [
+type TopicConfig = {
+  query: string;
+  label: string;
+  keywords: string[];
+};
+
+const TOPICS: TopicConfig[] = [
   {
-    label: "Recuperação de Crédito",
-    query: "\"recuperação de crédito\" OR cobrança OR dívidas OR incumprimento OR penhora",
+    label: "Mercado Imobiliário",
+    query: "(imobiliário OR habitação OR arrendamento OR construção) AND portugal",
+    keywords: [
+      "imobiliario",
+      "habitacao",
+      "arrendamento",
+      "preco",
+      "moradia",
+      "apartamento",
+      "casa",
+      "construcao",
+      "imobiliaria",
+      "credito habitacao",
+      "euribor",
+      "propriedade",
+      "renda",
+    ],
   },
   {
-    label: "Economia & Negócios",
-    query: "economia OR empresas OR insolvência OR PME",
+    label: "Crédito & Insolvências",
+    query: "(crédito OR insolvência OR dívida OR banco) AND portugal",
+    keywords: [
+      "credito",
+      "insolvencia",
+      "falencia",
+      "divida",
+      "devedor",
+      "cobranca",
+      "recuperacao",
+      "reestruturacao",
+      "npl",
+      "incumprimento",
+      "banco",
+      "emprestimo",
+      "financiamento",
+    ],
   },
   {
-    label: "Justiça & Legislação",
-    query: "justiça OR legislação OR execução OR tribunal",
+    label: "Justiça & Economia",
+    query: "(economia OR tribunal OR inflação OR PIB) AND portugal",
+    keywords: [
+      "economia",
+      "tribunal",
+      "justica",
+      "penhora",
+      "executivo",
+      "inflacao",
+      "banco de portugal",
+      "pib",
+      "crescimento",
+      "lei",
+      "legislacao",
+      "governo",
+      "investimento",
+    ],
   },
 ];
 
 export async function SectorNews() {
-  if (!isGNewsConfigured()) return null;
+  const fallbackNews = getAllNews().slice(0, 6);
 
-  const results = await Promise.all(
+  if (!isGNewsConfigured()) {
+    if (!fallbackNews.length) return null;
+
+    return (
+      <Section tone="bone-soft" spacing="lg">
+        <Container size="wide">
+          <Reveal>
+            <p className="eyebrow">Atualidade do Setor</p>
+            <h2 className="mt-4">Manchetes por tópico.</h2>
+            <p className="mt-6 max-w-[60ch] text-lg leading-relaxed text-[color:var(--color-ink)]/75">
+              Notícias selecionadas de fontes portuguesas sobre imobiliário, recuperação de crédito e execuções judiciais relevantes para
+              credores, empresas e investidores.
+            </p>
+          </Reveal>
+          <LocalFallbackNews articles={fallbackNews} noticeState="missing_key" />
+        </Container>
+      </Section>
+    );
+  }
+
+  const fetchedResults = await Promise.all(
     TOPICS.map((t) => fetchSectorNews(t.query, t.label)),
+  );
+
+  const results = fetchedResults.map((result, index) =>
+    filterByTopicKeywords(result, TOPICS[index].keywords),
   );
 
   const featured = pickFeatured(results);
   const allFailed = results.every((r) => r.status !== "ok");
   const globalState = allFailed ? deriveGlobalState(results) : null;
+  const showFallbackNews = allFailed && fallbackNews.length > 0;
 
   return (
     <>
@@ -46,12 +124,15 @@ export async function SectorNews() {
             <p className="eyebrow">Atualidade do Setor</p>
             <h2 className="mt-4">Manchetes por tópico.</h2>
             <p className="mt-6 max-w-[60ch] text-lg leading-relaxed text-[color:var(--color-ink)]/75">
-              Notícias selecionadas de fontes portuguesas sobre recuperação de crédito, economia, empresas, justiça e legislação relevantes para credores e mandatários.
+              Notícias selecionadas de fontes portuguesas sobre imobiliário, recuperação de crédito e execuções judiciais relevantes para
+              credores, empresas e investidores.
             </p>
           </Reveal>
 
-          {globalState ? (
+          {globalState && !showFallbackNews ? (
             <GlobalNotice state={globalState} />
+          ) : showFallbackNews ? (
+            <LocalFallbackNews articles={fallbackNews} noticeState={globalState} />
           ) : (
             <div className="mt-14 space-y-16">
               {results.map((result) => (
@@ -65,11 +146,118 @@ export async function SectorNews() {
           )}
 
           <p className="mt-16 text-xs text-[color:var(--color-ink)]/55 max-w-[70ch]">
-            Notícias agregadas automaticamente via GNews, com cache horária. Os conteúdos pertencem aos respetivos editores e não refletem necessariamente a posição da CNRC.
+            {showFallbackNews
+              ? "A listagem acima usa conteúdo editorial da CNRC enquanto a fonte externa está indisponível."
+              : "Notícias agregadas automaticamente via GNews, com cache horária. Os conteúdos pertencem aos respetivos editores e nãorefletem necessariamente a posição da CNRC."}
           </p>
         </Container>
       </Section>
     </>
+  );
+}
+
+function filterByTopicKeywords(
+  result: SectorNewsResult,
+  keywords: string[],
+): SectorNewsResult {
+  if (result.status !== "ok") return result;
+
+  const filtered = result.articles
+    .filter((article) => isRelevantToTopic(article, keywords))
+    .slice(0, 10); // Get 10 articles (1 for featured + 9 for grid)
+
+  if (filtered.length === 0) {
+    return { status: "empty", label: result.label };
+  }
+
+  return { ...result, articles: filtered };
+}
+
+function isRelevantToTopic(article: GNewsArticle, keywords: string[]) {
+  const titleNormalized = normalizeText(article.title);
+  const descNormalized = normalizeText(article.description ?? "");
+  const haystack = `${titleNormalized} ${descNormalized}`;
+
+  // Reject clear entertainment/celebrity patterns (more selective)
+  const irrelevantPatterns = [
+    "met gala",
+    "passadeira vermelha",
+    "vestido de gala",
+    "desfile de moda",
+    "semana da moda",
+    "festival de cinema",
+    "oscar",
+    "Grammy",
+  ];
+
+  if (irrelevantPatterns.some((pattern) => haystack.includes(normalizeText(pattern)))) {
+    return false;
+  }
+
+  // Require at least one keyword match
+  return keywords.some((keyword) => haystack.includes(normalizeText(keyword)));
+}
+
+function normalizeText(value: string) {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+type LocalNewsArticle = ReturnType<typeof getAllNews>[number];
+type GlobalState = "rate_limited" | "unauthorized" | "empty" | "error";
+
+function LocalFallbackNews({
+  articles,
+  noticeState,
+}: {
+  articles: LocalNewsArticle[];
+  noticeState: GlobalState | "missing_key" | null;
+}) {
+  const messages: Record<Exclude<typeof noticeState, null>, string> = {
+    missing_key: "A API GNews não está configurada no ambiente. A mostrar notícias editoriais da CNRC.",
+    rate_limited: "A API GNews atingiu o limite diário de pedidos. A mostrar notícias editoriais da CNRC.",
+    unauthorized: "A API GNews rejeitou a chave configurada. A mostrar notícias editoriais da CNRC.",
+    empty: "A API GNews não devolveu notícias recentes para estes tópicos. A mostrar notícias editoriais da CNRC.",
+    error: "A API GNews está temporariamente indisponível. A mostrar notícias editoriais da CNRC.",
+  };
+
+  return (
+    <div className="mt-14">
+      {noticeState && (
+        <div className="flex items-center gap-3 border border-[color:var(--color-stone)]/40 bg-[color:var(--color-bone)] px-6 py-5 text-sm 
+text-[color:var(--color-ink)]/70">
+          <AlertCircle className="h-4 w-4 shrink-0 text-[color:var(--color-gold-dim)]" />
+          <span>{messages[noticeState]}</span>
+        </div>
+      )}
+      <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {articles.map((article) => (
+          <Link
+            key={article.slug}
+            href={`/noticias-em-destaque/${article.slug}`}
+            className="group block border border-[color:var(--color-stone)]/40 bg-[color:var(--color-bone)] p-6 
+hover:border-[color:var(--color-gold-dim)] transition-colors"
+          >
+            <p className="eyebrow text-[color:var(--color-stone-dark)]">
+              {article.frontmatter.category ?? "Notícia"} · {formatDatePT(article.frontmatter.date)}
+            </p>
+            <h3 className="mt-3 text-xl leading-tight text-[color:var(--color-navy)] group-hover:text-[color:var(--color-gold-dim)] 
+transition-colors">
+              {article.frontmatter.title}
+            </h3>
+            <p className="mt-3 text-sm leading-relaxed text-[color:var(--color-ink)]/75 line-clamp-3">
+              {article.frontmatter.excerpt}
+            </p>
+            <span className="mt-6 inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[color:var(--color-navy)] 
+group-hover:text-[color:var(--color-gold-dim)]">
+              Ler artigo <ArrowUpRight className="h-3 w-3" />
+            </span>
+          </Link>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -126,11 +314,12 @@ function FeaturedArticle({
               {article.title}
             </h2>
             {article.description && (
-              <p className="mt-5 text-lg leading-relaxed text-[color:var(--color-ink)]/80">
+              <p className="mt-5 text-lg leading-relaxed text-[color:var(--color-ink)]/80 line-clamp-4">
                 {article.description}
               </p>
             )}
-            <span className="mt-8 inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[color:var(--color-navy)] group-hover:text-[color:var(--color-gold-dim)]">
+            <span className="mt-8 inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[color:var(--color-navy)] 
+group-hover:text-[color:var(--color-gold-dim)]">
               Ler na fonte <ArrowUpRight className="h-3 w-3" />
             </span>
           </div>
@@ -139,8 +328,6 @@ function FeaturedArticle({
     </Section>
   );
 }
-
-type GlobalState = "rate_limited" | "unauthorized" | "empty" | "error";
 
 function deriveGlobalState(results: SectorNewsResult[]): GlobalState {
   if (results.some((r) => r.status === "rate_limited")) return "rate_limited";
@@ -192,7 +379,7 @@ function TopicBlock({
 }) {
   const articles =
     result.status === "ok"
-      ? result.articles.filter((a) => a.url !== excludeUrl)
+      ? result.articles.filter((a) => a.url !== excludeUrl).slice(0, 9)
       : [];
 
   return (
@@ -235,7 +422,8 @@ function TopicNotice({
     error: "Não foi possível carregar este tópico de momento.",
   };
   return (
-    <div className="mt-8 flex items-center gap-3 text-sm text-[color:var(--color-ink)]/65 border border-dashed border-[color:var(--color-stone)]/40 px-6 py-5">
+    <div className="mt-8 flex items-center gap-3 text-sm text-[color:var(--color-ink)]/65 border border-dashed 
+border-[color:var(--color-stone)]/40 px-6 py-5">
       <AlertCircle className="h-4 w-4 text-[color:var(--color-stone-dark)]" />
       <span>{messages[status]}</span>
     </div>
@@ -254,7 +442,8 @@ function SectorNewsCard({
       href={article.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group block border border-[color:var(--color-stone)]/40 bg-[color:var(--color-bone)] hover:border-[color:var(--color-gold-dim)] transition-colors"
+      className="group block border border-[color:var(--color-stone)]/40 bg-[color:var(--color-bone)] 
+hover:border-[color:var(--color-gold-dim)] transition-colors"
     >
       <div className="relative aspect-[16/10] overflow-hidden bg-[color:var(--color-stone)]/20">
         {article.image ? (
@@ -275,7 +464,8 @@ function SectorNewsCard({
         <p className="eyebrow text-[color:var(--color-stone-dark)]">
           {article.source.name} · {formatDatePT(article.publishedAt)}
         </p>
-        <h4 className="mt-3 text-xl leading-tight text-[color:var(--color-navy)] group-hover:text-[color:var(--color-gold-dim)] transition-colors">
+        <h4 className="mt-3 text-xl leading-tight text-[color:var(--color-navy)] group-hover:text-[color:var(--color-gold-dim)] 
+transition-colors">
           {article.title}
         </h4>
         {article.description && (
@@ -283,7 +473,8 @@ function SectorNewsCard({
             {article.description}
           </p>
         )}
-        <span className="mt-6 inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[color:var(--color-navy)] group-hover:text-[color:var(--color-gold-dim)]">
+        <span className="mt-6 inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[color:var(--color-navy)] 
+group-hover:text-[color:var(--color-gold-dim)]">
           Ler na fonte <ArrowUpRight className="h-3 w-3" />
         </span>
       </div>

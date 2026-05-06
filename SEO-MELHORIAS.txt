@@ -1,0 +1,182 @@
+# Melhorias SEO para Notícias - CNRC
+
+## 1. Schema.org JSON-LD para Artigos
+Adicionar structured data do tipo Article/NewsArticle em cada página de notícia.
+
+Benefícios:
+- Rich snippets no Google (imagem, data, autor)
+- Melhor compreensão do conteúdo pelos motores de busca
+- Elegibilidade para Google News
+
+Implementação:
+- Criar função em lib/schema-org.ts (já existe para LocalBusiness)
+- Adicionar ao generateMetadata() ou como component
+- Campos: headline, datePublished, dateModified, author, image, publisher
+
+## 2. Sitemap Dinâmico para Notícias
+Gerar sitemap.xml incluindo todas as notícias com prioridade e changefreq.
+
+Benefícios:
+- Facilita descoberta de novo conteúdo
+- Indica ao Google frequência de atualizações
+- Melhora indexação
+
+Implementação:
+- app/sitemap.ts com getAllNews()
+- Incluir lastmod (data da notícia)
+- Priority 0.8 para notícias recentes
+- Changefreq: weekly
+
+## 3. Robots Meta Tags
+Adicionar controlo granular de indexação por página.
+
+Benefícios:
+- Controlar o que é indexado
+- Evitar duplicate content issues
+- Gerir crawl budget
+
+Implementação:
+- Adicionar ao pageMetadata() em lib/metadata.ts
+- robots: { index: true, follow: true }
+- noarchive para conteúdo sensível se necessário
+
+## 4. Reading Time
+Calcular e mostrar tempo estimado de leitura.
+
+Benefícios:
+- Melhora user experience
+- Reduz bounce rate
+- Pode ser incluído em schema (timeRequired)
+
+Implementação:
+- Função em lib/utils.ts (palavras / 200 wpm)
+- Mostrar abaixo do título ou com data
+- Incluir em Article schema
+
+## 5. Author Markup
+Sistema de autores para artigos.
+
+Benefícios:
+- Authorship em rich snippets
+- E-E-A-T (Expertise, Experience, Authoritativeness, Trust)
+- Credibilidade
+
+Implementação:
+- Adicionar campo author ao frontmatter MDX
+- Página de perfis de autores (opcional)
+- Schema Person/Organization em Article schema
+
+## 6. Published/Modified Dates em Schema
+Datas estruturadas para motores de busca.
+
+Benefícios:
+- Freshness signals para ranking
+- Rich snippets com data
+- Google News eligibility
+
+Implementação:
+- datePublished (frontmatter.date)
+- dateModified (git last commit ou campo manual)
+- Formato ISO 8601
+
+## 7. RSS Feed
+Feed XML para distribuição de conteúdo.
+
+Benefícios:
+- Distribuição automática
+- Agregadores e readers
+- Google News submission
+- Backlinks de agregadores
+
+Implementação:
+- app/feed.xml/route.ts
+- RSS 2.0 format
+- Incluir todos os posts com getAllNews()
+
+## 8. Canonical Tags Absolutos
+Garantir URLs canónicos completos.
+
+Status: JÁ IMPLEMENTADO (pageMetadata usa SITE_URL)
+Verificar: NEXT_PUBLIC_SITE_URL está definido em produção
+
+## 9. Open Graph Locale
+Indicar idioma português.
+
+Status: JÁ IMPLEMENTADO (locale: "pt_PT")
+
+## 10. Image Alt Text Optimization
+Garantir alt text descritivo em imagens hero.
+
+Implementação:
+- Usar frontmatter.title como alt (já implementado)
+- Considerar campo imageAlt opcional no frontmatter
+
+## 11. Internal Linking Strategy
+Expandir links internos.
+
+Benefícios:
+- Distribuir PageRank
+- Aumentar páginas por sessão
+- Reduzir bounce rate
+
+Implementação:
+- Links para serviços relacionados (diligências)
+- Links para páginas institucionais
+- Anchor text otimizado
+
+## 12. Breadcrumbs Schema
+Adicionar BreadcrumbList schema.
+
+Status: Breadcrumbs visuais já implementados
+Adicionar: JSON-LD schema para rich snippets
+
+## 13. Meta Keywords (Baixa Prioridade)
+Google ignora mas outros motores podem usar.
+
+Implementação:
+- keywords: frontmatter.tags?.join(', ')
+
+## 14. Performance Optimization
+Core Web Vitals afetam SEO.
+
+Verificar:
+- LCP (hero image optimization) - Next.js Image já otimiza
+- CLS (layout shifts)
+- INP (interatividade)
+
+## 15. Mobile Optimization
+Mobile-first indexing.
+
+Status: Layout responsivo já implementado
+Testar: Google Mobile-Friendly Test
+
+## Prioridades
+
+### Alta Prioridade (Maior Impacto)
+1. Schema.org Article JSON-LD
+2. Sitemap dinâmico
+3. Published/Modified dates
+
+### Média Prioridade
+4. Reading time
+5. Author markup
+6. RSS feed
+7. Breadcrumbs schema
+
+### Baixa Prioridade
+8. Meta keywords
+9. Internal linking expansion
+
+## Notas de Implementação
+
+- Todas as melhorias podem ser implementadas sem alterar conteúdo MDX existente
+- Maior parte são adições a lib/metadata.ts e lib/schema-org.ts
+- Compatível com arquitetura atual (Next.js 15 App Router)
+- Não quebra nada existente
+
+## Recursos Úteis
+
+- Schema.org Article: https://schema.org/Article
+- Google Search Central: https://developers.google.com/search
+- Next.js Metadata: https://nextjs.org/docs/app/api-reference/functions/generate-metadata
+- Sitemap Protocol: https://www.sitemaps.org/protocol.html

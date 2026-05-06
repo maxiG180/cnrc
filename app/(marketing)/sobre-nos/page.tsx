@@ -165,7 +165,7 @@ export default function SobreNosPage() {
             <Reveal className="lg:col-span-7">
               <p className="eyebrow">Recursos e Meios Operacionais</p>
               <h2 className="mt-4 rule">
-                Única no país com <span className="text-[color:var(--color-gold-dim)]">autonomia operacional</span> total.
+                Única no país com <span className="text-[color:var(--color-gold-dim)]">autonomia operacional total.</span>
               </h2>
               <div className="mt-10 prose-legal">
                 <p>
