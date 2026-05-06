@@ -21,7 +21,7 @@ export default function EscritoriosPage() {
       <Section tone="navy-deep" spacing="lg" className="pt-12 relative">
         <div className="absolute inset-0 opacity-20">
           <Image
-            src="/images/Logo_CNRC_Light.png"
+            src="/Logos/CNRC/Logo_CNRC_Light.png"
             alt="CNRC Logo"
             fill
             sizes="100vw"

@@ -44,7 +44,7 @@ export default function InstalacoesPage() {
             <Reveal className="lg:col-span-7">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
-                  src="/Quem Somos/As Nossas Instalações/helipad.png"
+                  src="/instalacoes/helipad.png"
                   alt="Heliporto CNRC em Pinhal Novo"
                   fill
                   sizes="(min-width:1024px) 58vw, 100vw"
@@ -85,7 +85,7 @@ export default function InstalacoesPage() {
             <Reveal>
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
-                  src="/Quem Somos/As Nossas Instalações/viveiro-close-up.png"
+                  src="/instalacoes/viveiro-close-up.png"
                   alt="Interior dos viveiros CNRC"
                   fill
                   sizes="(min-width:640px) 50vw, 100vw"
@@ -96,7 +96,7 @@ export default function InstalacoesPage() {
             <Reveal delay={0.05}>
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
-                  src="/Quem Somos/As Nossas Instalações/Viveiros-passaros-1.jpg"
+                  src="/instalacoes/viveiros-passaros.jpg"
                   alt="Pássaros nos viveiros CNRC"
                   fill
                   sizes="(min-width:640px) 50vw, 100vw"

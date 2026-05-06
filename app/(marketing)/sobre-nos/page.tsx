@@ -98,7 +98,7 @@ export default function SobreNosPage() {
       <Section tone="navy-deep" spacing="lg" className="pt-12 relative">
         <div className="absolute inset-0 opacity-20">
           <Image
-            src="/images/Logo_CNRC_Light.png"
+            src="/Logos/CNRC/Logo_CNRC_Light.png"
             alt="CNRC Logo"
             fill
             sizes="100vw"
@@ -129,7 +129,7 @@ export default function SobreNosPage() {
             <div className="lg:col-span-4">
               <div className="relative w-full max-w-[300px] mx-auto aspect-square">
                 <Image
-                  src="/images/Logo_CNRC.png"
+                  src="/Logos/CNRC/Logo_CNRC.png"
                   alt="CNRC Logo"
                   fill
                   sizes="(min-width:1024px) 300px, 200px"
@@ -287,7 +287,7 @@ export default function SobreNosPage() {
             <div className="mt-10 flex items-end gap-6">
               <div className="flex flex-col items-center w-[200px]">
                 <Image
-                  src="/images/assinatura-ceo.png"
+                  src="/assinatura-ceo.png"
                   alt="Assinatura Dr. António Nunes"
                   width={200}
                   height={75}
