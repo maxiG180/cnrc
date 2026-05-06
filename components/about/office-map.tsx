@@ -1,0 +1,197 @@
+"use client";
+
+import { company } from "@/content/shared/company-info";
+import { useState, useCallback, useEffect } from "react";
+import Map, { Marker, Popup } from "react-map-gl/maplibre";
+import Image from "next/image";
+import "maplibre-gl/dist/maplibre-gl.css";
+
+// Real geographic coordinates [longitude, latitude]
+interface Office {
+  name: string;
+  slug: string;
+  coordinates: [number, number];
+  isInternational: boolean;
+  image: string;
+}
+
+const offices: Office[] = [
+  { name: "Lisboa", slug: "lisboa", coordinates: [-9.1393, 38.7223], isInternational: false, image: "/images/office-lisboa.jpg" },
+  { name: "Barreiro", slug: "barreiro", coordinates: [-9.0719, 38.6634], isInternational: false, image: "/images/office-barreiro.jpg" },
+  { name: "Montijo", slug: "montijo", coordinates: [-8.9739, 38.7074], isInternational: false, image: "/images/office-montijo.jpg" },
+  { name: "Coimbra", slug: "coimbra", coordinates: [-8.4103, 40.2033], isInternational: false, image: "/images/office-coimbra.jpg" },
+  { name: "Braga", slug: "braga", coordinates: [-8.4261, 41.5454], isInternational: false, image: "/images/office-braga.jpg" },
+  { name: "Huelva (Espanha)", slug: "huelva", coordinates: [-6.9447, 37.2614], isInternational: true, image: "/images/office-huelva.jpg" },
+];
+
+export function OfficeMap() {
+  const [popupInfo, setPopupInfo] = useState<Office | null>(null);
+  const [cursor, setCursor] = useState<string>("grab");
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
+  const onMarkerClick = useCallback((office: Office) => {
+    setPopupInfo(office);
+  }, []);
+
+  return (
+    <div className="relative w-full max-w-[600px] mx-auto">
+      <div
+        className="bg-[color:var(--color-bone)]/50 rounded-lg overflow-hidden border border-[color:var(--color-stone)]/20"
+        style={{ touchAction: "none" }}
+      >
+        <Map
+          initialViewState={{
+            longitude: -8.0,
+            latitude: 39.5,
+            zoom: 5.8,
+          }}
+          style={{ width: "100%", height: "500px" }}
+          mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
+          scrollZoom={{ requireCtrl: true }}
+          dragPan={!isMobile}
+          dragRotate={false}
+          doubleClickZoom={true}
+          touchZoomRotate={true}
+          touchPitch={false}
+          pitchWithRotate={false}
+          keyboard={false}
+          bearing={0}
+          minPitch={0}
+          maxPitch={0}
+          minZoom={4}
+          maxZoom={12}
+          cursor={cursor}
+          onMouseEnter={() => setCursor("grab")}
+          onMouseLeave={() => setCursor("default")}
+          onDragStart={() => setCursor("grabbing")}
+          onDragEnd={() => setCursor("grab")}
+        >
+          {offices.map((office) => (
+            <Marker
+              key={office.slug}
+              longitude={office.coordinates[0]}
+              latitude={office.coordinates[1]}
+              anchor="bottom"
+              onClick={(e) => {
+                e.originalEvent.stopPropagation();
+                onMarkerClick(office);
+              }}
+            >
+              <div className="cursor-pointer group">
+                {/* Pin marker */}
+                <div
+                  className="relative transition-transform group-hover:scale-110"
+                  style={{
+                    width: "30px",
+                    height: "30px",
+                  }}
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="drop-shadow-lg"
+                  >
+                    <path
+                      d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
+                      fill={office.isInternational ? "var(--color-danger)" : "var(--color-gold)"}
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                    <circle
+                      cx="12"
+                      cy="9"
+                      r="3"
+                      fill="white"
+                      opacity="0.9"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </Marker>
+          ))}
+
+          {popupInfo && (
+            <Popup
+              longitude={popupInfo.coordinates[0]}
+              latitude={popupInfo.coordinates[1]}
+              anchor="top"
+              onClose={() => setPopupInfo(null)}
+              closeOnClick={false}
+              className="custom-popup"
+              maxWidth="280px"
+            >
+              <div className="overflow-hidden">
+                {/* Office Image */}
+                <div className="relative w-full h-32">
+                  <Image
+                    src={popupInfo.image}
+                    alt={popupInfo.name}
+                    fill
+                    sizes="280px"
+                    className="object-cover"
+                  />
+                </div>
+
+                {/* Office Info */}
+                <div className="p-3">
+                  <p className="font-semibold text-[color:var(--color-navy)] text-base">
+                    {popupInfo.name}
+                  </p>
+                  <p className="text-xs text-[color:var(--color-ink)]/70 mt-1">
+                    {popupInfo.isInternational ? "Internacional" : "Portugal"}
+                  </p>
+                </div>
+              </div>
+            </Popup>
+          )}
+        </Map>
+
+        {/* Legend */}
+        <div className="p-4 bg-[color:var(--color-bone)] flex items-center justify-center gap-6 text-sm border-t border-[color:var(--color-stone)]/20">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-[color:var(--color-gold)] border-2 border-white shadow-sm" />
+            <span className="text-[color:var(--color-ink)]/70">Portugal</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-[color:var(--color-danger)] border-2 border-white shadow-sm" />
+            <span className="text-[color:var(--color-ink)]/70">Internacional</span>
+          </div>
+        </div>
+      </div>
+
+      <p className="mt-4 text-center text-sm text-[color:var(--color-ink)]/60">
+        <span className="hidden md:inline">Ctrl + scroll para zoom • </span>
+        <span className="md:hidden">Use dois dedos para zoom • </span>
+        Clique nos marcadores para mais informações
+      </p>
+
+      <style jsx global>{`
+        .maplibregl-popup-content {
+          padding: 0;
+          background: var(--color-bone);
+          border-radius: 8px;
+          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .maplibregl-popup-close-button {
+          font-size: 20px;
+          padding: 4px 8px;
+          color: var(--color-navy);
+        }
+
+        .maplibregl-popup-close-button:hover {
+          background: var(--color-bone-soft);
+        }
+
+        .maplibregl-popup-tip {
+          border-top-color: var(--color-bone);
+        }
+      `}</style>
+    </div>
+  );
+}

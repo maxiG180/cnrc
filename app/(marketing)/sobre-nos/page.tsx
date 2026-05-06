@@ -5,6 +5,7 @@ import { Section } from "@/components/shared/section";
 import { Container } from "@/components/shared/container";
 import { Reveal } from "@/components/shared/reveal";
 import { CtaBanner } from "@/components/shared/cta-banner";
+import { OfficeMap } from "@/components/about/office-map";
 import { company } from "@/content/shared/company-info";
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
@@ -140,9 +141,7 @@ export default function SobreNosPage() {
             <Reveal className="lg:col-span-5">
               <p className="eyebrow">Estrutura Nacional</p>
               <h2 className="mt-4 rule">Presença em seis localizações estratégicas.</h2>
-            </Reveal>
-            <div className="lg:col-span-7">
-              <p className="text-lg leading-relaxed text-[color:var(--color-ink)]/85 max-w-[56ch]">
+              <p className="mt-8 text-lg leading-relaxed text-[color:var(--color-ink)]/85 max-w-[56ch]">
                 A CNRC dispõe de uma rede de escritórios estrategicamente distribuídos que nos permite atuar com proximidade, rapidez e eficiência:
               </p>
               <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-3 max-w-lg">
@@ -153,7 +152,10 @@ export default function SobreNosPage() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </Reveal>
+            <Reveal className="lg:col-span-7" delay={0.1}>
+              <OfficeMap />
+            </Reveal>
           </div>
         </Container>
       </Section>

@@ -15,17 +15,14 @@ export const metadata: Metadata = pageMetadata({
 export default function NoticiasIndex() {
   return (
     <>
-      {/* Simple Compact Hero */}
-      <Section tone="navy-deep" spacing="md" className="border-b border-[color:var(--color-bone)]/10">
+      {/* Minimal Hero */}
+      <Section tone="navy-deep" spacing="sm" className="border-b border-[color:var(--color-bone)]/10">
         <Container size="wide">
-          <div className="text-center max-w-3xl mx-auto py-12">
+          <div className="text-center max-w-2xl mx-auto">
             <p className="eyebrow text-[color:var(--color-gold)]">Atualidade</p>
-            <h1 className="mt-4 text-[color:var(--color-bone)]">
-              Notícias e análises do sector.
+            <h1 className="mt-3 text-[color:var(--color-bone)]">
+              Notícias em Destaque
             </h1>
-            <p className="mt-4 text-[color:var(--color-bone)]/75 leading-relaxed">
-              Acompanhamos de perto a atualidade económica, jurídica e imobiliária relevante para credores, mandatários e empresas.
-            </p>
           </div>
         </Container>
       </Section>
