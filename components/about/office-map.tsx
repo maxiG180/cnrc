@@ -1,13 +1,12 @@
 "use client";
 
-import { company } from "@/content/shared/company-info";
-import { useState, useCallback, useEffect } from "react";
-import Map, { Marker, Popup } from "react-map-gl/maplibre";
+import { useState, useCallback, useEffect, useRef } from "react";
+import Map, { Marker, NavigationControl, Popup, MapRef } from "react-map-gl/maplibre";
 import Image from "next/image";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 // Real geographic coordinates [longitude, latitude]
-interface Office {
+export interface Office {
   name: string;
   slug: string;
   coordinates: [number, number];
@@ -15,7 +14,7 @@ interface Office {
   image: string;
 }
 
-const offices: Office[] = [
+export const offices: Office[] = [
   { name: "Lisboa", slug: "lisboa", coordinates: [-9.1393, 38.7223], isInternational: false, image: "/images/office-lisboa.jpg" },
   { name: "Barreiro", slug: "barreiro", coordinates: [-9.0719, 38.6634], isInternational: false, image: "/images/office-barreiro.jpg" },
   { name: "Montijo", slug: "montijo", coordinates: [-8.9739, 38.7074], isInternational: false, image: "/images/office-montijo.jpg" },
@@ -24,35 +23,70 @@ const offices: Office[] = [
   { name: "Huelva (Espanha)", slug: "huelva", coordinates: [-6.9447, 37.2614], isInternational: true, image: "/images/office-huelva.jpg" },
 ];
 
-export function OfficeMap() {
+interface OfficeMapProps {
+  onOfficeClick?: (office: Office) => void;
+  selectedOffice?: Office | null;
+}
+
+export function OfficeMap({ onOfficeClick, selectedOffice }: OfficeMapProps = {}) {
   const [popupInfo, setPopupInfo] = useState<Office | null>(null);
   const [cursor, setCursor] = useState<string>("grab");
   const [isMobile, setIsMobile] = useState(false);
+  const mapRef = useRef<MapRef>(null);
 
+  // Update popup and fly to location when selectedOffice changes
   useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-  }, []);
+    if (selectedOffice && mapRef.current) {
+      setPopupInfo(selectedOffice);
+
+      // Fly to the selected office location
+      mapRef.current.flyTo({
+        center: [selectedOffice.coordinates[0], selectedOffice.coordinates[1]],
+        zoom: 10,
+        duration: 2000,
+        essential: true
+      });
+    }
+  }, [selectedOffice]);
 
   const onMarkerClick = useCallback((office: Office) => {
     setPopupInfo(office);
+    onOfficeClick?.(office);
+  }, [onOfficeClick]);
+
+  // Detect if mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   return (
-    <div className="relative w-full max-w-[600px] mx-auto">
+    <div className="relative w-full max-w-[600px] mx-auto px-8 md:px-0">
       <div
         className="bg-[color:var(--color-bone)]/50 rounded-lg overflow-hidden border border-[color:var(--color-stone)]/20"
-        style={{ touchAction: "none" }}
+        onWheel={(e) => {
+          // Only prevent page scroll on desktop when scrolling over map
+          if (!isMobile) {
+            e.stopPropagation();
+          }
+        }}
       >
-        <Map
-          initialViewState={{
-            longitude: -8.0,
-            latitude: 39.5,
-            zoom: 5.8,
-          }}
-          style={{ width: "100%", height: "500px" }}
-          mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
-          scrollZoom={{ requireCtrl: true }}
-          dragPan={!isMobile}
+        <div className="h-[500px] md:h-[650px]">
+          <Map
+            ref={mapRef}
+            initialViewState={{
+              longitude: -8.0,
+              latitude: 39.5,
+              zoom: 5.8,
+            }}
+            style={{ width: "100%", height: "100%" }}
+            mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
+          scrollZoom={!isMobile}
+          dragPan={true}
           dragRotate={false}
           doubleClickZoom={true}
           touchZoomRotate={true}
@@ -69,7 +103,10 @@ export function OfficeMap() {
           onMouseLeave={() => setCursor("default")}
           onDragStart={() => setCursor("grabbing")}
           onDragEnd={() => setCursor("grab")}
+          attributionControl={false}
         >
+          <NavigationControl position="top-right" showCompass={false} />
+
           {offices.map((office) => (
             <Marker
               key={office.slug}
@@ -150,6 +187,7 @@ export function OfficeMap() {
             </Popup>
           )}
         </Map>
+        </div>
 
         {/* Legend */}
         <div className="p-4 bg-[color:var(--color-bone)] flex items-center justify-center gap-6 text-sm border-t border-[color:var(--color-stone)]/20">
@@ -165,9 +203,9 @@ export function OfficeMap() {
       </div>
 
       <p className="mt-4 text-center text-sm text-[color:var(--color-ink)]/60">
-        <span className="hidden md:inline">Ctrl + scroll para zoom • </span>
-        <span className="md:hidden">Use dois dedos para zoom • </span>
-        Clique nos marcadores para mais informações
+        <span className="hidden md:inline">Arraste para mover • Scroll para zoom • </span>
+        <span className="md:hidden">Arraste para mover • Dois dedos para zoom • </span>
+        Clique nos marcadores
       </p>
 
       <style jsx global>{`

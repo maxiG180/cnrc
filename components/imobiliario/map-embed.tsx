@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useMemo, useState } from "react";
+import Map, { Marker, NavigationControl, Popup } from "react-map-gl/maplibre";
 import type { ListingFrontmatter } from "@/lib/mdx";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
+import "maplibre-gl/dist/maplibre-gl.css";
 
 type Listing = {
   slug: string;
@@ -13,123 +13,49 @@ type Listing = {
 
 type MapEmbedProps = {
   listings: Listing[];
-  frontmatter?: ListingFrontmatter; // For single property pages
+  frontmatter?: ListingFrontmatter;
 };
 
+type MapListing = {
+  slug: string;
+  frontmatter: ListingFrontmatter;
+};
+
+function getMapListings(listings: Listing[], frontmatter?: ListingFrontmatter): MapListing[] {
+  if (frontmatter) {
+    return frontmatter.coordinates ? [{ slug: "", frontmatter }] : [];
+  }
+
+  return listings
+    .filter((listing) => listing.frontmatter.coordinates)
+    .map((listing) => ({ slug: listing.slug, frontmatter: listing.frontmatter }));
+}
+
 export function MapEmbed({ listings, frontmatter }: MapEmbedProps) {
-  const mapRef = useRef<L.Map | null>(null);
-  const mapIdRef = useRef(`map-${Math.random().toString(36).substr(2, 9)}`);
+  const [popupListing, setPopupListing] = useState<MapListing | null>(null);
 
-  useEffect(() => {
-    // Determine what to show
-    const listingsToShow = frontmatter
-      ? [{ slug: "", frontmatter, content: "" }]
-      : listings.filter((l) => l.frontmatter.coordinates);
+  const mapListings = useMemo(
+    () => getMapListings(listings, frontmatter),
+    [listings, frontmatter]
+  );
 
-    if (listingsToShow.length === 0) return;
-
-    // Calculate center point
-    const validCoords = listingsToShow
-      .map((l) => l.frontmatter.coordinates)
+  const viewState = useMemo(() => {
+    const coordinates = mapListings
+      .map((listing) => listing.frontmatter.coordinates)
       .filter(Boolean) as Array<{ lat: number; lng: number }>;
 
-    if (validCoords.length === 0) return;
-
-    const centerLat = validCoords.reduce((sum, c) => sum + c.lat, 0) / validCoords.length;
-    const centerLng = validCoords.reduce((sum, c) => sum + c.lng, 0) / validCoords.length;
-
-    // Initialize map
-    const map = L.map(mapIdRef.current, {
-      center: [centerLat, centerLng],
-      zoom: frontmatter ? 15 : 7, // Closer zoom for single property
-      scrollWheelZoom: false,
-      attributionControl: false,
-    });
-
-    mapRef.current = map;
-
-    // Add OpenStreetMap tiles
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-    }).addTo(map);
-
-    // Custom marker icon
-    const createCustomIcon = (isActive = false) =>
-      L.divIcon({
-        className: "custom-marker",
-        html: `
-        <div style="
-          width: 36px;
-          height: 36px;
-          background-color: ${isActive ? "var(--color-navy)" : "var(--color-gold)"};
-          border: 3px solid var(--color-navy);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-          font-size: 10px;
-          font-weight: bold;
-          color: white;
-        ">
-        </div>
-      `,
-        iconSize: [36, 36],
-        iconAnchor: [18, 18],
-        popupAnchor: [0, -18],
-      });
-
-    // Add markers
-    listingsToShow.forEach((listing) => {
-      if (!listing.frontmatter.coordinates) return;
-
-      const { lat, lng } = listing.frontmatter.coordinates;
-
-      L.marker([lat, lng], { icon: createCustomIcon() })
-        .addTo(map)
-        .bindPopup(
-          `
-        <div style="font-family: var(--font-inter); padding: 8px; min-width: 200px;">
-          <strong style="color: var(--color-navy); font-size: 14px; display: block; margin-bottom: 4px;">
-            ${listing.frontmatter.title}
-          </strong>
-          <span style="color: var(--color-stone-dark); font-size: 12px; display: block; margin-bottom: 6px;">
-            ${listing.frontmatter.location}
-          </span>
-          ${
-            listing.frontmatter.price
-              ? `<span style="color: var(--color-gold); font-size: 13px; font-weight: 600;">
-              ${listing.frontmatter.price}
-            </span>`
-              : ""
-          }
-        </div>
-      `,
-          {
-            maxWidth: 250,
-            closeButton: true,
-          }
-        );
-    });
-
-    // Fit bounds if multiple listings
-    if (validCoords.length > 1) {
-      const bounds = L.latLngBounds(validCoords.map((c) => [c.lat, c.lng]));
-      map.fitBounds(bounds, { padding: [50, 50] });
+    if (coordinates.length === 0) {
+      return null;
     }
 
-    // Cleanup on unmount
-    return () => {
-      map.remove();
-      mapRef.current = null;
+    return {
+      latitude: coordinates.reduce((sum, coordinate) => sum + coordinate.lat, 0) / coordinates.length,
+      longitude: coordinates.reduce((sum, coordinate) => sum + coordinate.lng, 0) / coordinates.length,
+      zoom: frontmatter ? 15 : 7,
     };
-  }, [listings, frontmatter]);
+  }, [mapListings, frontmatter]);
 
-  const listingsToShow = frontmatter
-    ? [{ slug: "", frontmatter, content: "" }]
-    : listings.filter((l) => l.frontmatter.coordinates);
-
-  if (listingsToShow.length === 0) {
+  if (!viewState || mapListings.length === 0) {
     return (
       <div className="w-full h-full bg-[color:var(--color-bone-soft)] rounded-lg flex items-center justify-center">
         <p className="text-[color:var(--color-stone-dark)] text-sm">
@@ -140,10 +66,95 @@ export function MapEmbed({ listings, frontmatter }: MapEmbedProps) {
   }
 
   return (
-    <div
-      id={mapIdRef.current}
-      className="w-full h-full rounded-lg overflow-hidden border border-[color:var(--color-stone)]/30 relative"
-      style={{ zIndex: 1 }}
-    />
+    <div className="w-full h-full rounded-lg overflow-hidden border border-[color:var(--color-stone)]/30">
+      <Map
+        initialViewState={viewState}
+        style={{ width: "100%", height: "100%" }}
+        mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
+        scrollZoom={false}
+        dragPan
+        dragRotate={false}
+        doubleClickZoom
+        touchZoomRotate
+        touchPitch={false}
+        pitchWithRotate={false}
+        keyboard={false}
+        bearing={0}
+        minPitch={0}
+        maxPitch={0}
+        minZoom={4}
+        maxZoom={18}
+      >
+        <NavigationControl position="top-right" showCompass={false} />
+
+        {mapListings.map((listing) => {
+          const coordinates = listing.frontmatter.coordinates;
+          if (!coordinates) return null;
+
+          return (
+            <Marker
+              key={`${listing.slug}-${listing.frontmatter.title}`}
+              longitude={coordinates.lng}
+              latitude={coordinates.lat}
+              anchor="center"
+              onClick={(event) => {
+                event.originalEvent.stopPropagation();
+                setPopupListing(listing);
+              }}
+            >
+              <button
+                type="button"
+                aria-label={`Ver ${listing.frontmatter.title} no mapa`}
+                className="h-9 w-9 rounded-full border-[3px] border-[color:var(--color-navy)] bg-[color:var(--color-gold)] shadow-lg transition-transform hover:scale-110"
+              />
+            </Marker>
+          );
+        })}
+
+        {popupListing?.frontmatter.coordinates && (
+          <Popup
+            longitude={popupListing.frontmatter.coordinates.lng}
+            latitude={popupListing.frontmatter.coordinates.lat}
+            anchor="top"
+            closeOnClick={false}
+            maxWidth="250px"
+            onClose={() => setPopupListing(null)}
+          >
+            <div className="p-2 font-sans">
+              <strong className="mb-1 block text-sm text-[color:var(--color-navy)]">
+                {popupListing.frontmatter.title}
+              </strong>
+              <span className="mb-1.5 block text-xs text-[color:var(--color-stone-dark)]">
+                {popupListing.frontmatter.location}
+              </span>
+              {popupListing.frontmatter.price && (
+                <span className="text-sm font-semibold text-[color:var(--color-gold)]">
+                  {popupListing.frontmatter.price}
+                </span>
+              )}
+            </div>
+          </Popup>
+        )}
+      </Map>
+
+      <style jsx global>{`
+        .maplibregl-popup-content {
+          padding: 0;
+          background: var(--color-bone);
+          border-radius: 8px;
+          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .maplibregl-popup-close-button {
+          color: var(--color-navy);
+          font-size: 18px;
+          padding: 4px 8px;
+        }
+
+        .maplibregl-popup-tip {
+          border-top-color: var(--color-bone);
+        }
+      `}</style>
+    </div>
   );
 }

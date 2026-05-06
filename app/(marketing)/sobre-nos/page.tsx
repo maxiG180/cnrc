@@ -5,7 +5,7 @@ import { Section } from "@/components/shared/section";
 import { Container } from "@/components/shared/container";
 import { Reveal } from "@/components/shared/reveal";
 import { CtaBanner } from "@/components/shared/cta-banner";
-import { OfficeMap } from "@/components/about/office-map";
+import { OfficeMap, offices, type Office } from "@/components/about/office-map";
 import { company } from "@/content/shared/company-info";
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
@@ -87,6 +87,12 @@ function MeiosCarousel() {
 }
 
 export default function SobreNosPage() {
+  const [selectedOffice, setSelectedOffice] = useState<Office | null>(null);
+
+  const handleOfficeClick = useCallback((office: Office) => {
+    setSelectedOffice(office);
+  }, []);
+
   return (
     <>
       <Section tone="navy-deep" spacing="lg" className="pt-12 relative">
@@ -145,16 +151,40 @@ export default function SobreNosPage() {
                 A CNRC dispõe de uma rede de escritórios estrategicamente distribuídos que nos permite atuar com proximidade, rapidez e eficiência:
               </p>
               <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-3 max-w-lg">
-                {company.offices.map((o) => (
-                  <li key={o.slug} className="flex items-center gap-3 text-base text-[color:var(--color-navy)]">
-                    <span className="h-px w-6 bg-[color:var(--color-gold)]" />
-                    {o.name}
+                {offices.map((office) => (
+                  <li key={office.slug}>
+                    <button
+                      onClick={() => handleOfficeClick(office)}
+                      className="flex items-center gap-3 text-base text-[color:var(--color-navy)] hover:text-[color:var(--color-gold)] transition-colors group w-full text-left"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-5 h-5 flex-shrink-0 transition-transform group-hover:scale-110"
+                      >
+                        <path
+                          d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
+                          fill={office.slug === "huelva" ? "var(--color-danger)" : "var(--color-gold)"}
+                          stroke="white"
+                          strokeWidth="2"
+                        />
+                        <circle
+                          cx="12"
+                          cy="9"
+                          r="3"
+                          fill="white"
+                          opacity="0.9"
+                        />
+                      </svg>
+                      {office.name}
+                    </button>
                   </li>
                 ))}
               </ul>
             </Reveal>
             <Reveal className="lg:col-span-7" delay={0.1}>
-              <OfficeMap />
+              <OfficeMap selectedOffice={selectedOffice} />
             </Reveal>
           </div>
         </Container>

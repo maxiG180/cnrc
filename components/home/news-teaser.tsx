@@ -13,7 +13,7 @@ type SectorArticle = {
 
 export async function NewsTeaser() {
   let featured: SectorArticle | null = null;
-  let sectorArticles: SectorArticle[] = [];
+  const sectorArticles: SectorArticle[] = [];
   let useFallback = false;
 
   if (isGNewsConfigured()) {

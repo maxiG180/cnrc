@@ -215,7 +215,7 @@ export function HeroSearch({ onSearch }: HeroSearchProps) {
       {/* Background Image */}
       <div className="absolute inset-0 overflow-hidden">
         <Image
-          src="/Imobiliário/Moradias/Catelo-Royal-Villas_80-moradias-23042026-_site-7-900x550.png"
+          src="/Fotos-Lisboa_Horizontais-25-scaled.jpg"
           alt=""
           fill
           priority
