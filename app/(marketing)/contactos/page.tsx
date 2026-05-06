@@ -5,7 +5,6 @@ import { pageMetadata } from "@/lib/metadata";
 import { Section } from "@/components/shared/section";
 import { Container } from "@/components/shared/container";
 import { Reveal } from "@/components/shared/reveal";
-import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { ContactForm } from "@/components/forms/contact-form";
 import { company } from "@/content/shared/company-info";
 import { formatPhoneHref } from "@/lib/utils";
@@ -22,10 +21,7 @@ export default function ContactosPage() {
     <>
       <Section tone="navy-deep" spacing="lg" className="pt-12">
         <Container size="wide">
-          <div className="text-[color:var(--color-bone)]/80">
-            <Breadcrumbs items={[{ label: "Contactos" }]} />
-          </div>
-          <Reveal className="mt-8">
+          <Reveal>
             <p className="eyebrow text-[color:var(--color-gold)]">Contactos</p>
             <h1 className="mt-6 text-[color:var(--color-bone)] max-w-[16ch]">
               Estamos aqui para ajudar.

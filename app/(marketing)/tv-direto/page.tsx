@@ -4,7 +4,6 @@ import { pageMetadata } from "@/lib/metadata";
 import { Section } from "@/components/shared/section";
 import { Container } from "@/components/shared/container";
 import { Reveal } from "@/components/shared/reveal";
-import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { CtaBanner } from "@/components/shared/cta-banner";
 
 export const metadata: Metadata = pageMetadata({
@@ -19,10 +18,7 @@ export default function TvDiretoPage() {
     <>
       <Section tone="navy-deep" spacing="lg" className="pt-12">
         <Container size="wide">
-          <div className="text-[color:var(--color-bone)]/80">
-            <Breadcrumbs items={[{ label: "TV Direto" }]} />
-          </div>
-          <Reveal className="mt-8">
+          <Reveal>
             <p className="eyebrow text-[color:var(--color-gold)]">Canal Institucional</p>
             <h1 className="mt-6 text-[color:var(--color-bone)] max-w-[20ch]">
               CNRC em direto.

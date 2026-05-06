@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { Paperclip, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input, Textarea } from "@/components/ui/input";
 import { submitContactForm } from "@/app/api/contact/action";
@@ -20,8 +21,21 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
+const ALLOWED_TYPES = [
+  "application/pdf",
+  "image/jpeg",
+  "image/png",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+];
+const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
+
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [fileError, setFileError] = useState<string | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+
   const {
     register,
     handleSubmit,
@@ -32,19 +46,49 @@ export function ContactForm() {
     defaultValues: { consent: undefined as unknown as true },
   });
 
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0] ?? null;
+    setFileError(null);
+    if (!file) { setSelectedFile(null); return; }
+
+    if (file.size > MAX_SIZE) {
+      setFileError("Ficheiro demasiado grande (máx. 5 MB).");
+      setSelectedFile(null);
+      e.target.value = "";
+      return;
+    }
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      setFileError("Tipo não suportado. Use PDF, JPG, PNG ou Word.");
+      setSelectedFile(null);
+      e.target.value = "";
+      return;
+    }
+    setSelectedFile(file);
+  }
+
+  function clearFile() {
+    setSelectedFile(null);
+    setFileError(null);
+    if (fileRef.current) fileRef.current.value = "";
+  }
+
   async function onSubmit(values: FormValues) {
+    if (fileError) return;
     setStatus("sending");
     try {
-      const result = await submitContactForm({
-        name: values.name,
-        email: values.email,
-        phone: values.phone,
-        subject: values.subject,
-        message: values.message,
-      });
+      const fd = new FormData();
+      fd.append("name", values.name);
+      fd.append("email", values.email);
+      if (values.phone) fd.append("phone", values.phone);
+      fd.append("subject", values.subject);
+      fd.append("message", values.message);
+      if (selectedFile) fd.append("attachment", selectedFile);
+
+      const result = await submitContactForm(fd);
       if (result.ok) {
         setStatus("ok");
         reset();
+        clearFile();
       } else {
         setStatus("error");
       }
@@ -97,6 +141,48 @@ export function ContactForm() {
       <Field label="Mensagem" error={errors.message?.message}>
         <Textarea rows={6} {...register("message")} />
       </Field>
+
+      {/* File attachment */}
+      <div>
+        <span className="block text-[0.7rem] tracking-[0.2em] uppercase text-[color:var(--color-stone-dark)] mb-2">
+          Anexar documento (opcional)
+        </span>
+        <div className="flex items-center gap-3">
+          <label
+            htmlFor="file-upload"
+            className="inline-flex cursor-pointer items-center gap-2 border border-dashed border-[color:var(--color-stone)]/60 px-4 py-2.5 text-sm text-[color:var(--color-ink)]/70 transition-colors hover:border-[color:var(--color-navy)] hover:text-[color:var(--color-navy)]"
+          >
+            <Paperclip className="h-4 w-4 shrink-0" />
+            <span className="truncate max-w-[200px]">
+              {selectedFile ? selectedFile.name : "Escolher ficheiro"}
+            </span>
+          </label>
+          <input
+            id="file-upload"
+            ref={fileRef}
+            type="file"
+            accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+            className="sr-only"
+            onChange={handleFileChange}
+          />
+          {selectedFile && (
+            <button
+              type="button"
+              onClick={clearFile}
+              aria-label="Remover ficheiro"
+              className="text-[color:var(--color-stone-dark)] transition-colors hover:text-[color:var(--color-danger)]"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
+        </div>
+        {fileError && (
+          <p className="mt-1 text-xs text-[color:var(--color-danger)]">{fileError}</p>
+        )}
+        <p className="mt-1.5 text-xs text-[color:var(--color-stone-dark)]">
+          PDF, JPG, PNG ou Word — máx. 5 MB
+        </p>
+      </div>
 
       <label className="flex items-start gap-3 text-sm text-[color:var(--color-ink)]/80">
         <input type="checkbox" {...register("consent")} className="mt-1 h-4 w-4 accent-[color:var(--color-navy)]" />
