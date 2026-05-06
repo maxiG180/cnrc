@@ -14,7 +14,7 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
     });
 
     // Make lenis globally accessible so we can control it
-    (window as any).__lenis = lenis;
+    (window as Window & { __lenis?: Lenis }).__lenis = lenis;
 
     let rafId = 0;
     function raf(time: number) {
@@ -26,7 +26,7 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
     return () => {
       cancelAnimationFrame(rafId);
       lenis.destroy();
-      delete (window as any).__lenis;
+      delete (window as Window & { __lenis?: Lenis }).__lenis;
     };
   }, []);
 

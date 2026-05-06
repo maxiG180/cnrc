@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { company } from "@/content/shared/company-info";
 
 export function WhatsappWidget() {
@@ -184,10 +185,10 @@ export function WhatsappWidget() {
           transform: scale(0.95);
         }
 
-        .whatsapp-button img {
+        .whatsapp-button-image-wrapper {
+          position: relative;
           width: 100%;
           height: 100%;
-          object-fit: contain;
         }
 
         .whatsapp-badge {
@@ -199,6 +200,7 @@ export function WhatsappWidget() {
           border-radius: 50%;
           background: #FF3B30;
           box-shadow: 0 2px 6px rgba(255, 59, 48, 0.4);
+          z-index: 10;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -230,10 +232,14 @@ export function WhatsappWidget() {
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
-            alt="WhatsApp"
-          />
+          <div className="whatsapp-button-image-wrapper">
+            <Image
+              src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+              alt="WhatsApp"
+              fill
+              className="object-contain"
+            />
+          </div>
           {/* Badge - only show when tooltip is visible */}
           {(showTooltip || isHovering) && (
             <div className="whatsapp-badge">1</div>

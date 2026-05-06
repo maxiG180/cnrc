@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Bed, Bath, Ruler } from "lucide-react";
-import { getImobiliarioCategory } from "@/content/shared/imobiliario-categories";
+import { Bed, Bath, Ruler } from "lucide-react";
 import type { ListingFrontmatter } from "@/lib/mdx";
 
 type PropertyCardProps = {
@@ -24,7 +23,6 @@ const BADGE_LABELS = {
 } as const;
 
 export function PropertyCard({ slug, frontmatter }: PropertyCardProps) {
-  const cat = getImobiliarioCategory(frontmatter.category);
   const href = `/imobiliario/${frontmatter.category}/${slug}`;
 
   return (

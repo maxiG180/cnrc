@@ -46,22 +46,6 @@ export default function FrauncesTest() {
     "Arrestos e Execuções Eficazes"
   ]
 
-  const features = [
-    { label: 'Default (sem features)', settings: 'normal' },
-    { label: 'ss01', settings: '"ss01"' },
-    { label: 'ss02', settings: '"ss02"' },
-    { label: 'ss03', settings: '"ss03"' },
-    { label: 'ss04', settings: '"ss04"' },
-    { label: 'cv01', settings: '"cv01"' },
-    { label: 'cv02', settings: '"cv02"' },
-    { label: 'cv03', settings: '"cv03"' },
-    { label: 'cv04', settings: '"cv04"' },
-    { label: 'calt off', settings: '"calt" 0' },
-  ]
-
-  const wonkValues = [0, 1] // WONK axis test
-  const softValues = [0, 100] // SOFT axis test
-
   const fonts = [
     { name: 'Fraunces', className: 'font-fraunces', weight: 400, family: fraunces.style.fontFamily, isCurrent: true },
     { name: 'Cormorant', className: 'font-cormorant', weight: 700, family: cormorant.style.fontFamily },

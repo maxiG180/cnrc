@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { company } from "@/content/shared/company-info";
-import { footerLinks, mainNav } from "@/content/shared/nav";
+import { footerLinks } from "@/content/shared/nav";
 import { formatPhoneHref } from "@/lib/utils";
 import { Container } from "@/components/shared/container";
 

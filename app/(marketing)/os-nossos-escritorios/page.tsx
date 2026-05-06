@@ -5,7 +5,6 @@ import { pageMetadata } from "@/lib/metadata";
 import { Section } from "@/components/shared/section";
 import { Container } from "@/components/shared/container";
 import { Reveal } from "@/components/shared/reveal";
-import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { CtaBanner } from "@/components/shared/cta-banner";
 import { company } from "@/content/shared/company-info";
 

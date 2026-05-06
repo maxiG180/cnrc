@@ -7,7 +7,7 @@ type WatermarkedImageProps = ImageProps & {
 export function WatermarkedImage({ showWatermark = true, ...props }: WatermarkedImageProps) {
   return (
     <div className="relative w-full h-full">
-      <Image {...props} />
+      <Image alt={props.alt || ""} {...props} />
       {showWatermark && (
         <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
           <Image

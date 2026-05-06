@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight, X, Maximize2 } from "lucide-react";
 import { MediaPlayer, MediaProvider } from "@vidstack/react";
 import { defaultLayoutIcons, DefaultVideoLayout } from "@vidstack/react/player/layouts/default";
 import type { ListingFrontmatter } from "@/lib/mdx";
+import type Lenis from "lenis";
 
 import "@vidstack/react/player/styles/default/theme.css";
 import "@vidstack/react/player/styles/default/layouts/video.css";
@@ -44,7 +45,7 @@ export function PropertyHero({ frontmatter }: PropertyHeroProps) {
 
   // Prevent body scroll and disable Lenis when lightbox is open
   useEffect(() => {
-    const lenis = (window as any).__lenis;
+    const lenis = (window as Window & { __lenis?: Lenis }).__lenis;
 
     if (lightboxOpen) {
       // Get current scroll position
