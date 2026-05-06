@@ -150,18 +150,18 @@ export default function SobreNosPage() {
               <p className="mt-8 text-lg leading-relaxed text-[color:var(--color-ink)]/85 max-w-[56ch]">
                 A CNRC dispõe de uma rede de escritórios estrategicamente distribuídos que nos permite atuar com proximidade, rapidez e eficiência:
               </p>
-              <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-3 max-w-lg">
+              <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-4 max-w-lg">
                 {offices.map((office) => (
                   <li key={office.slug}>
                     <button
                       onClick={() => handleOfficeClick(office)}
-                      className="flex items-center gap-3 text-base text-[color:var(--color-navy)] hover:text-[color:var(--color-gold)] transition-colors group w-full text-left"
+                      className="flex items-center gap-3 text-base text-[color:var(--color-navy)] hover:text-[color:var(--color-gold)] transition-all group w-full text-left py-2 px-3 -mx-3 rounded-lg hover:bg-[color:var(--color-bone)]/50 cursor-pointer"
                     >
                       <svg
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        className="w-5 h-5 flex-shrink-0 transition-transform group-hover:scale-110"
+                        className="w-6 h-6 flex-shrink-0 transition-transform group-hover:scale-125 drop-shadow-sm"
                       >
                         <path
                           d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
@@ -177,7 +177,9 @@ export default function SobreNosPage() {
                           opacity="0.9"
                         />
                       </svg>
-                      {office.name}
+                      <span className="group-hover:translate-x-1 transition-transform">
+                        {office.name}
+                      </span>
                     </button>
                   </li>
                 ))}
