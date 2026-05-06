@@ -160,26 +160,27 @@ export function OfficeMap({ onOfficeClick, selectedOffice }: OfficeMapProps = {}
               onClose={() => setPopupInfo(null)}
               closeOnClick={false}
               className="custom-popup"
-              maxWidth="280px"
+              maxWidth="500px"
             >
               <div className="overflow-hidden">
                 {/* Office Image */}
-                <div className="relative w-full h-32">
+                <div className="relative w-full aspect-square bg-[color:var(--color-stone)]/10">
                   <Image
                     src={popupInfo.image}
                     alt={popupInfo.name}
                     fill
-                    sizes="280px"
-                    className="object-cover"
+                    sizes="500px"
+                    className="object-cover object-center"
+                    style={{ objectFit: 'cover' }}
                   />
                 </div>
 
                 {/* Office Info */}
-                <div className="p-3">
-                  <p className="font-semibold text-[color:var(--color-navy)] text-base">
+                <div className="p-5">
+                  <p className="font-semibold text-[color:var(--color-navy)] text-xl">
                     {popupInfo.name}
                   </p>
-                  <p className="text-xs text-[color:var(--color-ink)]/70 mt-1">
+                  <p className="text-base text-[color:var(--color-ink)]/70 mt-2">
                     {popupInfo.isInternational ? "Internacional" : "Portugal"}
                   </p>
                 </div>
