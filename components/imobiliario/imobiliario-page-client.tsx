@@ -25,7 +25,7 @@ export function ImobiliarioPageClient({ listings }: ImobiliarioPageClientProps) 
       <HeroSearch onSearch={setHeroFilters} />
 
       {/* Spacing to accommodate the overlapping search card */}
-      <div className="pt-24 md:pt-32" />
+      <div className="pt-12 md:pt-16" />
 
       {/* Client-side filtered listings - hide category tabs since they're in hero */}
       <ListingsView

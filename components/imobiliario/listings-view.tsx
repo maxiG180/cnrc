@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import { Grid, MapPin } from "lucide-react";
 import { Section } from "@/components/shared/section";
@@ -55,11 +55,41 @@ export function ListingsView({
   }, [heroFilters]);
 
   const [viewMode, setViewMode] = useState<"grid" | "map">("grid");
+  const [highlightedSlug, setHighlightedSlug] = useState<string | null>(null);
+  const [visibleSlugs, setVisibleSlugs] = useState<string[] | null>(null);
+  const cardRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
+  // Handle marker click from map
+  const handleMarkerClick = (slug: string) => {
+    setHighlightedSlug(slug);
+
+    // Remove highlight after 3 seconds
+    setTimeout(() => {
+      setHighlightedSlug(null);
+    }, 3000);
+  };
+
+  // Handle cluster click from map (deprecated - now handled by visible listings)
+  const handleClusterClick = (slugs: string[]) => {
+    // This is now handled automatically by onVisibleListingsChange
+  };
+
+  // Handle visible listings change from map
+  const handleVisibleListingsChange = (slugs: string[]) => {
+    setVisibleSlugs(slugs.length > 0 ? slugs : null);
+  };
 
   // Filtered listings
   const filteredListings = useMemo(() => {
     return listings.filter((listing) => {
       const { frontmatter } = listing;
+
+      // In map view, show only visible listings from map viewport
+      if (viewMode === "map" && visibleSlugs !== null) {
+        if (!visibleSlugs.includes(listing.slug)) {
+          return false;
+        }
+      }
 
       // Category filter
       if (filters.category !== "todos" && frontmatter.category !== filters.category) {
@@ -100,7 +130,7 @@ export function ListingsView({
 
       return true;
     });
-  }, [listings, filters]);
+  }, [listings, filters, visibleSlugs, viewMode]);
 
   return (
     <>
@@ -158,18 +188,34 @@ export function ListingsView({
                 {/* Left: Property Grid - scrollable */}
                 <div className="flex-1 grid gap-6 md:grid-cols-2 auto-rows-max">
                   {filteredListings.map((listing) => (
-                    <PropertyCard
+                    <div
                       key={listing.slug}
-                      slug={listing.slug}
-                      frontmatter={listing.frontmatter}
-                    />
+                      ref={(el) => {
+                        cardRefs.current[listing.slug] = el;
+                      }}
+                      className={`transition-all duration-300 ${
+                        highlightedSlug === listing.slug
+                          ? "ring-4 ring-[color:var(--color-gold)] ring-offset-4 rounded-lg"
+                          : ""
+                      }`}
+                    >
+                      <PropertyCard
+                        slug={listing.slug}
+                        frontmatter={listing.frontmatter}
+                      />
+                    </div>
                   ))}
                 </div>
 
                 {/* Right: Map (sticky, always visible on desktop) */}
                 <div className="hidden lg:block w-[500px] xl:w-[600px] flex-shrink-0">
-                  <div className="sticky top-24 h-[calc(100vh-8rem)]">
-                    <MapEmbed listings={filteredListings} />
+                  <div className="sticky top-[112px] h-[calc(100vh-128px)]">
+                    <MapEmbed
+                      listings={listings}
+                      onMarkerClick={handleMarkerClick}
+                      onClusterClick={handleClusterClick}
+                      onVisibleListingsChange={handleVisibleListingsChange}
+                    />
                   </div>
                 </div>
               </div>

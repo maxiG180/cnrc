@@ -1,10 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Map, { Marker, NavigationControl, Popup } from "react-map-gl/maplibre";
+import Map, { Source, Layer, NavigationControl, Popup, MapRef } from "react-map-gl/maplibre";
+import type { CircleLayer, SymbolLayer } from "react-map-gl/maplibre";
 import type { ListingFrontmatter } from "@/lib/mdx";
+import { useMapClusters, type ClusterFeature } from "./use-map-clusters";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 type Listing = {
@@ -16,6 +18,9 @@ type Listing = {
 type MapEmbedProps = {
   listings: Listing[];
   frontmatter?: ListingFrontmatter;
+  onMarkerClick?: (slug: string) => void;
+  onClusterClick?: (slugs: string[]) => void;
+  onVisibleListingsChange?: (slugs: string[]) => void;
 };
 
 type MapListing = {
@@ -33,8 +38,25 @@ function getMapListings(listings: Listing[], frontmatter?: ListingFrontmatter): 
     .map((listing) => ({ slug: listing.slug, frontmatter: listing.frontmatter }));
 }
 
-export function MapEmbed({ listings, frontmatter }: MapEmbedProps) {
-  const [popupListing, setPopupListing] = useState<MapListing | null>(null);
+export function MapEmbed({ listings, frontmatter, onMarkerClick, onClusterClick, onVisibleListingsChange }: MapEmbedProps) {
+  const mapRef = useRef<MapRef>(null);
+  const [popupListing, setPopupListing] = useState<Listing | null>(null);
+  const [bounds, setBounds] = useState<{ west: number; south: number; east: number; north: number } | null>(null);
+  const [zoom, setZoom] = useState(7);
+  const [iconLoaded, setIconLoaded] = useState(false);
+  // Only use clustering for multiple listings (not single property view)
+  const useClustering = !frontmatter && listings.length > 1;
+
+  // Get clusters using our custom hook (only when clustering)
+  const { clusters, supercluster } = useMapClusters(
+    useClustering ? listings : [],
+    bounds,
+    zoom
+  );
+
+  // Update supercluster ref
+  const superclusterRef = useRef(supercluster);
+  superclusterRef.current = supercluster;
 
   const mapListings = useMemo(
     () => getMapListings(listings, frontmatter),
@@ -57,6 +79,311 @@ export function MapEmbed({ listings, frontmatter }: MapEmbedProps) {
     };
   }, [mapListings, frontmatter]);
 
+  // Create custom marker icon
+  const createMarkerIcon = useCallback(() => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 48;
+    canvas.height = 60;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+
+    // Draw pin/teardrop shape
+    ctx.fillStyle = "#d4af37"; // Gold color
+    ctx.beginPath();
+    ctx.arc(24, 20, 18, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Draw pin point
+    ctx.beginPath();
+    ctx.moveTo(24, 38);
+    ctx.lineTo(14, 48);
+    ctx.lineTo(34, 48);
+    ctx.closePath();
+    ctx.fill();
+
+    // Draw navy border
+    ctx.strokeStyle = "#1a1a2e";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(24, 20, 18, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(24, 38);
+    ctx.lineTo(14, 48);
+    ctx.lineTo(34, 48);
+    ctx.closePath();
+    ctx.stroke();
+
+    // Draw house icon in white
+    ctx.fillStyle = "#1a1a2e";
+    ctx.strokeStyle = "#1a1a2e";
+    ctx.lineWidth = 2;
+
+    // House roof
+    ctx.beginPath();
+    ctx.moveTo(24, 12);
+    ctx.lineTo(18, 18);
+    ctx.lineTo(30, 18);
+    ctx.closePath();
+    ctx.fill();
+
+    // House body
+    ctx.fillRect(19, 18, 10, 8);
+
+    // Door
+    ctx.fillStyle = "#d4af37";
+    ctx.fillRect(22, 21, 4, 5);
+
+    return canvas;
+  }, []);
+
+  // Load marker icon when map is ready
+  const handleMapLoad = useCallback(() => {
+    if (!mapRef.current) return;
+    const map = mapRef.current.getMap();
+
+    // Update bounds
+    const mapBounds = map.getBounds();
+    setBounds({
+      west: mapBounds.getWest(),
+      south: mapBounds.getSouth(),
+      east: mapBounds.getEast(),
+      north: mapBounds.getNorth(),
+    });
+    setZoom(map.getZoom());
+
+    // Load marker icon
+    try {
+      if (map.hasImage("house-marker")) {
+        setIconLoaded(true);
+        return;
+      }
+
+      const canvas = createMarkerIcon();
+      if (!canvas) return;
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+      map.addImage("house-marker", {
+        width: canvas.width,
+        height: canvas.height,
+        data: imageData.data,
+      });
+      setIconLoaded(true);
+    } catch (error) {
+      console.error("Error loading marker icon:", error);
+    }
+  }, [createMarkerIcon]);
+
+  // Handle map move to update bounds and zoom
+  const handleMove = useCallback(() => {
+    if (!mapRef.current) return;
+    const map = mapRef.current.getMap();
+    const mapBounds = map.getBounds();
+    setBounds({
+      west: mapBounds.getWest(),
+      south: mapBounds.getSouth(),
+      east: mapBounds.getEast(),
+      north: mapBounds.getNorth(),
+    });
+    setZoom(map.getZoom());
+
+    // Update visible listings
+    if (onVisibleListingsChange) {
+      try {
+        // Query all visible features in the current viewport
+        const features = map.queryRenderedFeatures({ layers: ["unclustered-point", "clusters"] });
+
+        // Extract slugs from visible features
+        const visibleSlugs = new Set<string>();
+
+        features.forEach((feature: any) => {
+          if (feature.properties?.cluster && superclusterRef.current) {
+            // If it's a cluster, get all listings in that cluster
+            try {
+              const leaves = superclusterRef.current.getLeaves(feature.properties.cluster_id, Infinity);
+              leaves.forEach((leaf: any) => {
+                if (leaf.properties?.slug) {
+                  visibleSlugs.add(leaf.properties.slug);
+                }
+              });
+            } catch (e) {
+              // Cluster might not be available yet
+            }
+          } else if (feature.properties?.slug) {
+            // Individual point
+            visibleSlugs.add(feature.properties.slug);
+          }
+        });
+
+        onVisibleListingsChange(Array.from(visibleSlugs));
+      } catch (error) {
+        // Layers might not be loaded yet
+      }
+    }
+  }, [onVisibleListingsChange]);
+
+  // Handle cluster click - get all listings in cluster
+  const handleClusterClick = useCallback(
+    (cluster: ClusterFeature) => {
+      if (!mapRef.current || !supercluster || !cluster.properties.cluster_id) return;
+
+      // Get all leaves (individual points) within this cluster
+      const leaves = supercluster.getLeaves(cluster.properties.cluster_id, Infinity);
+
+      // Extract slugs from the leaves
+      const slugs = leaves
+        .map((leaf: any) => leaf.properties?.slug)
+        .filter((slug: string | undefined): slug is string => Boolean(slug));
+
+      // Notify parent component with the slugs
+      if (onClusterClick && slugs.length > 0) {
+        onClusterClick(slugs);
+      }
+
+      // Also zoom in to show the cluster area
+      const expansionZoom = supercluster.getClusterExpansionZoom(cluster.properties.cluster_id);
+      mapRef.current.flyTo({
+        center: cluster.geometry.coordinates as [number, number],
+        zoom: expansionZoom,
+        duration: 500,
+      });
+    },
+    [supercluster, onClusterClick]
+  );
+
+  // Handle map click
+  const handleMapClick = useCallback(
+    (event: any) => {
+      if (!mapRef.current) return;
+
+      // Only query layers if they exist
+      if (!useClustering) {
+        // In non-clustering mode, just query the unclustered-point layer
+        try {
+          const map = mapRef.current.getMap();
+
+          // Check if layer exists
+          if (!map.getLayer("unclustered-point")) {
+            return;
+          }
+
+          const features = mapRef.current.queryRenderedFeatures(event.point, {
+            layers: ["unclustered-point"],
+          });
+
+          if (!features.length) {
+            setPopupListing(null);
+            return;
+          }
+
+          const feature = features[0];
+          const clickedSlug = feature.properties?.slug;
+
+          let listing = listings.find((l) => l.slug === clickedSlug);
+
+          if (!listing && frontmatter) {
+            listing = { slug: "", frontmatter, content: "" };
+          }
+
+          if (listing) {
+            // Center map on clicked marker (no zoom change)
+            if (listing.frontmatter.coordinates && mapRef.current) {
+              try {
+                mapRef.current.flyTo({
+                  center: [listing.frontmatter.coordinates.lng, listing.frontmatter.coordinates.lat],
+                  duration: 600,
+                });
+              } catch (error) {
+                console.debug("Error centering map:", error);
+              }
+            }
+            // Set popup after starting animation
+            setPopupListing(listing);
+            // Notify parent component
+            if (onMarkerClick && listing.slug) {
+              onMarkerClick(listing.slug);
+            }
+          }
+        } catch (error) {
+          console.debug("Map click error:", error);
+        }
+        return;
+      }
+
+      // Clustering mode - query both layers
+      try {
+        const map = mapRef.current.getMap();
+
+        // Check if layers actually exist before querying
+        const layersToQuery: string[] = [];
+        if (map.getLayer("clusters")) {
+          layersToQuery.push("clusters");
+        }
+        if (map.getLayer("unclustered-point")) {
+          layersToQuery.push("unclustered-point");
+        }
+
+        if (layersToQuery.length === 0) {
+          return;
+        }
+
+        const features = mapRef.current.queryRenderedFeatures(event.point, {
+          layers: layersToQuery,
+        });
+
+        if (!features.length) {
+          setPopupListing(null);
+          return;
+        }
+
+        const feature = features[0];
+
+        // Handle cluster click
+        if (feature.properties?.cluster) {
+          const clusterId = feature.properties.cluster_id;
+          const clusterFeature = clusters.find(
+            (c) => c.properties.cluster_id === clusterId
+          );
+          if (clusterFeature) {
+            handleClusterClick(clusterFeature);
+          }
+          return;
+        }
+
+        // Handle individual point click
+        const clickedSlug = feature.properties?.slug;
+        const listing = listings.find((l) => l.slug === clickedSlug);
+
+        if (listing) {
+          // Center map on clicked marker (no zoom change)
+          if (listing.frontmatter.coordinates && mapRef.current) {
+            try {
+              mapRef.current.flyTo({
+                center: [listing.frontmatter.coordinates.lng, listing.frontmatter.coordinates.lat],
+                duration: 600,
+              });
+            } catch (error) {
+              console.debug("Error centering map:", error);
+            }
+          }
+          // Set popup after starting animation
+          setPopupListing(listing);
+          // Notify parent component
+          if (onMarkerClick && listing.slug) {
+            onMarkerClick(listing.slug);
+          }
+        }
+      } catch (error) {
+        console.debug("Map click error:", error);
+      }
+    },
+    [clusters, listings, frontmatter, useClustering, handleClusterClick, onMarkerClick]
+  );
+
   if (!viewState || mapListings.length === 0) {
     return (
       <div className="w-full h-full bg-[color:var(--color-bone-soft)] rounded-lg flex items-center justify-center">
@@ -67,6 +394,45 @@ export function MapEmbed({ listings, frontmatter }: MapEmbedProps) {
     );
   }
 
+  // Layer styles
+  const clusterLayer: CircleLayer = {
+    id: "clusters",
+    type: "circle",
+    filter: ["has", "point_count"],
+    paint: {
+      "circle-color": "#1a1a2e",
+      "circle-radius": ["step", ["get", "point_count"], 20, 10, 25, 50, 30],
+      "circle-stroke-width": 2,
+      "circle-stroke-color": "#fff",
+    },
+  };
+
+  const clusterCountLayer: SymbolLayer = {
+    id: "cluster-count",
+    type: "symbol",
+    filter: ["has", "point_count"],
+    layout: {
+      "text-field": "{point_count_abbreviated}",
+      "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+      "text-size": 14,
+    },
+    paint: {
+      "text-color": "#ffffff",
+    },
+  };
+
+  const unclusteredPointLayer: SymbolLayer = {
+    id: "unclustered-point",
+    type: "symbol",
+    filter: ["!", ["has", "point_count"]],
+    layout: {
+      "icon-image": "house-marker",
+      "icon-size": 0.8,
+      "icon-anchor": "bottom",
+      "icon-allow-overlap": true,
+    },
+  };
+
   return (
     <div
       className="w-full h-full rounded-lg overflow-hidden border border-[color:var(--color-stone)]/30"
@@ -76,9 +442,11 @@ export function MapEmbed({ listings, frontmatter }: MapEmbedProps) {
       }}
     >
       <Map
+        ref={mapRef}
         initialViewState={viewState}
         style={{ width: "100%", height: "100%" }}
-        mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
+        mapStyle="https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json"
+        attributionControl={false}
         scrollZoom={true}
         dragPan
         dragRotate={false}
@@ -92,32 +460,56 @@ export function MapEmbed({ listings, frontmatter }: MapEmbedProps) {
         maxPitch={0}
         minZoom={4}
         maxZoom={18}
+        onMove={handleMove}
+        onLoad={handleMapLoad}
+        onClick={handleMapClick}
       >
         <NavigationControl position="top-right" showCompass={false} />
 
-        {mapListings.map((listing) => {
-          const coordinates = listing.frontmatter.coordinates;
-          if (!coordinates) return null;
-
-          return (
-            <Marker
-              key={`${listing.slug}-${listing.frontmatter.title}`}
-              longitude={coordinates.lng}
-              latitude={coordinates.lat}
-              anchor="center"
-              onClick={(event) => {
-                event.originalEvent.stopPropagation();
-                setPopupListing(listing);
-              }}
-            >
-              <button
-                type="button"
-                aria-label={`Ver ${listing.frontmatter.title} no mapa`}
-                className="h-9 w-9 rounded-full border-[3px] border-[color:var(--color-navy)] bg-[color:var(--color-gold)] shadow-lg transition-transform hover:scale-110"
-              />
-            </Marker>
-          );
-        })}
+        {iconLoaded && (
+          <>
+            {useClustering ? (
+              <Source
+                id="listings"
+                type="geojson"
+                data={{
+                  type: "FeatureCollection",
+                  features: clusters,
+                }}
+              >
+                <Layer {...clusterLayer} />
+                <Layer {...clusterCountLayer} />
+                <Layer {...unclusteredPointLayer} />
+              </Source>
+            ) : (
+              <Source
+                id="listings"
+                type="geojson"
+                data={{
+                  type: "FeatureCollection",
+                  features: mapListings
+                    .filter((listing) => listing.frontmatter.coordinates)
+                    .map((listing) => ({
+                      type: "Feature" as const,
+                      properties: {
+                        slug: listing.slug,
+                        title: listing.frontmatter.title,
+                      },
+                      geometry: {
+                        type: "Point" as const,
+                        coordinates: [
+                          listing.frontmatter.coordinates!.lng,
+                          listing.frontmatter.coordinates!.lat,
+                        ],
+                      },
+                    })),
+                }}
+              >
+                <Layer {...unclusteredPointLayer} />
+              </Source>
+            )}
+          </>
+        )}
 
         {popupListing?.frontmatter.coordinates && (
           <Popup

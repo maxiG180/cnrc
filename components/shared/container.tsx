@@ -5,7 +5,7 @@ type ContainerProps = {
   className?: string;
   size?: "narrow" | "content" | "wide";
   as?: "div" | "section" | "article";
-};
+} & React.HTMLAttributes<HTMLDivElement>;
 
 const SIZE_CLASSES = {
   narrow: "max-w-[var(--container-narrow)]",
@@ -13,9 +13,9 @@ const SIZE_CLASSES = {
   wide: "max-w-[var(--container-wide)]",
 } as const;
 
-export function Container({ children, className, size = "content", as: Tag = "div" }: ContainerProps) {
+export function Container({ children, className, size = "content", as: Tag = "div", ...props }: ContainerProps) {
   return (
-    <Tag className={cn("mx-auto w-full px-6 md:px-10", SIZE_CLASSES[size], className)}>
+    <Tag className={cn("mx-auto w-full px-6 md:px-10", SIZE_CLASSES[size], className)} {...props}>
       {children}
     </Tag>
   );

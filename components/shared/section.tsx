@@ -6,7 +6,7 @@ type SectionProps = {
   id?: string;
   tone?: "bone" | "bone-soft" | "navy" | "navy-deep";
   spacing?: "sm" | "md" | "lg" | "xl";
-};
+} & React.HTMLAttributes<HTMLElement>;
 
 const TONES = {
   bone: "bg-[color:var(--color-bone)] text-[color:var(--color-ink)]",
@@ -22,9 +22,9 @@ const SPACING = {
   xl: "py-28 md:py-40",
 } as const;
 
-export function Section({ children, className, id, tone = "bone", spacing = "md" }: SectionProps) {
+export function Section({ children, className, id, tone = "bone", spacing = "md", ...props }: SectionProps) {
   return (
-    <section id={id} className={cn(TONES[tone], SPACING[spacing], "relative", className)}>
+    <section id={id} className={cn(TONES[tone], SPACING[spacing], "relative", className)} {...props}>
       {children}
     </section>
   );
