@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X, Maximize2 } from "lucide-react";
 import { MediaPlayer, MediaProvider } from "@vidstack/react";
@@ -36,6 +36,7 @@ export function PropertyHero({ frontmatter }: PropertyHeroProps) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
 
   // Reset zoom when changing images
   useEffect(() => {
@@ -48,6 +49,11 @@ export function PropertyHero({ frontmatter }: PropertyHeroProps) {
     const lenis = (window as Window & { __lenis?: Lenis }).__lenis;
 
     if (lightboxOpen) {
+      // Pause hero video if it's playing
+      if (heroVideoRef.current) {
+        heroVideoRef.current.pause();
+      }
+
       // Get current scroll position
       const scrollY = window.scrollY;
 
@@ -173,6 +179,7 @@ export function PropertyHero({ frontmatter }: PropertyHeroProps) {
         <div className="relative aspect-[21/9] md:aspect-[21/7] overflow-hidden bg-[color:var(--color-stone)]/20">
           {isVideo ? (
             <video
+              ref={heroVideoRef}
               src={currentItem.src}
               className="absolute inset-0 w-full h-full object-cover"
               controls

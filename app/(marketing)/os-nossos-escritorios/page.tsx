@@ -11,7 +11,7 @@ import { company } from "@/content/shared/company-info";
 export const metadata: Metadata = pageMetadata({
   title: "Os Nossos Escritórios",
   description:
-    "Rede nacional da CNRC com escritórios em Barreiro, Coimbra, Lisboa, Montijo, Vila Verde e Huelva.",
+    "Rede nacional da CNRC com escritórios em Barreiro, Braga, Lisboa e Montijo.",
   path: "/os-nossos-escritorios",
 });
 

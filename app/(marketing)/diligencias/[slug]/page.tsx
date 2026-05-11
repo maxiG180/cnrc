@@ -56,10 +56,10 @@ export default async function DiligenciaPage({ params }: { params: Promise<Param
                 fill
                 sizes="100vw"
                 priority
-                className="object-cover opacity-30"
+                className="object-cover opacity-50"
               />
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--color-navy-deep)] via-[color:var(--color-navy-deep)]/80 to-[color:var(--color-navy-deep)]/50" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--color-navy-deep)] via-[color:var(--color-navy-deep)]/60 to-[color:var(--color-navy-deep)]/30" />
           </div>
         )}
         <Container size="wide" className="relative z-10">

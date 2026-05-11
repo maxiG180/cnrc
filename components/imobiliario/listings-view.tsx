@@ -29,6 +29,7 @@ type ListingsViewProps = {
   showCategoryTabs?: boolean;
   initialCategory?: string;
   heroFilters?: FilterState | null;
+  className?: string;
 };
 
 export function ListingsView({
@@ -36,6 +37,7 @@ export function ListingsView({
   showCategoryTabs = true,
   initialCategory = "todos",
   heroFilters,
+  className,
 }: ListingsViewProps) {
   const [filters, setFilters] = useState<FilterState>({
     category: initialCategory,
@@ -112,7 +114,7 @@ export function ListingsView({
       )}
 
       {/* Listings Grid with Map Split View */}
-      <Section tone="bone" spacing="lg">
+      <Section tone="bone" spacing="lg" className={className}>
         <Container size="wide">
           {/* Results count and view toggle */}
           <div className="mb-8 flex items-center justify-between">
@@ -122,8 +124,8 @@ export function ListingsView({
                 : `${filteredListings.length} imóveis encontrados`}
             </p>
 
-            {/* View Toggle */}
-            <div className="flex gap-2 bg-white border border-[color:var(--color-stone)]/30 p-1">
+            {/* View Toggle - only show on desktop where map is available */}
+            <div className="hidden lg:flex gap-2 bg-white border border-[color:var(--color-stone)]/30 p-1">
               <button
                 onClick={() => setViewMode("grid")}
                 className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors ${
@@ -151,9 +153,28 @@ export function ListingsView({
 
           {/* Content Layout */}
           {filteredListings.length > 0 ? (
-            <div className="flex gap-6">
-              {/* Left: Property Grid - scrollable */}
-              <div className="flex-1 grid gap-6 md:grid-cols-2 auto-rows-max">
+            viewMode === "map" ? (
+              <div className="flex gap-6">
+                {/* Left: Property Grid - scrollable */}
+                <div className="flex-1 grid gap-6 md:grid-cols-2 auto-rows-max">
+                  {filteredListings.map((listing) => (
+                    <PropertyCard
+                      key={listing.slug}
+                      slug={listing.slug}
+                      frontmatter={listing.frontmatter}
+                    />
+                  ))}
+                </div>
+
+                {/* Right: Map (sticky, always visible on desktop) */}
+                <div className="hidden lg:block w-[500px] xl:w-[600px] flex-shrink-0">
+                  <div className="sticky top-24 h-[calc(100vh-8rem)]">
+                    <MapEmbed listings={filteredListings} />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {filteredListings.map((listing) => (
                   <PropertyCard
                     key={listing.slug}
@@ -162,14 +183,7 @@ export function ListingsView({
                   />
                 ))}
               </div>
-
-              {/* Right: Map (sticky, always visible on desktop) */}
-              <div className="hidden lg:block w-[500px] xl:w-[600px] flex-shrink-0">
-                <div className="sticky top-24 h-[calc(100vh-8rem)]">
-                  <MapEmbed listings={filteredListings} />
-                </div>
-              </div>
-            </div>
+            )
           ) : (
             <div className="py-20 text-center">
               <p className="text-lg text-[color:var(--color-stone-dark)] mb-4">

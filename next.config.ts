@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "www.cnrc.pt" },
       { protocol: "https", hostname: "cnrc.pt" },
       { protocol: "https", hostname: "picsum.photos" },
+      { protocol: "https", hostname: "res.cloudinary.com" },
       // GNews API image sources
       { protocol: "https", hostname: "**.noticiasaominuto.com" },
       { protocol: "https", hostname: "**.publico.pt" },

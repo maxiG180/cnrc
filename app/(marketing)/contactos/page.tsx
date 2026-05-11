@@ -12,7 +12,7 @@ import { formatPhoneHref } from "@/lib/utils";
 export const metadata: Metadata = pageMetadata({
   title: "Contactos",
   description:
-    "Entre em contacto com a Camacho & Nunes Recuperação de Crédito. Chamada gratuita 800 080 000. Escritórios em Barreiro, Coimbra, Lisboa, Montijo, Vila Verde e Huelva.",
+    "Entre em contacto com a Camacho & Nunes Recuperação de Crédito. Chamada gratuita 800 080 000. Escritórios em Barreiro, Braga, Lisboa e Montijo.",
   path: "/contactos",
 });
 

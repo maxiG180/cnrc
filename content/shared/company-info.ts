@@ -23,9 +23,7 @@ export const company = {
     { name: "Lisboa", slug: "lisboa" },
     { name: "Barreiro", slug: "barreiro" },
     { name: "Montijo", slug: "montijo" },
-    { name: "Coimbra", slug: "coimbra" },
     { name: "Braga", slug: "braga" },
-    { name: "Huelva (Espanha)", slug: "huelva" },
   ],
   social: {
     // placeholders — confirm with client

@@ -19,7 +19,7 @@ export const mainNav: NavGroup[] = [
     children: [
       { label: "Sobre Nós", href: "/sobre-nos", description: "A empresa, valores e estrutura nacional" },
       { label: "A Nossa Equipa", href: "/a-nossa-equipa", description: "Profissionais multidisciplinares" },
-      { label: "Os Nossos Escritórios", href: "/os-nossos-escritorios", description: "Lisboa, Barreiro, Montijo, Coimbra, Braga, Huelva" },
+      { label: "Os Nossos Escritórios", href: "/os-nossos-escritorios", description: "Lisboa, Barreiro, Montijo, Braga" },
       { label: "As Nossas Instalações", href: "/as-nossas-instalacoes", description: "Pinhal Novo — heliporto e viveiros" },
       { label: "Áreas de Especialização", href: "/areas-de-especializacao", description: "Execuções, Arrestos, Insolvência e mais" },
     ],

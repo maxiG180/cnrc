@@ -146,7 +146,7 @@ export default function SobreNosPage() {
           <div className="grid gap-16 lg:grid-cols-12">
             <Reveal className="lg:col-span-5">
               <p className="eyebrow">Estrutura Nacional</p>
-              <h2 className="mt-4 rule">Presença em seis localizações estratégicas.</h2>
+              <h2 className="mt-4 rule">Presença em quatro localizações estratégicas.</h2>
               <p className="mt-8 text-lg leading-relaxed text-[color:var(--color-ink)]/85 max-w-[56ch]">
                 A CNRC dispõe de uma rede de escritórios estrategicamente distribuídos que nos permite atuar com proximidade, rapidez e eficiência:
               </p>

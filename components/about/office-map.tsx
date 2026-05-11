@@ -18,9 +18,7 @@ export const offices: Office[] = [
   { name: "Lisboa", slug: "lisboa", coordinates: [-9.1393, 38.7223], isInternational: false, image: "/images/office-lisboa.jpg" },
   { name: "Barreiro", slug: "barreiro", coordinates: [-9.0719, 38.6634], isInternational: false, image: "/images/office-barreiro.jpg" },
   { name: "Montijo", slug: "montijo", coordinates: [-8.9739, 38.7074], isInternational: false, image: "/images/office-montijo.jpg" },
-  { name: "Coimbra", slug: "coimbra", coordinates: [-8.4103, 40.2033], isInternational: false, image: "/images/office-coimbra.jpg" },
   { name: "Braga", slug: "braga", coordinates: [-8.4261, 41.5454], isInternational: false, image: "/images/office-braga.jpg" },
-  { name: "Huelva (Espanha)", slug: "huelva", coordinates: [-6.9447, 37.2614], isInternational: true, image: "/images/office-huelva.jpg" },
 ];
 
 interface OfficeMapProps {
