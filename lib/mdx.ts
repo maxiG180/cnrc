@@ -3,6 +3,9 @@ import path from "node:path";
 import matter from "gray-matter";
 
 const CONTENT_ROOT = path.join(process.cwd(), "content");
+const DEFAULT_LOCALE = "pt";
+
+export type Locale = "pt" | "en";
 
 export type NewsFrontmatter = {
   title: string;
@@ -25,41 +28,27 @@ export type DiligenciaFrontmatter = {
 };
 
 export type ListingFrontmatter = {
-  // Core info
   title: string;
   category: string;
   location: string;
   price?: string;
   summary?: string;
-
-  // Media
   hero?: string;
   videos?: string[];
   gallery?: string[];
-
-  // Property specifications
   bedrooms?: number;
   bathrooms?: number;
-  area?: number; // m²
-  plotArea?: number; // m² (for land/terrenos)
-  year?: number; // construction year
-  energyRating?: string; // A+, A, B, C, D, E, F
-
-  // Location details
-  district?: string; // Lisboa, Porto, Faro, etc.
-  municipality?: string; // Cascais, Sintra, etc.
-  coordinates?: {
-    lat: number;
-    lng: number;
-  };
-
-  // Features & badges
-  features?: string[]; // piscina, jardim, garagem, varanda, etc.
-  badges?: string[]; // novo, investimento, exclusivo, reduzido
-
-  // SEO & Display
+  area?: number;
+  plotArea?: number;
+  year?: number;
+  energyRating?: string;
+  district?: string;
+  municipality?: string;
+  coordinates?: { lat: number; lng: number };
+  features?: string[];
+  badges?: string[];
   metaDescription?: string;
-  featured?: boolean; // highlight on homepage
+  featured?: boolean;
 };
 
 function readMdx<T>(filePath: string) {
@@ -68,73 +57,83 @@ function readMdx<T>(filePath: string) {
   return { frontmatter: data as T, content };
 }
 
-function listMdxSlugs(dir: string) {
-  const full = path.join(CONTENT_ROOT, dir);
-  if (!fs.existsSync(full)) return [];
-  return fs
-    .readdirSync(full)
-    .filter((f) => f.endsWith(".mdx"))
-    .map((f) => f.replace(/\.mdx$/, ""));
+function resolveLocalizedFile(relativeDir: string, slug: string, locale: Locale): string | null {
+  const localized = path.join(CONTENT_ROOT, locale, relativeDir, `${slug}.mdx`);
+  if (fs.existsSync(localized)) return localized;
+  const fallback = path.join(CONTENT_ROOT, DEFAULT_LOCALE, relativeDir, `${slug}.mdx`);
+  if (fs.existsSync(fallback)) return fallback;
+  return null;
 }
 
-export function getNewsSlugs() {
-  return listMdxSlugs("news");
+function listMdxSlugs(relativeDir: string, locale: Locale = DEFAULT_LOCALE) {
+  const localizedDir = path.join(CONTENT_ROOT, locale, relativeDir);
+  const fallbackDir = path.join(CONTENT_ROOT, DEFAULT_LOCALE, relativeDir);
+  const seen = new Set<string>();
+  for (const dir of [localizedDir, fallbackDir]) {
+    if (!fs.existsSync(dir)) continue;
+    for (const f of fs.readdirSync(dir)) {
+      if (f.endsWith(".mdx")) seen.add(f.replace(/\.mdx$/, ""));
+    }
+  }
+  return Array.from(seen);
 }
 
-export function getNewsBySlug(slug: string) {
-  const filePath = path.join(CONTENT_ROOT, "news", `${slug}.mdx`);
+export function getNewsSlugs(locale: Locale = DEFAULT_LOCALE) {
+  return listMdxSlugs("news", locale);
+}
+
+export function getNewsBySlug(slug: string, locale: Locale = DEFAULT_LOCALE) {
+  const filePath = resolveLocalizedFile("news", slug, locale);
+  if (!filePath) {
+    throw new Error(`News not found: ${slug}`);
+  }
   const { frontmatter, content } = readMdx<NewsFrontmatter>(filePath);
   return { slug, frontmatter, content };
 }
 
-export function getAllNews() {
-  return getNewsSlugs()
-    .map((slug) => getNewsBySlug(slug))
+export function getAllNews(locale: Locale = DEFAULT_LOCALE) {
+  return getNewsSlugs(locale)
+    .map((slug) => getNewsBySlug(slug, locale))
     .sort(
       (a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
     );
 }
 
-export function getDiligenciaSlugs() {
-  return listMdxSlugs("diligencias");
+export function getDiligenciaSlugs(locale: Locale = DEFAULT_LOCALE) {
+  return listMdxSlugs("diligencias", locale);
 }
 
-export function getDiligenciaBySlug(slug: string) {
-  const filePath = path.join(CONTENT_ROOT, "diligencias", `${slug}.mdx`);
-  if (!fs.existsSync(filePath)) return null;
+export function getDiligenciaBySlug(slug: string, locale: Locale = DEFAULT_LOCALE) {
+  const filePath = resolveLocalizedFile("diligencias", slug, locale);
+  if (!filePath) return null;
   const { frontmatter, content } = readMdx<DiligenciaFrontmatter>(filePath);
   return { slug, frontmatter, content };
 }
 
-export function getListingSlugs() {
-  const dir = path.join(CONTENT_ROOT, "imobiliario", "listings");
-  if (!fs.existsSync(dir)) return [];
-  return fs
-    .readdirSync(dir)
-    .filter((f) => f.endsWith(".mdx"))
-    .map((f) => f.replace(/\.mdx$/, ""));
+export function getListingSlugs(locale: Locale = DEFAULT_LOCALE) {
+  return listMdxSlugs("imobiliario/listings", locale);
 }
 
-export function getListingBySlug(slug: string) {
-  const filePath = path.join(CONTENT_ROOT, "imobiliario", "listings", `${slug}.mdx`);
-  if (!fs.existsSync(filePath)) return null;
+export function getListingBySlug(slug: string, locale: Locale = DEFAULT_LOCALE) {
+  const filePath = resolveLocalizedFile("imobiliario/listings", slug, locale);
+  if (!filePath) return null;
   const { frontmatter, content } = readMdx<ListingFrontmatter>(filePath);
   return { slug, frontmatter, content };
 }
 
-export function getAllListings() {
-  return getListingSlugs()
-    .map((slug) => getListingBySlug(slug))
+export function getAllListings(locale: Locale = DEFAULT_LOCALE) {
+  return getListingSlugs(locale)
+    .map((slug) => getListingBySlug(slug, locale))
     .filter((l): l is NonNullable<ReturnType<typeof getListingBySlug>> => l !== null);
 }
 
-export function getListingsByCategory(category: string) {
-  return getAllListings().filter((l) => l.frontmatter.category === category);
+export function getListingsByCategory(category: string, locale: Locale = DEFAULT_LOCALE) {
+  return getAllListings(locale).filter((l) => l.frontmatter.category === category);
 }
 
-export function getAllListingCategories() {
+export function getAllListingCategories(locale: Locale = DEFAULT_LOCALE) {
   const seen = new Set<string>();
-  for (const listing of getAllListings()) {
+  for (const listing of getAllListings(locale)) {
     seen.add(listing.frontmatter.category);
   }
   return Array.from(seen);

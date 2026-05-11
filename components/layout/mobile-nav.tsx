@@ -3,19 +3,22 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { X, ChevronDown, Phone } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { mainNav } from "@/content/shared/nav";
 import { company } from "@/content/shared/company-info";
 import { formatPhoneHref, cn } from "@/lib/utils";
 import { Logo } from "./logo";
+import { LanguageSwitcher } from "./language-switcher";
 
 export function MobileNav({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const t = useTranslations();
+
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
     const prevPosition = document.body.style.position;
     const scrollY = window.scrollY;
 
-    // Lock scroll and fix position
     document.body.style.position = "fixed";
     document.body.style.top = `-${scrollY}px`;
     document.body.style.width = "100%";
@@ -51,7 +54,7 @@ export function MobileNav({ open, onClose }: { open: boolean; onClose: () => voi
       >
         <div className="flex items-center justify-between p-6 border-b border-[color:var(--color-stone)]/30">
           <Logo variant="dark" />
-          <button type="button" onClick={onClose} aria-label="Fechar menu" className="p-3">
+          <button type="button" onClick={onClose} aria-label={t("common.closeMenu")} className="p-3">
             <X className="h-5 w-5" />
           </button>
         </div>
@@ -59,11 +62,11 @@ export function MobileNav({ open, onClose }: { open: boolean; onClose: () => voi
         <nav className="flex-1 overflow-y-auto p-6">
           <ul className="space-y-1">
             {mainNav.map((group) => (
-              <li key={group.label}>
+              <li key={group.labelKey}>
                 {group.columns || group.children ? (
                   <details className="group border-b border-[color:var(--color-stone)]/30 py-3">
                     <summary className="flex items-center justify-between cursor-pointer list-none text-[color:var(--color-navy)] text-sm font-medium uppercase tracking-wider">
-                      {group.label}
+                      {t(group.labelKey)}
                       <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" />
                     </summary>
                     <ul className="mt-3 space-y-2 pl-2">
@@ -74,13 +77,13 @@ export function MobileNav({ open, onClose }: { open: boolean; onClose: () => voi
                             onClick={onClose}
                             className="block py-1.5 text-sm text-[color:var(--color-navy)]/85 hover:text-[color:var(--color-gold-dim)]"
                           >
-                            {c.label}
+                            {t(c.labelKey)}
                           </Link>
                         </li>
                       ))}
                       {group.columns?.map((col) => (
-                        <li key={col.heading} className="mt-3">
-                          <p className="eyebrow mb-2">{col.heading}</p>
+                        <li key={col.headingKey} className="mt-3">
+                          <p className="eyebrow mb-2">{t(col.headingKey)}</p>
                           <ul className="space-y-1.5 pl-2">
                             {col.items.map((it) => (
                               <li key={it.href}>
@@ -89,7 +92,7 @@ export function MobileNav({ open, onClose }: { open: boolean; onClose: () => voi
                                   onClick={onClose}
                                   className="block py-1 text-sm text-[color:var(--color-navy)]/85 hover:text-[color:var(--color-gold-dim)]"
                                 >
-                                  {it.label}
+                                  {t(it.labelKey)}
                                 </Link>
                               </li>
                             ))}
@@ -104,7 +107,7 @@ export function MobileNav({ open, onClose }: { open: boolean; onClose: () => voi
                     onClick={onClose}
                     className="block border-b border-[color:var(--color-stone)]/30 py-4 text-sm font-medium uppercase tracking-wider text-[color:var(--color-navy)]"
                   >
-                    {group.label}
+                    {t(group.labelKey)}
                   </Link>
                 )}
               </li>
@@ -112,7 +115,8 @@ export function MobileNav({ open, onClose }: { open: boolean; onClose: () => voi
           </ul>
         </nav>
 
-        <div className="p-6 border-t border-[color:var(--color-stone)]/30 space-y-2">
+        <div className="p-6 border-t border-[color:var(--color-stone)]/30 space-y-3">
+          <LanguageSwitcher variant="mobile" />
           <Link
             href={formatPhoneHref(company.phones.free)}
             className="inline-flex w-full items-center justify-center gap-2 bg-[color:var(--color-navy)] px-4 py-3 text-sm uppercase tracking-wider text-[color:var(--color-bone)]"
@@ -120,7 +124,7 @@ export function MobileNav({ open, onClose }: { open: boolean; onClose: () => voi
             <Phone className="h-4 w-4 text-[color:var(--color-gold-bright)]" />
             {company.phones.free}
           </Link>
-          <p className="text-xs text-[color:var(--color-stone-dark)] text-center">Chamada gratuita · {company.hours}</p>
+          <p className="text-xs text-[color:var(--color-stone-dark)] text-center">{t("common.freeCall")} · {company.hours}</p>
         </div>
       </div>
     </div>

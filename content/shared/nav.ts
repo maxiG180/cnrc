@@ -1,80 +1,80 @@
 export type NavChild = {
-  label: string;
+  labelKey: string;
   href: string;
-  description?: string;
+  descriptionKey?: string;
 };
 
 export type NavGroup = {
-  label: string;
+  labelKey: string;
   href?: string;
-  heading?: string;
+  headingKey?: string;
   children?: NavChild[];
-  columns?: { heading: string; items: NavChild[] }[];
+  columns?: { headingKey: string; items: NavChild[] }[];
 };
 
 export const mainNav: NavGroup[] = [
   {
-    label: "Quem Somos",
+    labelKey: "nav.whoWeAre",
     href: "/sobre-nos",
     children: [
-      { label: "Sobre Nós", href: "/sobre-nos", description: "A empresa, valores e estrutura nacional" },
-      { label: "A Nossa Equipa", href: "/a-nossa-equipa", description: "Profissionais multidisciplinares" },
-      { label: "Os Nossos Escritórios", href: "/os-nossos-escritorios", description: "Lisboa, Barreiro, Montijo, Braga" },
-      { label: "As Nossas Instalações", href: "/as-nossas-instalacoes", description: "Pinhal Novo — heliporto e viveiros" },
-      { label: "Áreas de Especialização", href: "/areas-de-especializacao", description: "Execuções, Arrestos, Insolvência e mais" },
+      { labelKey: "nav.subnav.aboutUs", href: "/sobre-nos", descriptionKey: "nav.subnav.aboutUsDesc" },
+      { labelKey: "nav.subnav.ourTeam", href: "/a-nossa-equipa", descriptionKey: "nav.subnav.ourTeamDesc" },
+      { labelKey: "nav.subnav.ourOffices", href: "/os-nossos-escritorios", descriptionKey: "nav.subnav.ourOfficesDesc" },
+      { labelKey: "nav.subnav.ourFacilities", href: "/as-nossas-instalacoes", descriptionKey: "nav.subnav.ourFacilitiesDesc" },
+      { labelKey: "nav.subnav.areasOfSpecialization", href: "/areas-de-especializacao", descriptionKey: "nav.subnav.areasOfSpecializationDesc" },
     ],
   },
   {
-    label: "Diligências Judiciais",
+    labelKey: "nav.judicialProcedures",
     columns: [
       {
-        heading: "Meios Operacionais",
+        headingKey: "nav.operationalMeans",
         items: [
-          { label: "Arrombamento", href: "/diligencias/com-arrombamento" },
-          { label: "Veículo Especial", href: "/diligencias/com-veiculo-especial-em-arrombamento" },
-          { label: "Força Policial", href: "/diligencias/com-forca-policial" },
-          { label: "Bloqueios Automóveis", href: "/diligencias/bloqueios-automoveis" },
-          { label: "Sinalização de Estrada", href: "/diligencias/com-sinalizacao-de-estrada" },
-          { label: "Helicóptero", href: "/diligencias/com-o-nosso-helicoptero" },
-          { label: "Grua", href: "/diligencias/com-grua" },
-          { label: "Empilhador", href: "/diligencias/com-empilhador" },
-          { label: "Cozinha Móvel", href: "/diligencias/com-cozinha-movel-e-cozinheiro-privado" },
+          { labelKey: "nav.subnav.withBreakIn", href: "/diligencias/com-arrombamento" },
+          { labelKey: "nav.subnav.specialVehicle", href: "/diligencias/com-veiculo-especial-em-arrombamento" },
+          { labelKey: "nav.subnav.policeForce", href: "/diligencias/com-forca-policial" },
+          { labelKey: "nav.subnav.carBlocks", href: "/diligencias/bloqueios-automoveis" },
+          { labelKey: "nav.subnav.roadSignaling", href: "/diligencias/com-sinalizacao-de-estrada" },
+          { labelKey: "nav.subnav.helicopter", href: "/diligencias/com-o-nosso-helicoptero" },
+          { labelKey: "nav.subnav.crane", href: "/diligencias/com-grua" },
+          { labelKey: "nav.subnav.forklift", href: "/diligencias/com-empilhador" },
+          { labelKey: "nav.subnav.mobileKitchen", href: "/diligencias/com-cozinha-movel-e-cozinheiro-privado" },
         ],
       },
       {
-        heading: "Áreas de Atuação",
+        headingKey: "nav.areasOfActivity",
         items: [
-          { label: "Em Habitação", href: "/diligencias/em-habitacao" },
-          { label: "Em Estabelecimentos Comerciais", href: "/diligencias/em-estabelecimentos-comerciais" },
-          { label: "Em Animais Vivos", href: "/diligencias/em-animais-vivos" },
-          { label: "Especiais", href: "/diligencias/especiais" },
-          { label: "Noturnas", href: "/diligencias/noturnas" },
+          { labelKey: "nav.subnav.inHousing", href: "/diligencias/em-habitacao" },
+          { labelKey: "nav.subnav.inCommercial", href: "/diligencias/em-estabelecimentos-comerciais" },
+          { labelKey: "nav.subnav.inLiveAnimals", href: "/diligencias/em-animais-vivos" },
+          { labelKey: "nav.subnav.special", href: "/diligencias/especiais" },
+          { labelKey: "nav.subnav.nocturnal", href: "/diligencias/noturnas" },
         ],
       },
     ],
   },
   {
-    label: "Imobiliário",
+    labelKey: "nav.realEstate",
     href: "/imobiliario",
     children: [
-      { label: "Apartamentos", href: "/imobiliario/apartamentos" },
-      { label: "Estabelecimentos", href: "/imobiliario/estabelecimentos" },
-      { label: "Herdades", href: "/imobiliario/herdades" },
-      { label: "Moradias", href: "/imobiliario/moradias" },
-      { label: "Palacetes", href: "/imobiliario/palacetes" },
-      { label: "Prédios", href: "/imobiliario/predios" },
-      { label: "Terrenos", href: "/imobiliario/terrenos" },
-      { label: "Outros Empreendimentos", href: "/imobiliario/outros-empreendimentos" },
+      { labelKey: "nav.subnav.apartments", href: "/imobiliario/apartamentos" },
+      { labelKey: "nav.subnav.establishments", href: "/imobiliario/estabelecimentos" },
+      { labelKey: "nav.subnav.estates", href: "/imobiliario/herdades" },
+      { labelKey: "nav.subnav.houses", href: "/imobiliario/moradias" },
+      { labelKey: "nav.subnav.manorHouses", href: "/imobiliario/palacetes" },
+      { labelKey: "nav.subnav.buildings", href: "/imobiliario/predios" },
+      { labelKey: "nav.subnav.land", href: "/imobiliario/terrenos" },
+      { labelKey: "nav.subnav.otherDevelopments", href: "/imobiliario/outros-empreendimentos" },
     ],
   },
-  { label: "Notícias", href: "/noticias-em-destaque" },
-  { label: "TV Direto", href: "/tv-direto" },
-  { label: "Contactos", href: "/contactos" },
+  { labelKey: "nav.news", href: "/noticias-em-destaque" },
+  { labelKey: "nav.liveTV", href: "/tv-direto" },
+  { labelKey: "nav.contacts", href: "/contactos" },
 ];
 
-export const footerLinks = [
-  { label: "Política de Privacidade", href: "/politica-de-privacidade" },
-  { label: "Termos e Condições", href: "/termos-e-condicoes" },
-  { label: "Política de Cookies", href: "/politica-de-cookies" },
-  { label: "Livro de Reclamações", href: "https://www.livroreclamacoes.pt/inicio", external: true },
+export const footerLegalLinks = [
+  { labelKey: "footer.legal.privacy", href: "/politica-de-privacidade" },
+  { labelKey: "footer.legal.terms", href: "/termos-e-condicoes" },
+  { labelKey: "footer.legal.cookies", href: "/politica-de-cookies" },
+  { labelKey: "footer.legal.complaintsBook", href: "https://www.livroreclamacoes.pt/inicio", external: true as const },
 ];

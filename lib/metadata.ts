@@ -10,7 +10,7 @@ export function pageMetadata(input: {
   image?: string;
 }): Metadata {
   const url = new URL(input.path ?? "/", SITE_URL).toString();
-  const title = `${input.title} | ${company.shortName} Recuperação de Crédito`;
+  const title = `${input.title} | ${company.shortName} Credit Recovery`;
 
   return {
     title,

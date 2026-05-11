@@ -18,6 +18,16 @@ export function formatDatePT(iso: string) {
   });
 }
 
+export function formatDate(iso: string, locale: string = "pt") {
+  const d = new Date(iso);
+  const bcp = locale === "en" ? "en-GB" : "pt-PT";
+  return d.toLocaleDateString(bcp, {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
 export function slugify(input: string) {
   return input
     .toLowerCase()

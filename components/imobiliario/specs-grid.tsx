@@ -1,18 +1,10 @@
-import {
-  Bed,
-  Bath,
-  Ruler,
-  Calendar,
-  MapPin,
-  Zap,
-  CheckCircle2,
-  Maximize2,
-} from "lucide-react";
+"use client";
+
+import { Bed, Bath, Ruler, Calendar, MapPin, Zap, CheckCircle2, Maximize2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { ListingFrontmatter } from "@/lib/mdx";
 
-type SpecsGridProps = {
-  frontmatter: ListingFrontmatter;
-};
+type SpecsGridProps = { frontmatter: ListingFrontmatter };
 
 const ENERGY_RATING_COLORS: Record<string, string> = {
   "A+": "bg-green-600",
@@ -25,6 +17,7 @@ const ENERGY_RATING_COLORS: Record<string, string> = {
 };
 
 export function SpecsGrid({ frontmatter }: SpecsGridProps) {
+  const t = useTranslations("imobiliario.specs");
   const hasSpecs =
     frontmatter.bedrooms ||
     frontmatter.bathrooms ||
@@ -41,104 +34,40 @@ export function SpecsGrid({ frontmatter }: SpecsGridProps) {
 
   return (
     <div className="space-y-8">
-      {/* Main Specs Grid */}
       {hasSpecs && (
         <div>
-          <h2 className="text-xl font-display text-[color:var(--color-navy)] mb-4">
-            Características
-          </h2>
+          <h2 className="text-xl font-display text-[color:var(--color-navy)] mb-4">{t("title")}</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {frontmatter.bedrooms && (
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-[color:var(--color-bone-soft)] rounded">
-                  <Bed className="h-5 w-5 text-[color:var(--color-navy)]" />
-                </div>
-                <div>
-                  <p className="text-sm text-[color:var(--color-stone-dark)] uppercase tracking-wider">
-                    Quartos
-                  </p>
-                  <p className="text-lg font-semibold text-[color:var(--color-navy)] mt-0.5">
-                    {frontmatter.bedrooms}
-                  </p>
-                </div>
-              </div>
+              <SpecItem icon={<Bed className="h-5 w-5 text-[color:var(--color-navy)]" />} label={t("bedrooms")} value={String(frontmatter.bedrooms)} />
             )}
-
             {frontmatter.bathrooms && (
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-[color:var(--color-bone-soft)] rounded">
-                  <Bath className="h-5 w-5 text-[color:var(--color-navy)]" />
-                </div>
-                <div>
-                  <p className="text-sm text-[color:var(--color-stone-dark)] uppercase tracking-wider">
-                    Casas de Banho
-                  </p>
-                  <p className="text-lg font-semibold text-[color:var(--color-navy)] mt-0.5">
-                    {frontmatter.bathrooms}
-                  </p>
-                </div>
-              </div>
+              <SpecItem icon={<Bath className="h-5 w-5 text-[color:var(--color-navy)]" />} label={t("bathrooms")} value={String(frontmatter.bathrooms)} />
             )}
-
             {frontmatter.area && (
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-[color:var(--color-bone-soft)] rounded">
-                  <Ruler className="h-5 w-5 text-[color:var(--color-navy)]" />
-                </div>
-                <div>
-                  <p className="text-sm text-[color:var(--color-stone-dark)] uppercase tracking-wider">
-                    Área Útil
-                  </p>
-                  <p className="text-lg font-semibold text-[color:var(--color-navy)] mt-0.5">
-                    {frontmatter.area} m²
-                  </p>
-                </div>
-              </div>
+              <SpecItem icon={<Ruler className="h-5 w-5 text-[color:var(--color-navy)]" />} label={t("area")} value={`${frontmatter.area} m²`} />
             )}
-
             {frontmatter.plotArea && (
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-[color:var(--color-bone-soft)] rounded">
-                  <Maximize2 className="h-5 w-5 text-[color:var(--color-navy)]" />
-                </div>
-                <div>
-                  <p className="text-sm text-[color:var(--color-stone-dark)] uppercase tracking-wider">
-                    Área do Terreno
-                  </p>
-                  <p className="text-lg font-semibold text-[color:var(--color-navy)] mt-0.5">
-                    {frontmatter.plotArea >= 10000
-                      ? `${(frontmatter.plotArea / 10000).toFixed(1)} ha`
-                      : `${frontmatter.plotArea.toLocaleString("pt-PT")} m²`}
-                  </p>
-                </div>
-              </div>
+              <SpecItem
+                icon={<Maximize2 className="h-5 w-5 text-[color:var(--color-navy)]" />}
+                label={t("plotArea")}
+                value={
+                  frontmatter.plotArea >= 10000
+                    ? `${(frontmatter.plotArea / 10000).toFixed(1)} ha`
+                    : `${frontmatter.plotArea.toLocaleString("pt-PT")} m²`
+                }
+              />
             )}
-
             {frontmatter.year && (
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-[color:var(--color-bone-soft)] rounded">
-                  <Calendar className="h-5 w-5 text-[color:var(--color-navy)]" />
-                </div>
-                <div>
-                  <p className="text-sm text-[color:var(--color-stone-dark)] uppercase tracking-wider">
-                    Ano de Construção
-                  </p>
-                  <p className="text-lg font-semibold text-[color:var(--color-navy)] mt-0.5">
-                    {frontmatter.year}
-                  </p>
-                </div>
-              </div>
+              <SpecItem icon={<Calendar className="h-5 w-5 text-[color:var(--color-navy)]" />} label={t("year")} value={String(frontmatter.year)} />
             )}
-
             {frontmatter.energyRating && (
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-[color:var(--color-bone-soft)] rounded">
                   <Zap className="h-5 w-5 text-[color:var(--color-navy)]" />
                 </div>
                 <div>
-                  <p className="text-sm text-[color:var(--color-stone-dark)] uppercase tracking-wider">
-                    Certificado Energético
-                  </p>
+                  <p className="text-sm text-[color:var(--color-stone-dark)] uppercase tracking-wider">{t("energy")}</p>
                   <div className="flex items-center gap-2 mt-0.5">
                     <span
                       className={`inline-block px-2 py-0.5 text-white text-sm font-bold rounded ${
@@ -151,46 +80,19 @@ export function SpecsGrid({ frontmatter }: SpecsGridProps) {
                 </div>
               </div>
             )}
-
             {frontmatter.municipality && (
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-[color:var(--color-bone-soft)] rounded">
-                  <MapPin className="h-5 w-5 text-[color:var(--color-navy)]" />
-                </div>
-                <div>
-                  <p className="text-sm text-[color:var(--color-stone-dark)] uppercase tracking-wider">
-                    Concelho
-                  </p>
-                  <p className="text-lg font-semibold text-[color:var(--color-navy)] mt-0.5">
-                    {frontmatter.municipality}
-                  </p>
-                </div>
-              </div>
+              <SpecItem icon={<MapPin className="h-5 w-5 text-[color:var(--color-navy)]" />} label={t("municipality")} value={frontmatter.municipality} />
             )}
-
             {frontmatter.district && (
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-[color:var(--color-bone-soft)] rounded">
-                  <MapPin className="h-5 w-5 text-[color:var(--color-navy)]" />
-                </div>
-                <div>
-                  <p className="text-sm text-[color:var(--color-stone-dark)] uppercase tracking-wider">
-                    Distrito
-                  </p>
-                  <p className="text-lg font-semibold text-[color:var(--color-navy)] mt-0.5">
-                    {frontmatter.district}
-                  </p>
-                </div>
-              </div>
+              <SpecItem icon={<MapPin className="h-5 w-5 text-[color:var(--color-navy)]" />} label={t("district")} value={frontmatter.district} />
             )}
           </div>
         </div>
       )}
 
-      {/* Features Tags */}
       {frontmatter.features && frontmatter.features.length > 0 && (
         <div>
-          <h3 className="text-lg font-display text-[color:var(--color-navy)] mb-4">Comodidades</h3>
+          <h3 className="text-lg font-display text-[color:var(--color-navy)] mb-4">{t("amenities")}</h3>
           <div className="flex flex-wrap gap-2">
             {frontmatter.features.map((feature) => (
               <span
@@ -204,6 +106,18 @@ export function SpecsGrid({ frontmatter }: SpecsGridProps) {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function SpecItem({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+  return (
+    <div className="flex items-start gap-3">
+      <div className="p-2 bg-[color:var(--color-bone-soft)] rounded">{icon}</div>
+      <div>
+        <p className="text-sm text-[color:var(--color-stone-dark)] uppercase tracking-wider">{label}</p>
+        <p className="text-lg font-semibold text-[color:var(--color-navy)] mt-0.5">{value}</p>
+      </div>
     </div>
   );
 }

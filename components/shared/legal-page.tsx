@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { getTranslations } from "next-intl/server";
 import { Section } from "@/components/shared/section";
 import { Container } from "@/components/shared/container";
 import { Reveal } from "@/components/shared/reveal";
@@ -7,11 +8,13 @@ import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 type LegalPageProps = {
   title: string;
   eyebrow: string;
-  updatedAt: string;
+  updatedAt?: string;
   children: ReactNode;
 };
 
-export function LegalPage({ title, eyebrow, updatedAt, children }: LegalPageProps) {
+export async function LegalPage({ title, eyebrow, updatedAt, children }: LegalPageProps) {
+  const t = await getTranslations("legal");
+  const finalUpdatedAt = updatedAt ?? t("updatedAt");
   return (
     <>
       <Section tone="navy-deep" spacing="lg" className="pt-12">
@@ -23,7 +26,7 @@ export function LegalPage({ title, eyebrow, updatedAt, children }: LegalPageProp
             <p className="eyebrow text-[color:var(--color-gold)]">{eyebrow}</p>
             <h1 className="mt-6 text-[color:var(--color-bone)]">{title}</h1>
             <p className="mt-6 text-sm text-[color:var(--color-bone)]/70">
-              Última atualização: {updatedAt}
+              {t("lastUpdated")} {finalUpdatedAt}
             </p>
           </Reveal>
         </Container>

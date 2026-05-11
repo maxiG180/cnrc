@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, X, Maximize2 } from "lucide-react";
 import { MediaPlayer, MediaProvider } from "@vidstack/react";
 import { defaultLayoutIcons, DefaultVideoLayout } from "@vidstack/react/player/layouts/default";
+import { useTranslations } from "next-intl";
 import type { ListingFrontmatter } from "@/lib/mdx";
 import type Lenis from "lenis";
 
@@ -22,14 +23,10 @@ const BADGE_STYLES = {
   reduzido: "bg-[color:var(--color-danger)] text-white",
 } as const;
 
-const BADGE_LABELS = {
-  novo: "Novo",
-  investimento: "Investimento",
-  exclusivo: "Exclusivo",
-  reduzido: "Reduzido",
-} as const;
-
 export function PropertyHero({ frontmatter }: PropertyHeroProps) {
+  const tBadge = useTranslations("imobiliario.badges");
+  const tCommon = useTranslations("common");
+  const tImo = useTranslations("imobiliario.detail");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [scale, setScale] = useState(1);
@@ -218,7 +215,7 @@ export function PropertyHero({ frontmatter }: PropertyHeroProps) {
               {frontmatter.badges.map((badge) => {
                 const badgeKey = badge.toLowerCase() as keyof typeof BADGE_STYLES;
                 const style = BADGE_STYLES[badgeKey] || BADGE_STYLES.novo;
-                const label = BADGE_LABELS[badgeKey] || badge;
+                const label = badgeKey in BADGE_STYLES ? tBadge(badgeKey) : badge;
 
                 return (
                   <span
@@ -236,7 +233,7 @@ export function PropertyHero({ frontmatter }: PropertyHeroProps) {
           <button
             onClick={() => setLightboxOpen(true)}
             className="absolute top-6 right-6 md:top-8 md:right-8 p-3 bg-white/90 backdrop-blur-sm hover:bg-white text-[color:var(--color-navy)] transition-colors z-10 shadow-lg"
-            aria-label="Ver galeria completa"
+            aria-label={tImo("fullGallery")}
           >
             <Maximize2 className="h-5 w-5" />
           </button>
@@ -247,14 +244,14 @@ export function PropertyHero({ frontmatter }: PropertyHeroProps) {
               <button
                 onClick={prevImage}
                 className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 p-3 bg-white/90 backdrop-blur-sm hover:bg-white text-[color:var(--color-navy)] transition-all z-10 shadow-lg"
-                aria-label="Imagem anterior"
+                aria-label={tCommon("previous")}
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
               <button
                 onClick={nextImage}
                 className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 p-3 bg-white/90 backdrop-blur-sm hover:bg-white text-[color:var(--color-navy)] transition-all z-10 shadow-lg"
-                aria-label="Próxima imagem"
+                aria-label={tCommon("next")}
               >
                 <ChevronRight className="h-6 w-6" />
               </button>
@@ -290,7 +287,7 @@ export function PropertyHero({ frontmatter }: PropertyHeroProps) {
                         preload="metadata"
                       />
                     ) : (
-                      <Image src={item.src} alt={`Miniatura ${idx + 1}`} fill className="object-cover" />
+                      <Image src={item.src} alt={`${tImo("thumbnail")} ${idx + 1}`} fill className="object-cover" />
                     )}
                   </button>
                 ))}
@@ -313,7 +310,7 @@ export function PropertyHero({ frontmatter }: PropertyHeroProps) {
             <button
               onClick={() => setLightboxOpen(false)}
               className="p-3 text-white hover:bg-white/10 transition-colors"
-              aria-label="Fechar"
+              aria-label={tCommon("close")}
             >
               <X className="h-6 w-6" />
             </button>
@@ -334,14 +331,14 @@ export function PropertyHero({ frontmatter }: PropertyHeroProps) {
                 <button
                   onClick={prevImage}
                   className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/30 hover:bg-black/50 text-white transition-colors z-10 rounded-full"
-                  aria-label="Anterior"
+                  aria-label={tCommon("previous")}
                 >
                   <ChevronLeft className="h-8 w-8" />
                 </button>
                 <button
                   onClick={nextImage}
                   className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/30 hover:bg-black/50 text-white transition-colors z-10 rounded-full"
-                  aria-label="Próximo"
+                  aria-label={tCommon("next")}
                 >
                   <ChevronRight className="h-8 w-8" />
                 </button>
@@ -417,7 +414,7 @@ export function PropertyHero({ frontmatter }: PropertyHeroProps) {
                           preload="metadata"
                         />
                       ) : (
-                        <Image src={item.src} alt={`Miniatura ${idx + 1}`} fill sizes="64px" className="object-cover" />
+                        <Image src={item.src} alt={`${tImo("thumbnail")} ${idx + 1}`} fill sizes="64px" className="object-cover" />
                       )}
                     </button>
                   ))}

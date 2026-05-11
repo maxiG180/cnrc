@@ -1,50 +1,18 @@
 export type ImobiliarioCategory = {
   slug: string;
-  label: string;
-  description: string;
+  labelKey: string;
+  descriptionKey: string;
 };
 
 export const imobiliarioCategories: ImobiliarioCategory[] = [
-  {
-    slug: "apartamentos",
-    label: "Apartamentos",
-    description: "Tipologias urbanas em localizações consolidadas e de elevada procura.",
-  },
-  {
-    slug: "estabelecimentos",
-    label: "Estabelecimentos",
-    description: "Espaços comerciais, restauração e unidades de negócio em funcionamento.",
-  },
-  {
-    slug: "herdades",
-    label: "Herdades",
-    description: "Propriedades rurais de grande dimensão, exploração agrícola e cinegética.",
-  },
-  {
-    slug: "moradias",
-    label: "Moradias",
-    description: "Habitações unifamiliares, do clássico ao contemporâneo, em zonas nobres.",
-  },
-  {
-    slug: "palacetes",
-    label: "Palacetes",
-    description: "Imóveis históricos restaurados com carácter patrimonial único.",
-  },
-  {
-    slug: "predios",
-    label: "Prédios",
-    description: "Edifícios integrais com potencial de investimento ou reabilitação.",
-  },
-  {
-    slug: "terrenos",
-    label: "Terrenos",
-    description: "Lotes para construção, exploração ou investimento em reserva.",
-  },
-  {
-    slug: "outros-empreendimentos",
-    label: "Outros Empreendimentos",
-    description: "Projetos diferenciados e oportunidades únicas fora de categoria.",
-  },
+  { slug: "apartamentos", labelKey: "imobiliario.categories.apartamentos", descriptionKey: "imobiliario.categories.apartamentosDesc" },
+  { slug: "estabelecimentos", labelKey: "imobiliario.categories.estabelecimentos", descriptionKey: "imobiliario.categories.estabelecimentosDesc" },
+  { slug: "herdades", labelKey: "imobiliario.categories.herdades", descriptionKey: "imobiliario.categories.herdadesDesc" },
+  { slug: "moradias", labelKey: "imobiliario.categories.moradias", descriptionKey: "imobiliario.categories.moradiasDesc" },
+  { slug: "palacetes", labelKey: "imobiliario.categories.palacetes", descriptionKey: "imobiliario.categories.palacetesDesc" },
+  { slug: "predios", labelKey: "imobiliario.categories.predios", descriptionKey: "imobiliario.categories.prediosDesc" },
+  { slug: "terrenos", labelKey: "imobiliario.categories.terrenos", descriptionKey: "imobiliario.categories.terrenosDesc" },
+  { slug: "outros-empreendimentos", labelKey: "imobiliario.categories.outros-empreendimentos", descriptionKey: "imobiliario.categories.outros-empreendimentosDesc" },
 ];
 
 export function getImobiliarioCategory(slug: string) {

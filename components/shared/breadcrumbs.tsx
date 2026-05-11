@@ -1,11 +1,15 @@
+"use client";
+
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type Crumb = { label: string; href?: string };
 
 export function Breadcrumbs({ items }: { items: Crumb[] }) {
+  const t = useTranslations("breadcrumbs");
   return (
-    <nav aria-label="Caminho de navegação" className="text-sm">
+    <nav aria-label={t("ariaLabel")} className="text-sm">
       <ol className="flex flex-wrap items-center gap-1.5">
         {items.map((item, i) => {
           const last = i === items.length - 1;

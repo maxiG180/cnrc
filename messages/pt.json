@@ -1,0 +1,758 @@
+{
+  "common": {
+    "contactUs": "Contactar",
+    "freeCall": "Chamada gratuita",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "developedBy": "Desenvolvido por",
+    "viewAll": "Ver todos",
+    "readMore": "Saber mais",
+    "loading": "A carregar...",
+    "talkToUs": "Fale connosco",
+    "talkToTeam": "Falar com a nossa equipa",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "close": "Fechar",
+    "logoAria": "Página inicial da CNRC",
+    "logoAlt": "Logótipo CNRC",
+    "logoTagline": "Recuperação de Crédito",
+    "videoTitle": "Vídeo CNRC"
+  },
+  "languageSwitcher": {
+    "label": "Idioma",
+    "pt": "PT",
+    "en": "EN",
+    "ptFull": "Português",
+    "enFull": "English"
+  },
+  "nav": {
+    "whoWeAre": "Quem Somos",
+    "judicialProcedures": "Diligências Judiciais",
+    "realEstate": "Imobiliário",
+    "news": "Notícias",
+    "liveTV": "TV Direto",
+    "contacts": "Contactos",
+    "operationalMeans": "Meios Operacionais",
+    "areasOfActivity": "Áreas de Atuação",
+    "subnav": {
+      "aboutUs": "Sobre Nós",
+      "aboutUsDesc": "A empresa, valores e estrutura nacional",
+      "ourTeam": "A Nossa Equipa",
+      "ourTeamDesc": "Profissionais multidisciplinares",
+      "ourOffices": "Os Nossos Escritórios",
+      "ourOfficesDesc": "Lisboa, Barreiro, Montijo, Braga",
+      "ourFacilities": "As Nossas Instalações",
+      "ourFacilitiesDesc": "Pinhal Novo — heliporto e viveiros",
+      "areasOfSpecialization": "Áreas de Especialização",
+      "areasOfSpecializationDesc": "Execuções, Arrestos, Insolvência e mais",
+      "withBreakIn": "Arrombamento",
+      "specialVehicle": "Veículo Especial",
+      "policeForce": "Força Policial",
+      "carBlocks": "Bloqueios Automóveis",
+      "roadSignaling": "Sinalização de Estrada",
+      "helicopter": "Helicóptero",
+      "crane": "Grua",
+      "forklift": "Empilhador",
+      "mobileKitchen": "Cozinha Móvel",
+      "inHousing": "Em Habitação",
+      "inCommercial": "Em Estabelecimentos Comerciais",
+      "inLiveAnimals": "Em Animais Vivos",
+      "special": "Especiais",
+      "nocturnal": "Noturnas",
+      "apartments": "Apartamentos",
+      "establishments": "Estabelecimentos",
+      "estates": "Herdades",
+      "houses": "Moradias",
+      "manorHouses": "Palacetes",
+      "buildings": "Prédios",
+      "land": "Terrenos",
+      "otherDevelopments": "Outros Empreendimentos"
+    }
+  },
+  "footer": {
+    "contacts": "Contactos",
+    "navigation": "Navegação",
+    "judicialProcedures": "Diligências Judiciais",
+    "resources": "Recursos",
+    "offices": "Escritórios",
+    "companyName": "Camacho Nunes Recuperação de Crédito",
+    "links": {
+      "aboutUs": "Quem Somos",
+      "realEstate": "Imobiliário",
+      "liveTV": "TV Direto",
+      "withBreakIn": "Com Arrombamento",
+      "withHelicopter": "Com Helicóptero",
+      "special": "Especiais",
+      "news": "Notícias",
+      "contacts": "Contactos"
+    },
+    "legal": {
+      "privacy": "Política de Privacidade",
+      "terms": "Termos e Condições",
+      "cookies": "Política de Cookies",
+      "complaintsBook": "Livro de Reclamações"
+    }
+  },
+  "ctaBanner": {
+    "eyebrow": "Chamada Gratuita",
+    "title": "Juntos conseguimos recuperar",
+    "highlight": "o seu crédito"
+  },
+  "cookieBanner": {
+    "eyebrow": "Cookies",
+    "description": "Utilizamos cookies para melhorar a sua experiência, analisar o desempenho do site e apresentar conteúdo relevante. Pode aceitar todos ou escolher as suas preferências.",
+    "readPolicy": "Ler política",
+    "acceptAll": "Aceitar todos",
+    "reject": "Rejeitar",
+    "preferences": "Preferências",
+    "savePreferences": "Guardar preferências",
+    "ariaLabel": "Consentimento de cookies",
+    "categories": {
+      "functional": "Funcional",
+      "functionalDesc": "Essenciais ao funcionamento do site",
+      "preferences": "Preferências",
+      "statistics": "Estatísticas",
+      "marketing": "Marketing"
+    }
+  },
+  "whatsapp": {
+    "tooltip": "Precisa de ajuda?",
+    "ariaLabel": "Contactar via WhatsApp",
+    "message": "Olá, gostaria de obter mais informações."
+  },
+  "breadcrumbs": {
+    "ariaLabel": "Caminho de navegação"
+  },
+  "form": {
+    "name": "Nome",
+    "email": "Email",
+    "phone": "Telefone (opcional)",
+    "subject": "Assunto",
+    "message": "Mensagem",
+    "send": "Enviar mensagem",
+    "sending": "A enviar…",
+    "consent": "Aceito a",
+    "privacyPolicy": "política de privacidade",
+    "consentSuffix": "e o tratamento dos meus dados para resposta a este contacto.",
+    "attachFile": "Anexar documento (opcional)",
+    "chooseFile": "Escolher ficheiro",
+    "removeFile": "Remover ficheiro",
+    "fileHint": "PDF, JPG, PNG ou Word — máx. 5 MB",
+    "successEyebrow": "Mensagem recebida",
+    "successTitle": "Obrigado pelo seu contacto.",
+    "successBody": "Iremos responder com a maior brevidade possível. Para assuntos urgentes, poderá ainda ligar-nos para",
+    "successFreeCall": "(chamada gratuita).",
+    "errorGeneric": "Não foi possível enviar a mensagem. Tente novamente ou contacte-nos por telefone.",
+    "errors": {
+      "nameMin": "Por favor indique o seu nome.",
+      "emailInvalid": "Email inválido.",
+      "subjectMin": "Indique um assunto.",
+      "messageMin": "Mensagem demasiado curta (mín. 10 caracteres).",
+      "consentRequired": "Tem de aceitar a política de privacidade.",
+      "fileTooLarge": "Ficheiro demasiado grande (máx. 5 MB).",
+      "fileTypeUnsupported": "Tipo não suportado. Use PDF, JPG, PNG ou Word."
+    }
+  },
+  "home": {
+    "hero": {
+      "slide1Title": "Juntos conseguimos recuperar<br/>O SEU CRÉDITO",
+      "slide1Highlight": "O SEU CRÉDITO",
+      "slide1Quote": "O direito é uma escolha, é um direito de todos, mas só alguns a exercem com elegância. Obrigada por nos ter escolhido.",
+      "slide1Cta": "Chamada gratuita",
+      "executionsEyebrow": "Processo Executivo",
+      "executionsTitle": "Execuções",
+      "executionsQuote": "Liberdade é o direito de fazer tudo o que a lei permite.",
+      "seizuresEyebrow": "Medida Cautelar",
+      "seizuresTitle": "Arrestos",
+      "seizuresQuote": "A justiça pode demorar, mas tem uma hora que todo o mundo paga os seus pecados.",
+      "insolvencyEyebrow": "Processo Judicial",
+      "insolvencyTitle": "Insolvência",
+      "insolvencyQuote": "A justiça é não dar a todos por igual, mas a cada um o que merece.",
+      "breakInEyebrow": "Diligência Judicial",
+      "breakInTitle": "Arrombamentos",
+      "breakInQuote": "A justiça é um valor que nasce no coração e se revela na coragem das nossas ações.",
+      "factProvisionEyebrow": "Cumprimento Coercivo",
+      "factProvisionTitle": "Prestação de Facto",
+      "factProvisionQuote": "Não basta que todos sejam iguais perante a lei, é preciso que a lei seja igual perante todos.",
+      "expertiseEyebrow": "Avaliação Técnica",
+      "expertiseTitle": "Peritagem Judicial",
+      "expertiseQuote": "Na vida é preciso coragem para ser diferente e muita competência para fazer a diferença.",
+      "realEstateEyebrow": "Gestão de Ativos",
+      "realEstateTitle": "Imobiliário",
+      "realEstateQuote": "O valor de um imóvel depende da dedicação e importância que nós lhe damos.",
+      "learnMore": "Saber mais",
+      "freeCall": "Chamada gratuita",
+      "goToSlide": "Ir para slide"
+    },
+    "services": {
+      "eyebrow": "Áreas de Especialização",
+      "title": "Sete frentes, uma só exigência:",
+      "highlight": "rigor.",
+      "executions": "Execuções",
+      "executionsDescriptor": "Processo Executivo",
+      "seizures": "Arrestos",
+      "seizuresDescriptor": "Medida Cautelar",
+      "insolvency": "Insolvência",
+      "insolvencyDescriptor": "Processo Judicial",
+      "breakIns": "Arrombamentos",
+      "breakInsDescriptor": "Diligência Judicial",
+      "factProvision": "Prestação de Facto",
+      "factProvisionDescriptor": "Cumprimento Coercivo",
+      "expertise": "Peritagem Judicial",
+      "expertiseDescriptor": "Avaliação Técnica",
+      "realEstate": "Imobiliário",
+      "realEstateDescriptor": "Gestão de Ativos"
+    },
+    "intro": {
+      "eyebrow": "Quem Somos",
+      "titleLine1": "Uma sociedade portuguesa,",
+      "titleLine2": "uma atuação Schengen.",
+      "p1Pre": "A ",
+      "p1Bold": "Camacho & Nunes Recuperação de Crédito, Lda. (CNRC)",
+      "p1Post": " é uma sociedade comercial especializada em recuperação de crédito, atuando em todo o território nacional e também em Espanha. Constituída em {founded}, destaca-se pela celeridade, eficácia e honestidade, valores que sustentam a confiança crescente dos nossos clientes e parceiros.",
+      "p2": "Somos a única sociedade de recuperação de crédito em Portugal Continental e Ilhas, bem como em todo o espaço Schengen, com todos os meios humanos e materiais próprios, garantindo total autonomia operacional.",
+      "ceoRole": "CEO"
+    },
+    "imobiliarioPreview": {
+      "eyebrow": "Imobiliário",
+      "title": "Descubra o seu próximo imóvel",
+      "viewAll": "Ver todos",
+      "viewAllMobile": "Ver todos os imóveis"
+    },
+    "trust": {
+      "eyebrow": "A nossa palavra",
+      "titleLine1": "Conquistamos a sua confiança",
+      "titleLine2": "e somos diligentes no seu caso.",
+      "body": "A força da nossa equipa trabalha todos os dias com um compromisso claro: ganhar a sua confiança através de rigor, dedicação e profissionalismo.",
+      "quote": "A confiança dos nossos clientes é o nosso maior resultado.",
+      "alt": "Sala de reuniões do escritório de Lisboa"
+    },
+    "pillars": {
+      "item1": {
+        "title": "Liderança Nacional em Recuperação de Crédito",
+        "body": "Como líderes reconhecidos no setor, proporcionamos aos nossos clientes uma vantagem comercial distinta."
+      },
+      "item2": {
+        "title": "A Equipa que transforma Desafios em Vitórias",
+        "body": "A nossa força assenta na dedicação e excelência da equipa de profissionais da CAMACHO & NUNES."
+      },
+      "item3": {
+        "title": "A Estratégia começa com a Sabedoria e Experiência",
+        "body": "A sabedoria e a experiência são o ponto de partida de qualquer estratégia sólida."
+      }
+    },
+    "stats": {
+      "casesClosed": "Processos encerrados",
+      "successRate": "Recuperação com sucesso",
+      "flightHours": "Horas de voo em apreensões",
+      "monthlyVisits": "Visitas mensais ao site"
+    },
+    "news": {
+      "eyebrow": "Notícias em Destaque",
+      "title": "Informação que orienta decisão.",
+      "viewAll": "Ver todas",
+      "viewAllMobile": "Ver todas as notícias",
+      "readArticle": "Ler artigo",
+      "readAtSource": "Ler na fonte"
+    }
+  },
+  "sobreNos": {
+    "metaTitle": "Sobre Nós",
+    "hero": {
+      "eyebrow": "Sobre Nós",
+      "title": "Uma sociedade portuguesa com atuação em todo o espaço Schengen."
+    },
+    "introLeadPre": "A ",
+    "introLeadBold": "Camacho & Nunes Recuperação de Crédito, Lda. (CNRC)",
+    "introLeadPost": " é uma sociedade comercial especializada em recuperação de crédito, atuando em todo o território nacional, bem como em todo o espaço Schengen. Constituída em {founded}, destaca-se pela celeridade, eficácia e honestidade, valores que sustentam a confiança crescente dos nossos clientes e parceiros.",
+    "structure": {
+      "eyebrow": "Estrutura Nacional",
+      "title": "Presença em quatro localizações estratégicas.",
+      "body": "A CNRC dispõe de uma rede de escritórios estrategicamente distribuídos que nos permite atuar com proximidade, rapidez e eficiência:"
+    },
+    "resources": {
+      "eyebrow": "Recursos e Meios Operacionais",
+      "titleLine1": "Única no país com",
+      "titleHighlight": "autonomia operacional total.",
+      "p1": "A CNRC é a única sociedade de recuperação de crédito em Portugal Continental e Ilhas, bem como em todo o espaço Schengen com todos os meios humanos e materiais próprios, garantindo total autonomia operacional e capacidade de execução.",
+      "meansAvailable": "Meios disponíveis:",
+      "means1": "Frota de transportes pesados e ligeiros",
+      "means2": "Oficina móvel equipada para remoção e substituição de fechaduras, desbloqueio e remoção de viaturas e transporte seguro de bens apreendidos",
+      "means3": "Armazéns para depósito de bens até decisão judicial",
+      "means4": "Helicóptero próprio, permitindo deslocações urgentes e resposta imediata quando há risco de ocultação de bens"
+    },
+    "legal": {
+      "eyebrow": "Atuação Legal e Parcerias",
+      "title": "Mandato, segurança, legalidade.",
+      "p1": "Todas as diligências da CNRC são realizadas sob mandato e acompanhadas pelas forças de segurança, garantindo o cumprimento rigoroso da lei e a segurança de todos os intervenientes.",
+      "partnersIntro": "A CNRC mantém parcerias estratégicas com:",
+      "partner1": "Agentes de Execução, assegurando rapidez no agendamento e execução das diligências.",
+      "partner2": "Advogados da nossa confiança.",
+      "p2": "Os clientes podem igualmente recorrer aos seus próprios advogados, enviando posteriormente os elementos necessários para atuação da CNRC."
+    },
+    "differentiation": {
+      "eyebrow": "Diferenciação",
+      "title": "Cumprimento em 4 dias, após despacho judicial.",
+      "p1": "A CNRC destaca-se pela sua capacidade de cumprir decisões judiciais no prazo máximo de 4 dias, após despacho judicial em procedimentos cautelares ou ações executivas sumárias.",
+      "p2": "O balanço desde {founded} é extremamente positivo, com crescimento contínuo da procura e reconhecimento por parte de entidades públicas, incluindo o Ministério Público."
+    },
+    "mission": {
+      "eyebrow": "Missão e Visão",
+      "title": "O futuro passa por sociedades especializadas.",
+      "body": "Acreditamos que o futuro da recuperação de crédito passa por sociedades especializadas como a CNRC, que contribuem para:",
+      "item1": "Redução de processos judiciais",
+      "item2": "Diminuição de custos para credores",
+      "item3": "Maior eficiência na execução de decisões judiciais"
+    },
+    "invite": {
+      "eyebrow": "Convite aos Parceiros",
+      "title": "Visitar é compreender.",
+      "bodyPre": "A CNRC convida V. Exas. a visitar as nossas instalações e conhecer in loco a nossa capacidade operacional. Para agendamento, deverá ser contactado o gerente da CNRC através do número ",
+      "bodyPost": ".",
+      "quote": "Agradecemos a confiança depositada e reiteramos a nossa total disponibilidade para colaborar convosco, assegurando sempre um serviço de excelência.",
+      "ceoRole": "CEO"
+    },
+    "carousel": {
+      "previousImage": "Imagem anterior",
+      "nextImage": "Próxima imagem"
+    }
+  },
+  "equipa": {
+    "metaTitle": "A Nossa Equipa",
+    "metaDescription": "Conheça a equipa multidisciplinar da Camacho & Nunes Recuperação de Crédito: advogados, solicitadores, operacionais e técnicos de peritagem.",
+    "hero": {
+      "eyebrow": "A Nossa Equipa",
+      "title": "O nosso sucesso assenta na competência.",
+      "p1": "Uma equipa multidisciplinar, composta por profissionais altamente qualificados, habituados a atuar em contextos sensíveis e de elevada responsabilidade.",
+      "p2": "Cada membro contribui com experiência, precisão e sentido ético, assegurando que cada processo é tratado com atenção ao detalhe, responsabilidade e respeito pelo que é mais importante para si."
+    },
+    "ceo": {
+      "eyebrow": "Liderança",
+      "titleLine1": "O rosto por detrás",
+      "titleLine2": "de cada operação.",
+      "p1": "A liderança da CNRC pauta-se pela exigência e pelo compromisso com a excelência. O {ceo} garante pessoalmente a supervisão de cada processo, assegurando os mais elevados padrões de rigor e ética profissional.",
+      "p2": "Com uma visão clara sobre o futuro da recuperação de crédito em Portugal e em toda a Europa Schengen, lidera uma equipa capaz de dar resposta a qualquer desafio, com celeridade e eficácia.",
+      "role": "CEO"
+    },
+    "pillars": {
+      "eyebrow": "Estrutura Multidisciplinar",
+      "title": "Três pilares que sustentam cada resultado.",
+      "p1Title": "Jurídico",
+      "p1Desc": "Advogados e solicitadores com vasta experiência em direito processual civil, insolvência e execuções.",
+      "p2Title": "Operacional",
+      "p2Desc": "Equipas de terreno treinadas em técnicas de acesso controlado, maneio animal, operação de grua e piloto de helicóptero.",
+      "p3Title": "Peritagem e Gestão",
+      "p3Desc": "Técnicos de peritagem, gestores de caso e equipa de reporting que garantem a rastreabilidade integral de cada diligência."
+    },
+    "contact": {
+      "eyebrow": "Contacte-nos",
+      "titleLine1": "Juntos conseguimos recuperar",
+      "titleLine2": "o seu crédito.",
+      "formEyebrow": "Formulário de contacto",
+      "formTitle": "Envie-nos uma mensagem."
+    }
+  },
+  "escritorios": {
+    "metaTitle": "Os Nossos Escritórios",
+    "metaDescription": "Rede nacional da CNRC com escritórios em Barreiro, Braga, Lisboa e Montijo.",
+    "hero": {
+      "eyebrow": "Os Nossos Escritórios",
+      "title": "Seis localizações estratégicas.",
+      "subtitle": "A nossa rede cobre todo o território continental, as ilhas e o Sul de Espanha, garantindo resposta rápida a qualquer operação no espaço Schengen."
+    },
+    "officeLabel": "Escritório",
+    "placeholder": "Galeria fotográfica e informação detalhada em preparação."
+  },
+  "instalacoes": {
+    "metaTitle": "As Nossas Instalações",
+    "metaDescription": "Complexo da CNRC em Pinhal Novo: heliporto, armazém de bens apreendidos, viveiros para animais vivos e parque de viaturas.",
+    "hero": {
+      "eyebrow": "As Nossas Instalações",
+      "title": "Instalações concebidas para a excelência operacional.",
+      "p1": "As nossas instalações, localizadas no Pinhal Novo, foram concebidas para garantir todas as condições necessárias ao pleno funcionamento dos meios operacionais da Camacho & Nunes. Dispomos de espaços amplos, modernos e totalmente equipados, preparados para responder às exigências de autonomia, eficiência e complexidade técnica dos nossos equipamentos e equipas.",
+      "p2": "As nossas infraestruturas refletem o compromisso da Camacho & Nunes com a qualidade, a conformidade e a excelência operacional."
+    },
+    "heliport": {
+      "eyebrow": "Heliporto",
+      "titleLine1": "Resposta imediata,",
+      "titleLine2": "em qualquer ponto do país.",
+      "body": "Estrutura certificada para operação regular do helicóptero próprio da CNRC, com área de manutenção e abastecimento. Permite deslocações urgentes e resposta imediata sempre que há risco de ocultação de bens.",
+      "alt": "Heliporto CNRC em Pinhal Novo"
+    },
+    "kennels": {
+      "eyebrow": "Viveiros de Acolhimento Animal",
+      "title": "Cuidado certificado para cada espécie apreendida.",
+      "body": "Além das áreas dedicadas às operações, contamos com instalações específicas para o depósito e guarda de animais apreendidos. Estes espaços asseguram todas as condições de acolhimento, segurança e bem-estar, cumprindo rigorosamente o normativo legal aplicável.",
+      "videoTitle": "Viveiros de pássaros CNRC",
+      "alt1": "Interior dos viveiros CNRC",
+      "alt2": "Pássaros nos viveiros CNRC"
+    },
+    "complementary": {
+      "eyebrow": "Infraestrutura Complementar",
+      "title": "Tudo o que é necessário, sob o mesmo teto.",
+      "warehouseEyebrow": "Armazém",
+      "warehouseTitle": "Bens Apreendidos",
+      "warehouseBody": "Instalação segura, videovigiada e com controlo de acessos, para guarda de bens móveis apreendidos até decisão judicial. Capacidade para receber viaturas, equipamentos industriais e outros bens de grande dimensão.",
+      "fleetEyebrow": "Frota",
+      "fleetTitle": "Parque de Viaturas Operacionais",
+      "fleetBody": "Frota própria completa: veículos especiais de arrombamento, reboques, gruas, empilhadores e cozinha móvel. Todos os meios são próprios, garantindo total autonomia operacional sem dependência de terceiros."
+    }
+  },
+  "areas": {
+    "metaTitle": "Áreas de Especialização",
+    "metaDescription": "Execuções, Arrestos, Insolvência, Arrombamentos, Prestação de Facto, Peritagem Judicial e Imobiliário. Rigor, celeridade e autonomia operacional total.",
+    "hero": {
+      "eyebrow": "Áreas de Especialização",
+      "titleLine1": "Sete frentes de especialização.",
+      "titleHighlight": "Rigor absoluto."
+    },
+    "executions": {
+      "eyebrow": "01 — Execuções",
+      "title": "Execuções",
+      "p1": "Prestamos apoio especializado na execução de decisões judiciais, assegurando que direitos reconhecidos em tribunal são efetivamente cumpridos. Atuamos com rapidez, rigor e total conformidade legal, garantindo a concretização prática das obrigações impostas ao executado.",
+      "p2": "A nossa equipa dispõe de todos os meios operacionais necessários, incluindo viaturas totalmente equipadas, ferramentas adequadas e profissionais experientes, preparados para intervir em contextos simples ou de elevada complexidade.",
+      "p3": "Os nossos serviços distinguem-se pela capacidade de executar medidas judiciais de forma eficaz, seja na apreensão de bens, na entrega de coisa certa ou na implementação de outras determinações executivas. Trabalhamos em estreita articulação com agentes de execução, tribunais e demais entidades, garantindo processos céleres e juridicamente irrepreensíveis."
+    },
+    "seizures": {
+      "eyebrow": "02 — Arrestos",
+      "title": "Arrestos",
+      "p1": "Realizamos arrestos determinados por autoridade judicial, assegurando a apreensão rápida e segura de bens sempre que necessário para garantir o cumprimento de decisões ou a salvaguarda de créditos. Atuamos com total rigor legal, coordenação eficiente e absoluto respeito pelos procedimentos exigidos.",
+      "p2": "A nossa equipa dispõe de todos os meios operacionais, incluindo viaturas totalmente equipadas, ferramentas adequadas e profissionais experientes, preparados para atuar em contextos simples ou de elevada complexidade. Cada intervenção é conduzida com precisão, discrição e foco na proteção do património e na eficácia da diligência."
+    },
+    "insolvency": {
+      "eyebrow": "03 — Insolvência",
+      "title": "Insolvência",
+      "p1": "Apoiamos empresas e particulares em processos de insolvência com uma atuação rigorosa, estratégica e orientada para resultados. Trabalhamos para garantir que cada processo decorre com total conformidade legal, proteção dos interesses envolvidos e máxima eficiência na gestão dos bens e responsabilidades.",
+      "bulletsHeading": "O que fazemos",
+      "b1": "Acompanhamento completo de processos de insolvência decretados judicialmente",
+      "b2": "Inventariação, apreensão e gestão de bens do devedor",
+      "b3": "Apoio na preparação e execução de planos de insolvência ou recuperação",
+      "b4": "Coordenação com administradores judiciais, tribunais e demais entidades",
+      "b5": "Atuação célere em contextos urgentes ou de elevada complexidade"
+    },
+    "breakIns": {
+      "eyebrow": "04 — Arrombamentos",
+      "title": "Arrombamentos",
+      "p1": "Executamos arrombamentos no âmbito de diligências judiciais com total conformidade legal, garantindo acesso seguro e controlado a imóveis sempre que determinado por autoridade competente. A nossa atuação combina rapidez, precisão e absoluto respeito pelos procedimentos judiciais.",
+      "p2": "Dispomos de equipas operacionais altamente treinadas e de viaturas totalmente equipadas para este tipo de ação, permitindo-nos responder de forma eficaz a situações urgentes ou complexas."
+    },
+    "factProvision": {
+      "eyebrow": "05 — Prestação de Facto",
+      "title": "Prestação de Facto",
+      "p1": "A nossa equipa presta serviços altamente especializados em Prestação de Facto, assegurando a execução eficaz de obrigações que não envolvem pagamento de quantia, mas sim a realização, abstenção ou entrega de um bem específico. Atuamos com rigor jurídico, rapidez processual e foco na concretização prática dos direitos dos nossos clientes.",
+      "p2": "A nossa experiência traduz-se em casos bem-sucedidos, onde assegurámos a execução integral das decisões judiciais, mesmo em situações complexas ou de resistência ao cumprimento."
+    },
+    "expertise": {
+      "eyebrow": "06 — Peritagem Judicial",
+      "title": "Peritagem Judicial",
+      "p1": "Atuamos com rigor técnico, imparcialidade e total compromisso com a verdade dos factos. Os nossos serviços de Peritagem Judicial destinam-se a apoiar processos judiciais, administrativos e privados, fornecendo análises especializadas e relatórios periciais completos, fundamentados e de elevada qualidade.",
+      "bulletsHeading": "A nossa elaboração de Relatórios Periciais assenta em",
+      "b1": "Certificação de Fotografias — validação técnica e documental de imagens, assegurando autenticidade, integridade e conformidade legal",
+      "b2": "Relatório Fotográfico — registo visual rigoroso de locais, bens, danos ou ocorrências relevantes, com descrição técnica e análise objetiva",
+      "b3": "Relatório de Ocorrência — investigação técnica, recolha de evidências e análise factual para esclarecer eventos e apoiar decisões",
+      "b4": "Avaliação de Imóveis — metodologias reconhecidas, análise de mercado, enquadramento legal e determinação fundamentada do valor real"
+    },
+    "realEstate": {
+      "eyebrow": "07 — Imobiliário",
+      "title": "Imobiliário",
+      "p1": "A nossa empresa aposta na gestão e desenvolvimento de investimentos com forte potencial de crescimento, atuando com rigor, transparência e visão estratégica. Ao longo dos anos, construímos um portefólio sólido, composto por ativos cuidadosamente selecionados e com historial de valorização consistente.",
+      "p2": "O nosso portefólio integra atualmente diversos investimentos que têm registado uma valorização significativa, resultado de uma estratégia focada na qualidade dos ativos, na inovação e na antecipação de tendências."
+    }
+  },
+  "contactos": {
+    "metaTitle": "Contactos",
+    "metaDescription": "Entre em contacto com a Camacho & Nunes Recuperação de Crédito. Chamada gratuita 800 080 000. Escritórios em Barreiro, Braga, Lisboa e Montijo.",
+    "hero": {
+      "eyebrow": "Contactos",
+      "title": "Estamos aqui para ajudar.",
+      "subtitle": "Se tiver dúvidas, precisar de orientação jurídica ou quiser agendar uma consulta, utilize o formulário abaixo para entrar em contacto connosco. Responderemos com a maior brevidade possível."
+    },
+    "directContact": {
+      "eyebrow": "Fale connosco",
+      "title": "Coordenadas diretas.",
+      "freeCall": "Chamada gratuita",
+      "freeCallMeta": "Grátis a partir de rede nacional",
+      "mobileMeta": "Direto à gerência",
+      "email": "Email",
+      "headquarters": "Sede",
+      "hours": "Horário"
+    },
+    "formSection": {
+      "eyebrow": "Formulário de contacto",
+      "title": "Envie-nos uma mensagem."
+    },
+    "officesSection": {
+      "eyebrow": "Os Nossos Escritórios",
+      "title": "Seis localizações estratégicas.",
+      "officeLabel": "Escritório",
+      "viewGallery": "Ver galeria"
+    }
+  },
+  "tvDireto": {
+    "metaTitle": "TV Direto",
+    "metaDescription": "Canal institucional da CNRC com reportagens, entrevistas e cobertura de diligências judiciais autorizadas.",
+    "hero": {
+      "eyebrow": "Canal Institucional",
+      "title": "CNRC em direto.",
+      "subtitle": "Brevemente, este é o canal onde partilharemos reportagens, entrevistas e, sempre que autorizado, cobertura de diligências judiciais de interesse público."
+    },
+    "preparing": {
+      "eyebrow": "Em preparação",
+      "title": "Transmissão institucional brevemente disponível.",
+      "body": "Estamos a finalizar a infraestrutura técnica e editorial para transmissão do nosso canal institucional. Acompanhe-nos nas redes sociais e no nosso sítio para não perder o lançamento."
+    }
+  },
+  "imobiliario": {
+    "metaTitle": "Imobiliário",
+    "metaDescription": "Portefólio imobiliário de propriedades recuperadas pela CNRC: apartamentos, moradias, palacetes, herdades, terrenos e empreendimentos únicos em Portugal e no espaço Schengen.",
+    "categoryMetaSuffix": "Imobiliário",
+    "hero": {
+      "title": "Descubra o seu próximo imóvel",
+      "subtitle": "Portefólio de propriedades recuperadas em Portugal e no espaço Schengen.",
+      "popularLocation": "Localização Popular",
+      "advancedSearch": "Pesquisa Avançada",
+      "refineCriteria": "Refine os critérios para encontrar o imóvel ideal",
+      "type": "Tipologia",
+      "allTypes": "Todas as Tipologias",
+      "price": "Preço",
+      "developmentName": "Empreendimento",
+      "developmentPlaceholder": "Nome ou palavra-chave",
+      "advancedFilters": "Filtros Avançados",
+      "concelho": "Concelho",
+      "freguesia": "Freguesia",
+      "zona": "Zona",
+      "selectConcelho": "Selecionar Concelho",
+      "selectFreguesia": "Selecionar Freguesia",
+      "selectZona": "Selecionar Zona",
+      "clear": "Limpar",
+      "search": "Pesquisar"
+    },
+    "priceRanges": {
+      "any": "Qualquer Preço",
+      "upTo150": "Até 150.000€",
+      "150to300": "150.000€ - 300.000€",
+      "300to500": "300.000€ - 500.000€",
+      "500to750": "500.000€ - 750.000€",
+      "750to1m": "750.000€ - 1.000.000€",
+      "moreThan1m": "Mais de 1.000.000€"
+    },
+    "category": {
+      "label": "Categoria",
+      "noListingsEyebrow": "Em atualização",
+      "noListingsTitle": "Sem imóveis publicados nesta categoria.",
+      "noListingsBody": "O nosso portefólio é atualizado regularmente. Contacte-nos para conhecer imóveis disponíveis e oportunidades em preparação."
+    },
+    "categories": {
+      "apartamentos": "Apartamentos",
+      "apartamentosDesc": "Tipologias urbanas em localizações consolidadas e de elevada procura.",
+      "estabelecimentos": "Estabelecimentos",
+      "estabelecimentosDesc": "Espaços comerciais, restauração e unidades de negócio em funcionamento.",
+      "herdades": "Herdades",
+      "herdadesDesc": "Propriedades rurais de grande dimensão, exploração agrícola e cinegética.",
+      "moradias": "Moradias",
+      "moradiasDesc": "Habitações unifamiliares, do clássico ao contemporâneo, em zonas nobres.",
+      "palacetes": "Palacetes",
+      "palacetesDesc": "Imóveis históricos restaurados com carácter patrimonial único.",
+      "predios": "Prédios",
+      "prediosDesc": "Edifícios integrais com potencial de investimento ou reabilitação.",
+      "terrenos": "Terrenos",
+      "terrenosDesc": "Lotes para construção, exploração ou investimento em reserva.",
+      "outros-empreendimentos": "Outros Empreendimentos",
+      "outros-empreendimentosDesc": "Projetos diferenciados e oportunidades únicas fora de categoria."
+    },
+    "filterBar": {
+      "all": "Todos",
+      "location": "Localização",
+      "propertyType": "Tipo de Imóvel",
+      "zone": "Zona",
+      "search": "PESQUISAR",
+      "advanced": "Filtros Avançados",
+      "highlights": "Destaques",
+      "clearFilters": "Limpar filtros",
+      "searchPlaceholder": "Pesquisar por título ou localização..."
+    },
+    "badges": {
+      "novo": "Novo",
+      "investimento": "Investimento",
+      "exclusivo": "Exclusivo",
+      "reduzido": "Reduzido"
+    },
+    "listings": {
+      "loadingMap": "A carregar mapa...",
+      "oneFound": "1 imóvel encontrado",
+      "manyFound": "{count} imóveis encontrados",
+      "gridView": "Grelha",
+      "mapView": "Mapa",
+      "noResults": "Nenhum imóvel encontrado com os filtros selecionados.",
+      "clearAll": "Limpar todos os filtros"
+    },
+    "card": {
+      "energyClass": "Classe Energética",
+      "onRequest": "Sob consulta"
+    },
+    "detail": {
+      "propertyFallback": "Imóvel",
+      "interested": "Interessado neste imóvel?",
+      "interestedBody": "Entre em contacto connosco para mais informações, agendamento de visitas ou esclarecimento de dúvidas.",
+      "contact": "Contactar",
+      "alsoMayInterest": "Também pode interessar",
+      "othersTitle": "Outros {category}.",
+      "fullGallery": "Ver galeria completa",
+      "thumbnail": "Miniatura"
+    },
+    "specs": {
+      "title": "Características",
+      "bedrooms": "Quartos",
+      "bathrooms": "Casas de Banho",
+      "area": "Área Útil",
+      "plotArea": "Área do Terreno",
+      "year": "Ano de Construção",
+      "energy": "Certificado Energético",
+      "municipality": "Concelho",
+      "district": "Distrito",
+      "amenities": "Comodidades"
+    },
+    "map": {
+      "loading": "A carregar mapa...",
+      "noCoordinates": "Sem coordenadas para exibir no mapa",
+      "viewMore": "Ver mais"
+    }
+  },
+  "noticias": {
+    "metaTitle": "Notícias em Destaque",
+    "metaDescription": "Atualidade portuguesa sobre recuperação de crédito, justiça, economia e legislação relevante para credores, mandatários e empresas.",
+    "hero": {
+      "eyebrow": "Atualidade",
+      "title": "Notícias em Destaque"
+    },
+    "fallbackCategory": "Notícia",
+    "backToAll": "Voltar a todas as notícias",
+    "related": {
+      "eyebrow": "Leitura adicional",
+      "title": "Artigos relacionados."
+    },
+    "sector": {
+      "eyebrow": "Atualidade do Setor",
+      "title": "Manchetes por tópico.",
+      "body": "Notícias selecionadas de fontes portuguesas sobre imobiliário, recuperação de crédito e execuções judiciais relevantes para credores, empresas e investidores.",
+      "topicReal": "Mercado Imobiliário",
+      "topicCredit": "Crédito & Insolvências",
+      "topicJustice": "Justiça & Economia",
+      "readArticle": "Ler artigo",
+      "readAtSource": "Ler na fonte",
+      "articleSingular": "artigo",
+      "articlePlural": "artigos",
+      "fallbackNote": "A listagem acima usa conteúdo editorial da CNRC enquanto a fonte externa está indisponível.",
+      "liveNote": "Notícias agregadas automaticamente via GNews, com cache horária. Os conteúdos pertencem aos respetivos editores e não refletem necessariamente a posição da CNRC.",
+      "messages": {
+        "missingKey": "A API GNews não está configurada no ambiente. A mostrar notícias editoriais da CNRC.",
+        "rateLimited": "A API GNews atingiu o limite diário de pedidos. A mostrar notícias editoriais da CNRC.",
+        "unauthorized": "A API GNews rejeitou a chave configurada. A mostrar notícias editoriais da CNRC.",
+        "empty": "A API GNews não devolveu notícias recentes para estes tópicos. A mostrar notícias editoriais da CNRC.",
+        "error": "A API GNews está temporariamente indisponível. A mostrar notícias editoriais da CNRC."
+      },
+      "global": {
+        "rateLimitedTitle": "Limite diário de pedidos atingido.",
+        "rateLimitedBody": "O feed de notícias externas voltará a estar disponível dentro de algumas horas.",
+        "unauthorizedTitle": "Serviço de notícias indisponível.",
+        "unauthorizedBody": "Há um problema de configuração com a fonte externa. A nossa equipa foi notificada.",
+        "emptyTitle": "Sem notícias recentes.",
+        "emptyBody": "Não foi possível encontrar manchetes nas últimas horas para os tópicos selecionados. Volte mais tarde.",
+        "errorTitle": "Não foi possível carregar as notícias.",
+        "errorBody": "Ocorreu um erro ao contactar a fonte externa. Tente atualizar a página dentro de alguns minutos."
+      },
+      "topicNotice": {
+        "empty": "Sem manchetes recentes para este tópico. Volte a consultar mais tarde.",
+        "rateLimited": "Limite de pedidos atingido neste tópico. Tente novamente mais tarde.",
+        "unauthorized": "Tópico temporariamente indisponível.",
+        "error": "Não foi possível carregar este tópico de momento."
+      }
+    }
+  },
+  "diligencias": {
+    "galleryEyebrow": "Galeria",
+    "galleryTitle": "Registo no terreno.",
+    "capabilitiesEyebrow": "Capacidades",
+    "capabilitiesTitle": "O que asseguramos.",
+    "imageAlt": "imagem"
+  },
+  "legal": {
+    "lastUpdated": "Última atualização:",
+    "updatedAt": "19 de abril de 2026",
+    "privacy": {
+      "metaTitle": "Política de Privacidade",
+      "metaDescription": "Política de Privacidade da Camacho & Nunes Recuperação de Crédito, em conformidade com o RGPD e legislação aplicável.",
+      "eyebrow": "Informação RGPD",
+      "title": "Política de Privacidade",
+      "h1": "1. Responsável pelo tratamento",
+      "p1": "A entidade responsável pelo tratamento dos dados pessoais é a <strong>{legalName}</strong>, com sede em {street}, {postal} {city}, NIF {nif}. Contactos: {email} · {phone}.",
+      "h2": "2. Dados recolhidos",
+      "p2": "Recolhemos apenas os dados estritamente necessários à prestação dos nossos serviços: dados de identificação, contacto, dados processuais (em diligências judiciais) e dados técnicos de navegação no presente sítio.",
+      "h3": "3. Finalidades do tratamento",
+      "li3a": "Prestação de serviços de recuperação de crédito e diligências judiciais.",
+      "li3b": "Resposta a pedidos efetuados através de formulários de contacto.",
+      "li3c": "Cumprimento de obrigações legais e regulamentares.",
+      "li3d": "Melhoria contínua da experiência de navegação no sítio, sujeito a consentimento prévio.",
+      "h4": "4. Fundamentos de licitude",
+      "p4": "O tratamento fundamenta-se, conforme os casos, no consentimento do titular, na execução de contrato, no cumprimento de obrigação legal ou no interesse legítimo do responsável pelo tratamento.",
+      "h5": "5. Conservação dos dados",
+      "p5": "Os dados pessoais são conservados pelo período estritamente necessário às finalidades para as quais foram recolhidos, respeitando-se sempre os prazos legais aplicáveis, nomeadamente em matéria fiscal e processual.",
+      "h6": "6. Partilha com terceiros",
+      "p6": "Os dados podem ser partilhados com autoridades judiciais, agentes de execução, forças policiais e demais entidades legalmente exigidas no âmbito das diligências contratadas. Não cedemos dados a terceiros para fins de marketing.",
+      "h7": "7. Direitos do titular",
+      "p7": "Nos termos do RGPD, pode exercer, a qualquer momento, os direitos de acesso, retificação, apagamento, limitação, portabilidade e oposição. Para tal, basta contactar-nos através de {email}.",
+      "h8": "8. Autoridade de controlo",
+      "p8": "Tem ainda o direito de apresentar reclamação junto da Comissão Nacional de Proteção de Dados (CNPD), autoridade de controlo competente em Portugal."
+    },
+    "terms": {
+      "metaTitle": "Termos e Condições",
+      "metaDescription": "Termos e Condições de utilização do sítio da Camacho & Nunes Recuperação de Crédito.",
+      "eyebrow": "Utilização do sítio",
+      "title": "Termos e Condições",
+      "h1": "1. Enquadramento",
+      "p1": "O presente sítio é propriedade de <strong>{legalName}</strong>, NIF {nif}, com sede em {street}, {postal} {city}. A utilização deste sítio pressupõe a aceitação integral dos presentes Termos e Condições.",
+      "h2": "2. Propriedade intelectual",
+      "p2": "Todos os conteúdos disponibilizados, incluindo textos, imagens, vídeos, logótipo, identidade visual e código, são propriedade da {legalName} ou estão licenciados para utilização exclusiva neste sítio. A reprodução, total ou parcial, sem autorização expressa, é expressamente proibida.",
+      "h3": "3. Utilização permitida",
+      "p3": "O sítio destina-se a fornecer informação institucional sobre os serviços da {shortName}. É expressamente proibida qualquer utilização que possa comprometer a segurança, integridade ou disponibilidade do sítio.",
+      "h4": "4. Limitação de responsabilidade",
+      "p4": "A {shortName} procura manter a informação atualizada e correta, mas não assume responsabilidade por eventuais imprecisões, omissões ou indisponibilidades temporárias. O presente sítio não constitui aconselhamento jurídico personalizado.",
+      "h5": "5. Ligações a sítios de terceiros",
+      "p5": "O sítio pode conter ligações a conteúdos de terceiros, sobre os quais não exercemos controlo editorial. A utilização desses conteúdos é da exclusiva responsabilidade do utilizador.",
+      "h6": "6. Alterações",
+      "p6": "Reservamo-nos o direito de alterar, a qualquer momento, os presentes Termos e Condições. As alterações entram em vigor com a publicação no sítio.",
+      "h7": "7. Lei aplicável e foro",
+      "p7": "Os presentes Termos regem-se pela lei portuguesa. Para qualquer litígio emergente da utilização do sítio será competente o foro da comarca do Barreiro, com expressa renúncia a qualquer outro."
+    },
+    "cookies": {
+      "metaTitle": "Política de Cookies",
+      "metaDescription": "Política de Cookies da Camacho & Nunes Recuperação de Crédito: categorias, finalidades e gestão de preferências.",
+      "eyebrow": "Gestão de Preferências",
+      "title": "Política de Cookies",
+      "h1": "1. O que são cookies",
+      "p1": "Cookies são pequenos ficheiros de texto armazenados no seu dispositivo quando visita um sítio da internet. Permitem reconhecer o utilizador, memorizar preferências e produzir estatísticas de utilização.",
+      "h2": "2. Categorias utilizadas",
+      "h2a": "Funcionais",
+      "p2a": "Indispensáveis ao funcionamento básico do sítio, nomeadamente à navegação e à utilização de funcionalidades como formulários. Não podem ser desativadas.",
+      "h2b": "Preferências",
+      "p2b": "Permitem memorizar escolhas do utilizador para personalizar a experiência de navegação (por exemplo, idioma ou localização).",
+      "h2c": "Estatísticas",
+      "p2c": "Recolhem informação agregada e anónima sobre a utilização do sítio, ajudando-nos a melhorar os conteúdos e a experiência. Só são ativadas mediante consentimento.",
+      "h2d": "Marketing",
+      "p2d": "Utilizadas para apresentar conteúdo institucional relevante em plataformas de terceiros. Só são ativadas mediante consentimento expresso.",
+      "h3": "3. Gestão de preferências",
+      "p3": "Pode, a qualquer momento, alterar as suas preferências através do banner de consentimento exibido na primeira visita. A sua escolha é registada localmente e respeitada nas visitas subsequentes.",
+      "h4": "4. Cookies de terceiros",
+      "p4": "Alguns cookies podem ser instalados por serviços externos (p. ex., plataformas de análise). Esses serviços processam dados de acordo com as respetivas políticas de privacidade, sempre em conformidade com o RGPD.",
+      "h5": "5. Contacto",
+      "p5": "Para esclarecimentos adicionais, contacte-nos através dos canais indicados na nossa Política de Privacidade."
+    }
+  },
+  "officeMap": {
+    "portugal": "Portugal",
+    "international": "Internacional",
+    "instructionsDesktop": "Arraste para mover • Scroll para zoom •",
+    "instructionsMobile": "Arraste para mover • Dois dedos para zoom •",
+    "instructionsClick": "Clique nos marcadores"
+  }
+}

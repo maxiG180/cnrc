@@ -1,15 +1,17 @@
+import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/shared/container";
 import { Counter } from "@/components/shared/counter";
 import { Reveal } from "@/components/shared/reveal";
 
-const stats = [
-  { to: 3656, label: "Processos encerrados" },
-  { to: 93, suffix: "%", label: "Recuperação com sucesso" },
-  { to: 540, label: "Horas de voo em apreensões" },
-  { to: 325, label: "Visitas mensais ao site" },
-];
+export async function StatsCounters() {
+  const t = await getTranslations();
+  const stats = [
+    { to: 3656, label: t("home.stats.casesClosed") },
+    { to: 93, suffix: "%", label: t("home.stats.successRate") },
+    { to: 540, label: t("home.stats.flightHours") },
+    { to: 325, label: t("home.stats.monthlyVisits") },
+  ];
 
-export function StatsCounters() {
   return (
     <Container size="wide">
       <div className="grid gap-10 md:grid-cols-4 md:gap-6">

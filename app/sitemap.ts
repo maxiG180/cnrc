@@ -29,7 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: path === "" ? 1 : 0.7,
   }));
 
-  for (const slug of getDiligenciaSlugs()) {
+  for (const slug of getDiligenciaSlugs("pt")) {
     entries.push({
       url: new URL(`/diligencias/${slug}`, siteUrl).toString(),
       lastModified: now,
@@ -38,7 +38,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   }
 
-  for (const slug of getNewsSlugs()) {
+  for (const slug of getNewsSlugs("pt")) {
     entries.push({
       url: new URL(`/noticias-em-destaque/${slug}`, siteUrl).toString(),
       lastModified: now,
@@ -56,7 +56,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   }
 
-  for (const listing of getAllListings()) {
+  for (const listing of getAllListings("pt")) {
     entries.push({
       url: new URL(
         `/imobiliario/${listing.frontmatter.category}/${listing.slug}`,

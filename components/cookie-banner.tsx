@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
 type Consent = {
@@ -28,6 +29,7 @@ function saveConsent(c: Consent) {
 }
 
 export function CookieBanner() {
+  const t = useTranslations("cookieBanner");
   const [visible, setVisible] = useState(false);
   const [settings, setSettings] = useState(false);
   const [prefs, setPrefs] = useState({ preferencias: false, estatisticas: false, marketing: false });
@@ -58,34 +60,34 @@ export function CookieBanner() {
   return (
     <div
       role="dialog"
-      aria-label="Consentimento de cookies"
+      aria-label={t("ariaLabel")}
       className="fixed bottom-4 left-4 right-4 z-[80] md:left-auto md:right-6 md:bottom-6 md:max-w-md"
     >
       <div className="bg-[color:var(--color-navy)] text-[color:var(--color-bone)] shadow-[var(--shadow-strong)] p-6">
-        <p className="eyebrow text-[color:var(--color-gold)]">Cookies</p>
+        <p className="eyebrow text-[color:var(--color-gold)]">{t("eyebrow")}</p>
         <p className="mt-3 text-sm leading-relaxed text-[color:var(--color-bone)]/85">
-          Utilizamos cookies para melhorar a sua experiência, analisar o desempenho do site e apresentar conteúdo relevante. Pode aceitar todos ou escolher as suas preferências.{" "}
+          {t("description")}{" "}
           <Link href="/politica-de-cookies" className="underline underline-offset-2 text-[color:var(--color-gold-bright)]">
-            Ler política
+            {t("readPolicy")}
           </Link>
           .
         </p>
 
         {settings && (
           <ul className="mt-5 space-y-2 text-sm">
-            <CategoryRow label="Funcional" checked disabled description="Essenciais ao funcionamento do site" />
+            <CategoryRow label={t("categories.functional")} checked disabled description={t("categories.functionalDesc")} />
             <CategoryRow
-              label="Preferências"
+              label={t("categories.preferences")}
               checked={prefs.preferencias}
               onChange={(v) => setPrefs((p) => ({ ...p, preferencias: v }))}
             />
             <CategoryRow
-              label="Estatísticas"
+              label={t("categories.statistics")}
               checked={prefs.estatisticas}
               onChange={(v) => setPrefs((p) => ({ ...p, estatisticas: v }))}
             />
             <CategoryRow
-              label="Marketing"
+              label={t("categories.marketing")}
               checked={prefs.marketing}
               onChange={(v) => setPrefs((p) => ({ ...p, marketing: v }))}
             />
@@ -97,19 +99,19 @@ export function CookieBanner() {
             onClick={() => accept(true)}
             className="bg-[color:var(--color-gold)] text-[color:var(--color-navy-deep)] px-4 py-2.5 text-xs uppercase tracking-wider font-medium hover:bg-[color:var(--color-gold-bright)]"
           >
-            Aceitar todos
+            {t("acceptAll")}
           </button>
           <button
             onClick={reject}
             className="border border-[color:var(--color-bone)]/30 px-4 py-2.5 text-xs uppercase tracking-wider hover:border-[color:var(--color-gold)]"
           >
-            Rejeitar
+            {t("reject")}
           </button>
           <button
             onClick={() => (settings ? accept(false) : setSettings(true))}
             className="ml-auto text-xs uppercase tracking-wider underline underline-offset-4 hover:text-[color:var(--color-gold-bright)]"
           >
-            {settings ? "Guardar preferências" : "Preferências"}
+            {settings ? t("savePreferences") : t("preferences")}
           </button>
         </div>
       </div>

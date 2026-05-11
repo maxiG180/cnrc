@@ -3,13 +3,16 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Menu, Phone } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { mainNav, type NavGroup } from "@/content/shared/nav";
 import { company } from "@/content/shared/company-info";
 import { formatPhoneHref, cn } from "@/lib/utils";
 import { Logo } from "./logo";
 import { MobileNav } from "./mobile-nav";
+import { LanguageSwitcher } from "./language-switcher";
 
 export function Header() {
+  const t = useTranslations();
   const [scrolled, setScrolled] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
   const [openIdx, setOpenIdx] = useState<number | null>(null);
@@ -17,7 +20,6 @@ export function Header() {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", onScroll, { passive: true });
-    // Check scroll position after hydration
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -37,16 +39,19 @@ export function Header() {
 
         <nav className="hidden lg:flex items-center gap-4 h-full" onMouseLeave={() => setOpenIdx(null)}>
           {mainNav.map((group, i) => (
-            <NavItem key={group.label} group={group} open={openIdx === i} onOpen={() => setOpenIdx(i)} />
+            <NavItem key={group.labelKey} group={group} open={openIdx === i} onOpen={() => setOpenIdx(i)} />
           ))}
         </nav>
 
         <div className="flex items-center gap-2 md:gap-3">
+          <div className="hidden lg:block">
+            <LanguageSwitcher />
+          </div>
           <Link
             href="/contactos"
             className="lg:hidden inline-flex items-center gap-1.5 bg-[color:var(--color-gold)] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[color:var(--color-navy)] hover:bg-[color:var(--color-gold-bright)] transition-colors"
           >
-            Contactar
+            {t("common.contactUs")}
           </Link>
           <Link
             href={formatPhoneHref(company.phones.free)}
@@ -58,7 +63,7 @@ export function Header() {
           <button
             type="button"
             className="lg:hidden inline-flex items-center justify-center p-3 text-[color:var(--color-navy)]"
-            aria-label="Abrir menu"
+            aria-label={t("common.openMenu")}
             onClick={() => setOpenMobile(true)}
           >
             <Menu className="h-6 w-6" />
@@ -72,7 +77,9 @@ export function Header() {
 }
 
 function NavItem({ group, open, onOpen }: { group: NavGroup; open: boolean; onOpen: () => void }) {
+  const t = useTranslations();
   const hasDropdown = Boolean(group.children?.length || group.columns?.length);
+  const label = t(group.labelKey);
 
   const trigger = (
     <button
@@ -85,7 +92,7 @@ function NavItem({ group, open, onOpen }: { group: NavGroup; open: boolean; onOp
         open ? "text-[color:var(--color-navy-deep)]" : "text-[color:var(--color-navy)]/80 hover:text-[color:var(--color-navy)]"
       )}
     >
-      {group.label}
+      {label}
       <span
         className={cn(
           "absolute left-3 right-3 bottom-5 h-px bg-[color:var(--color-gold)] origin-left transition-transform duration-300",
@@ -96,7 +103,7 @@ function NavItem({ group, open, onOpen }: { group: NavGroup; open: boolean; onOp
   );
 
   if (!hasDropdown) {
-    const isLive = group.label === "TV Direto";
+    const isLive = group.labelKey === "nav.liveTV";
     return (
       <Link
         href={group.href ?? "#"}
@@ -108,7 +115,7 @@ function NavItem({ group, open, onOpen }: { group: NavGroup; open: boolean; onOp
             <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[color:var(--color-danger)]"></span>
           </span>
         )}
-        {group.label}
+        {label}
       </Link>
     );
   }
@@ -125,7 +132,7 @@ function NavItem({ group, open, onOpen }: { group: NavGroup; open: boolean; onOp
             open ? "text-[color:var(--color-navy-deep)]" : "text-[color:var(--color-navy)]/80 hover:text-[color:var(--color-navy)]"
           )}
         >
-          {group.label}
+          {label}
           <span
             className={cn(
               "absolute left-3 right-3 bottom-5 h-px bg-[color:var(--color-gold)] origin-left transition-transform duration-300",
@@ -143,12 +150,13 @@ function NavItem({ group, open, onOpen }: { group: NavGroup; open: boolean; onOp
 }
 
 function MegaPanel({ group }: { group: NavGroup }) {
+  const t = useTranslations();
   return (
     <div className="absolute left-0 top-full z-50 w-[min(92vw,880px)] border border-[color:var(--color-stone)]/40 bg-[color:var(--color-bone)] shadow-[var(--shadow-strong)]">
       <div className={cn("grid gap-6 p-8", group.columns ? "md:grid-cols-2" : "md:grid-cols-1")}>
         {group.columns?.map((col) => (
-          <div key={col.heading}>
-            <p className="eyebrow mb-4">{col.heading}</p>
+          <div key={col.headingKey}>
+            <p className="eyebrow mb-4">{t(col.headingKey)}</p>
             <ul className="space-y-2.5">
               {col.items.map((it) => (
                 <li key={it.href}>
@@ -156,7 +164,7 @@ function MegaPanel({ group }: { group: NavGroup }) {
                     href={it.href}
                     className="block text-sm text-[color:var(--color-navy)]/85 hover:text-[color:var(--color-navy)] hover:translate-x-1 transition-all"
                   >
-                    {it.label}
+                    {t(it.labelKey)}
                   </Link>
                 </li>
               ))}
@@ -169,10 +177,10 @@ function MegaPanel({ group }: { group: NavGroup }) {
               <li key={c.href}>
                 <Link href={c.href} className="group block">
                   <div className="text-sm font-medium text-[color:var(--color-navy)] group-hover:text-[color:var(--color-gold-dim)] transition-colors">
-                    {c.label}
+                    {t(c.labelKey)}
                   </div>
-                  {c.description && (
-                    <p className="mt-1 text-xs text-[color:var(--color-stone-dark)]">{c.description}</p>
+                  {c.descriptionKey && (
+                    <p className="mt-1 text-xs text-[color:var(--color-stone-dark)]">{t(c.descriptionKey)}</p>
                   )}
                 </Link>
               </li>

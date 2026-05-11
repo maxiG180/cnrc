@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Map, { Source, Layer, NavigationControl, Popup, MapRef } from "react-map-gl/maplibre";
 import type { CircleLayer, SymbolLayer } from "react-map-gl/maplibre";
+import { useTranslations } from "next-intl";
 import type { ListingFrontmatter } from "@/lib/mdx";
 import { useMapClusters, type ClusterFeature } from "./use-map-clusters";
 import "maplibre-gl/dist/maplibre-gl.css";
@@ -39,6 +40,7 @@ function getMapListings(listings: Listing[], frontmatter?: ListingFrontmatter): 
 }
 
 export function MapEmbed({ listings, frontmatter, onMarkerClick, onClusterClick, onVisibleListingsChange }: MapEmbedProps) {
+  const tMap = useTranslations("imobiliario.map");
   const mapRef = useRef<MapRef>(null);
   const [popupListing, setPopupListing] = useState<Listing | null>(null);
   const [bounds, setBounds] = useState<{ west: number; south: number; east: number; north: number } | null>(null);
@@ -387,9 +389,7 @@ export function MapEmbed({ listings, frontmatter, onMarkerClick, onClusterClick,
   if (!viewState || mapListings.length === 0) {
     return (
       <div className="w-full h-full bg-[color:var(--color-bone-soft)] rounded-lg flex items-center justify-center">
-        <p className="text-[color:var(--color-stone-dark)] text-sm">
-          Sem coordenadas para exibir no mapa
-        </p>
+        <p className="text-[color:var(--color-stone-dark)] text-sm">{tMap("noCoordinates")}</p>
       </div>
     );
   }
@@ -554,7 +554,7 @@ export function MapEmbed({ listings, frontmatter, onMarkerClick, onClusterClick,
                     href={`/imobiliario/${popupListing.frontmatter.category}/${popupListing.slug}`}
                     className="block w-full bg-[color:var(--color-navy)] text-white text-center text-sm font-medium py-2 rounded hover:bg-[color:var(--color-navy-deep)] transition-colors"
                   >
-                    Ver mais
+                    {tMap("viewMore")}
                   </Link>
                 )}
               </div>

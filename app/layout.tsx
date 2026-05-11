@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Libre_Baskerville } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import "./globals.css";
 
 import { LenisProvider } from "@/lib/lenis-provider";
@@ -28,18 +30,18 @@ const libreBaskerville = Libre_Baskerville({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${company.shortName} Recuperação de Crédito — ${company.tagline}`,
-    template: `%s | ${company.shortName} Recuperação de Crédito`,
+    default: `${company.shortName} Credit Recovery`,
+    template: `%s | ${company.shortName} Credit Recovery`,
   },
   description:
-    "Sociedade portuguesa especializada em recuperação de crédito desde 2016. Atuação em Portugal e em todo o espaço Schengen, com meios operacionais próprios incluindo helicóptero.",
+    "Portuguese firm specialized in credit recovery since 2016. Operating across Portugal and the Schengen area with fully owned operational resources, including a helicopter.",
   keywords: [
-    "recuperação de crédito",
-    "arrestos",
-    "execuções",
-    "diligências judiciais",
-    "insolvência",
-    "peritagem judicial",
+    "credit recovery",
+    "seizures",
+    "enforcement",
+    "judicial procedures",
+    "insolvency",
+    "judicial expertise",
     "Camacho Nunes",
     "CNRC",
     "Montijo",
@@ -63,23 +65,29 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+  const htmlLang = locale === "en" ? "en" : "pt-PT";
+
   return (
-    <html lang="pt-PT" className={`${inter.variable} ${libreBaskerville.variable}`}>
+    <html lang={htmlLang} className={`${inter.variable} ${libreBaskerville.variable}`}>
       <head>
         <JsonLd data={localBusinessSchema()} />
       </head>
       <body>
-        <LenisProvider>
-          <ScrollToTop />
-          <Header />
-          <main id="main" className="min-h-[60vh] pt-[96px]">
-            {children}
-          </main>
-          <Footer />
-          <CookieBanner />
-        </LenisProvider>
-        <WhatsappWidget />
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <LenisProvider>
+            <ScrollToTop />
+            <Header />
+            <main id="main" className="min-h-[60vh] pt-[96px]">
+              {children}
+            </main>
+            <Footer />
+            <CookieBanner />
+          </LenisProvider>
+          <WhatsappWidget />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

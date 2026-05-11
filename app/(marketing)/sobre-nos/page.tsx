@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { Section } from "@/components/shared/section";
 import { Container } from "@/components/shared/container";
 import { Reveal } from "@/components/shared/reveal";
@@ -13,15 +14,16 @@ import Autoplay from "embla-carousel-autoplay";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const meiosImages = [
-  { src: "/images/Meios-Operacionais_Helicoptero-2.jpg", alt: "Helicóptero CNRC" },
-  { src: "/images/Meios-Operacionais_Helicoptero-3.jpg", alt: "Helicóptero CNRC em voo" },
-  { src: "/images/Meios-Operacionais_Com-Empilhador-2.jpg", alt: "Empilhador" },
-  { src: "/images/Meios-Operacionais_Com-Forca-Policial-22.jpg", alt: "Operação com força policial" },
-  { src: "/images/Meios-Operacionais_Com-Veiculo-Arrombamento-14.jpg", alt: "Veículo de arrombamento" },
-  { src: "/images/Meios-Operacionais_Com-Bloqueio-Automoveis-25.jpg", alt: "Bloqueio de automóveis" },
+  "/images/Meios-Operacionais_Helicoptero-2.jpg",
+  "/images/Meios-Operacionais_Helicoptero-3.jpg",
+  "/images/Meios-Operacionais_Com-Empilhador-2.jpg",
+  "/images/Meios-Operacionais_Com-Forca-Policial-22.jpg",
+  "/images/Meios-Operacionais_Com-Veiculo-Arrombamento-14.jpg",
+  "/images/Meios-Operacionais_Com-Bloqueio-Automoveis-25.jpg",
 ];
 
 function MeiosCarousel() {
+  const t = useTranslations("sobreNos.carousel");
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true },
     [Autoplay({ delay: 4000, stopOnInteraction: true })]
@@ -51,15 +53,9 @@ function MeiosCarousel() {
     <div className="relative aspect-[4/5] overflow-hidden group">
       <div ref={emblaRef} className="h-full">
         <div className="flex h-full">
-          {meiosImages.map((image, i) => (
+          {meiosImages.map((src, i) => (
             <div key={i} className="relative h-full min-w-0 shrink-0 grow-0 basis-full">
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                sizes="(min-width:1024px) 40vw, 100vw"
-                className="object-cover"
-              />
+              <Image src={src} alt="" fill sizes="(min-width:1024px) 40vw, 100vw" className="object-cover" />
             </div>
           ))}
         </div>
@@ -69,7 +65,7 @@ function MeiosCarousel() {
         onClick={scrollPrev}
         className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-[color:var(--color-navy)]/80 hover:bg-[color:var(--color-navy)] text-[color:var(--color-bone)] p-2 opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-50"
         disabled={!canScrollPrev}
-        aria-label="Imagem anterior"
+        aria-label={t("previousImage")}
       >
         <ChevronLeft className="w-6 h-6" />
       </button>
@@ -78,7 +74,7 @@ function MeiosCarousel() {
         onClick={scrollNext}
         className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-[color:var(--color-navy)]/80 hover:bg-[color:var(--color-navy)] text-[color:var(--color-bone)] p-2 opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-50"
         disabled={!canScrollNext}
-        aria-label="Próxima imagem"
+        aria-label={t("nextImage")}
       >
         <ChevronRight className="w-6 h-6" />
       </button>
@@ -87,6 +83,7 @@ function MeiosCarousel() {
 }
 
 export default function SobreNosPage() {
+  const t = useTranslations("sobreNos");
   const [selectedOffice, setSelectedOffice] = useState<Office | null>(null);
 
   const handleOfficeClick = useCallback((office: Office) => {
@@ -97,21 +94,12 @@ export default function SobreNosPage() {
     <>
       <Section tone="navy-deep" spacing="lg" className="pt-12 relative">
         <div className="absolute inset-0 opacity-20">
-          <Image
-            src="/Logos/CNRC/Logo_CNRC_Light.png"
-            alt="CNRC Logo"
-            fill
-            sizes="100vw"
-            className="object-cover"
-            priority
-          />
+          <Image src="/Logos/CNRC/Logo_CNRC_Light.png" alt="CNRC" fill sizes="100vw" className="object-cover" priority />
         </div>
         <Container size="wide" className="relative z-10">
           <Reveal>
-            <p className="eyebrow text-[color:var(--color-gold)]">Sobre Nós</p>
-            <h1 className="mt-6 text-[color:var(--color-bone)] max-w-[20ch]">
-              Uma sociedade portuguesa com atuação em todo o espaço Schengen.
-            </h1>
+            <p className="eyebrow text-[color:var(--color-gold)]">{t("hero.eyebrow")}</p>
+            <h1 className="mt-6 text-[color:var(--color-bone)] max-w-[20ch]">{t("hero.title")}</h1>
           </Reveal>
         </Container>
       </Section>
@@ -122,19 +110,15 @@ export default function SobreNosPage() {
             <div className="lg:col-span-8">
               <div className="prose-legal">
                 <p className="lead text-xl leading-relaxed text-[color:var(--color-ink)]/85">
-                  A <strong>Camacho &amp; Nunes Recuperação de Crédito, Lda. (CNRC)</strong> é uma sociedade comercial especializada em recuperação de crédito, atuando em todo o território nacional, bem como em todo o espaço Schengen. Constituída em {company.founded}, destaca-se pela celeridade, eficácia e honestidade, valores que sustentam a confiança crescente dos nossos clientes e parceiros.
+                  {t("introLeadPre")}
+                  <strong>{t("introLeadBold")}</strong>
+                  {t("introLeadPost", { founded: company.founded })}
                 </p>
               </div>
             </div>
             <div className="lg:col-span-4">
               <div className="relative w-full max-w-[300px] mx-auto aspect-square">
-                <Image
-                  src="/Logos/CNRC/Logo_CNRC.png"
-                  alt="CNRC Logo"
-                  fill
-                  sizes="(min-width:1024px) 300px, 200px"
-                  className="object-contain"
-                />
+                <Image src="/Logos/CNRC/Logo_CNRC.png" alt="CNRC" fill sizes="(min-width:1024px) 300px, 200px" className="object-contain" />
               </div>
             </div>
           </div>
@@ -145,10 +129,10 @@ export default function SobreNosPage() {
         <Container size="wide">
           <div className="grid gap-16 lg:grid-cols-12">
             <Reveal className="lg:col-span-5">
-              <p className="eyebrow">Estrutura Nacional</p>
-              <h2 className="mt-4 rule">Presença em quatro localizações estratégicas.</h2>
+              <p className="eyebrow">{t("structure.eyebrow")}</p>
+              <h2 className="mt-4 rule">{t("structure.title")}</h2>
               <p className="mt-8 text-lg leading-relaxed text-[color:var(--color-ink)]/85 max-w-[56ch]">
-                A CNRC dispõe de uma rede de escritórios estrategicamente distribuídos que nos permite atuar com proximidade, rapidez e eficiência:
+                {t("structure.body")}
               </p>
               <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-4 max-w-lg">
                 {offices.map((office) => (
@@ -157,29 +141,11 @@ export default function SobreNosPage() {
                       onClick={() => handleOfficeClick(office)}
                       className="flex items-center gap-3 text-base text-[color:var(--color-navy)] hover:text-[color:var(--color-gold)] transition-all group w-full text-left py-2 px-3 -mx-3 rounded-lg hover:bg-[color:var(--color-bone)]/50 cursor-pointer"
                     >
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-6 h-6 flex-shrink-0 transition-transform group-hover:scale-125 drop-shadow-sm"
-                      >
-                        <path
-                          d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
-                          fill={office.slug === "huelva" ? "var(--color-danger)" : "var(--color-gold)"}
-                          stroke="white"
-                          strokeWidth="2"
-                        />
-                        <circle
-                          cx="12"
-                          cy="9"
-                          r="3"
-                          fill="white"
-                          opacity="0.9"
-                        />
+                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 flex-shrink-0 transition-transform group-hover:scale-125 drop-shadow-sm">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill={office.slug === "huelva" ? "var(--color-danger)" : "var(--color-gold)"} stroke="white" strokeWidth="2" />
+                        <circle cx="12" cy="9" r="3" fill="white" opacity="0.9" />
                       </svg>
-                      <span className="group-hover:translate-x-1 transition-transform">
-                        {office.name}
-                      </span>
+                      <span className="group-hover:translate-x-1 transition-transform">{office.name}</span>
                     </button>
                   </li>
                 ))}
@@ -196,20 +162,18 @@ export default function SobreNosPage() {
         <Container size="wide">
           <div className="grid gap-12 lg:grid-cols-12">
             <Reveal className="lg:col-span-7">
-              <p className="eyebrow">Recursos e Meios Operacionais</p>
+              <p className="eyebrow">{t("resources.eyebrow")}</p>
               <h2 className="mt-4 rule">
-                Única no país com <span className="text-[color:var(--color-gold-dim)]">autonomia operacional total.</span>
+                {t("resources.titleLine1")} <span className="text-[color:var(--color-gold-dim)]">{t("resources.titleHighlight")}</span>
               </h2>
               <div className="mt-10 prose-legal">
-                <p>
-                  A CNRC é a única sociedade de recuperação de crédito em Portugal Continental e Ilhas, bem como em todo o espaço Schengen com todos os meios humanos e materiais próprios, garantindo total autonomia operacional e capacidade de execução.
-                </p>
-                <p className="mt-6"><strong>Meios disponíveis:</strong></p>
+                <p>{t("resources.p1")}</p>
+                <p className="mt-6"><strong>{t("resources.meansAvailable")}</strong></p>
                 <ul>
-                  <li>Frota de transportes pesados e ligeiros</li>
-                  <li>Oficina móvel equipada para remoção e substituição de fechaduras, desbloqueio e remoção de viaturas e transporte seguro de bens apreendidos</li>
-                  <li>Armazéns para depósito de bens até decisão judicial</li>
-                  <li>Helicóptero próprio, permitindo deslocações urgentes e resposta imediata quando há risco de ocultação de bens</li>
+                  <li>{t("resources.means1")}</li>
+                  <li>{t("resources.means2")}</li>
+                  <li>{t("resources.means3")}</li>
+                  <li>{t("resources.means4")}</li>
                 </ul>
               </div>
             </Reveal>
@@ -224,21 +188,17 @@ export default function SobreNosPage() {
         <Container size="wide">
           <div className="grid gap-12 lg:grid-cols-12 items-start">
             <Reveal className="lg:col-span-5">
-              <p className="eyebrow text-[color:var(--color-gold)]">Atuação Legal e Parcerias</p>
-              <h2 className="mt-4 text-[color:var(--color-bone)]">Mandato, segurança, legalidade.</h2>
+              <p className="eyebrow text-[color:var(--color-gold)]">{t("legal.eyebrow")}</p>
+              <h2 className="mt-4 text-[color:var(--color-bone)]">{t("legal.title")}</h2>
             </Reveal>
             <div className="lg:col-span-7 text-[color:var(--color-bone)]/85 leading-relaxed space-y-6 max-w-[58ch]">
-              <p>
-                Todas as diligências da CNRC são realizadas sob mandato e acompanhadas pelas forças de segurança, garantindo o cumprimento rigoroso da lei e a segurança de todos os intervenientes.
-              </p>
-              <p>A CNRC mantém parcerias estratégicas com:</p>
+              <p>{t("legal.p1")}</p>
+              <p>{t("legal.partnersIntro")}</p>
               <ul className="space-y-2 pl-0">
-                <li className="flex gap-3"><span className="mt-3 h-px w-5 bg-[color:var(--color-gold)]" />Agentes de Execução, assegurando rapidez no agendamento e execução das diligências.</li>
-                <li className="flex gap-3"><span className="mt-3 h-px w-5 bg-[color:var(--color-gold)]" />Advogados da nossa confiança.</li>
+                <li className="flex gap-3"><span className="mt-3 h-px w-5 bg-[color:var(--color-gold)]" />{t("legal.partner1")}</li>
+                <li className="flex gap-3"><span className="mt-3 h-px w-5 bg-[color:var(--color-gold)]" />{t("legal.partner2")}</li>
               </ul>
-              <p>
-                Os clientes podem igualmente recorrer aos seus próprios advogados, enviando posteriormente os elementos necessários para atuação da CNRC.
-              </p>
+              <p>{t("legal.p2")}</p>
             </div>
           </div>
         </Container>
@@ -248,25 +208,25 @@ export default function SobreNosPage() {
         <Container size="wide">
           <div className="grid gap-12 md:grid-cols-2">
             <Reveal>
-              <p className="eyebrow">Diferenciação</p>
-              <h3 className="mt-4">Cumprimento em 4 dias, após despacho judicial.</h3>
+              <p className="eyebrow">{t("differentiation.eyebrow")}</p>
+              <h3 className="mt-4">{t("differentiation.title")}</h3>
               <p className="mt-6 text-[color:var(--color-ink)]/80 leading-relaxed max-w-[48ch]">
-                A CNRC destaca-se pela sua capacidade de cumprir decisões judiciais no prazo máximo de 4 dias, após despacho judicial em procedimentos cautelares ou ações executivas sumárias.
+                {t("differentiation.p1")}
               </p>
               <p className="mt-4 text-[color:var(--color-ink)]/80 leading-relaxed max-w-[48ch]">
-                O balanço desde {company.founded} é extremamente positivo, com crescimento contínuo da procura e reconhecimento por parte de entidades públicas, incluindo o Ministério Público.
+                {t("differentiation.p2", { founded: company.founded })}
               </p>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="eyebrow">Missão e Visão</p>
-              <h3 className="mt-4">O futuro passa por sociedades especializadas.</h3>
+              <p className="eyebrow">{t("mission.eyebrow")}</p>
+              <h3 className="mt-4">{t("mission.title")}</h3>
               <p className="mt-6 text-[color:var(--color-ink)]/80 leading-relaxed max-w-[48ch]">
-                Acreditamos que o futuro da recuperação de crédito passa por sociedades especializadas como a CNRC, que contribuem para:
+                {t("mission.body")}
               </p>
               <ul className="mt-6 space-y-2 text-[color:var(--color-ink)]/85">
-                <li className="flex gap-3"><span className="mt-3 h-px w-5 bg-[color:var(--color-gold)]" />Redução de processos judiciais</li>
-                <li className="flex gap-3"><span className="mt-3 h-px w-5 bg-[color:var(--color-gold)]" />Diminuição de custos para credores</li>
-                <li className="flex gap-3"><span className="mt-3 h-px w-5 bg-[color:var(--color-gold)]" />Maior eficiência na execução de decisões judiciais</li>
+                <li className="flex gap-3"><span className="mt-3 h-px w-5 bg-[color:var(--color-gold)]" />{t("mission.item1")}</li>
+                <li className="flex gap-3"><span className="mt-3 h-px w-5 bg-[color:var(--color-gold)]" />{t("mission.item2")}</li>
+                <li className="flex gap-3"><span className="mt-3 h-px w-5 bg-[color:var(--color-gold)]" />{t("mission.item3")}</li>
               </ul>
             </Reveal>
           </div>
@@ -276,28 +236,24 @@ export default function SobreNosPage() {
       <Section tone="bone" spacing="lg">
         <Container size="content">
           <Reveal>
-            <p className="eyebrow">Convite aos Parceiros</p>
-            <h2 className="mt-4 rule">Visitar é compreender.</h2>
+            <p className="eyebrow">{t("invite.eyebrow")}</p>
+            <h2 className="mt-4 rule">{t("invite.title")}</h2>
             <p className="mt-10 text-lg leading-relaxed text-[color:var(--color-ink)]/85 max-w-[60ch]">
-              A CNRC convida V. Exas. a visitar as nossas instalações e conhecer in loco a nossa capacidade operacional. Para agendamento, deverá ser contactado o gerente da CNRC através do número <a href={`tel:${company.phones.mobile.replace(/\s/g, "")}`} className="text-[color:var(--color-navy)] underline decoration-[color:var(--color-gold)] underline-offset-4">{company.phones.mobile}</a>.
+              {t("invite.bodyPre")}
+              <a href={`tel:${company.phones.mobile.replace(/\s/g, "")}`} className="text-[color:var(--color-navy)] underline decoration-[color:var(--color-gold)] underline-offset-4">{company.phones.mobile}</a>
+              {t("invite.bodyPost")}
             </p>
             <p className="mt-8 font-display italic text-xl md:text-2xl text-[color:var(--color-navy)] max-w-[52ch]">
-              &ldquo;Agradecemos a confiança depositada e reiteramos a nossa total disponibilidade para colaborar convosco, assegurando sempre um serviço de excelência.&rdquo;
+              &ldquo;{t("invite.quote")}&rdquo;
             </p>
             <div className="mt-10 flex items-end gap-6">
               <div className="flex flex-col items-center w-[200px]">
-                <Image
-                  src="/assinatura-ceo.png"
-                  alt="Assinatura Dr. António Nunes"
-                  width={200}
-                  height={75}
-                  className="object-contain opacity-80 mb-2"
-                />
+                <Image src="/assinatura-ceo.png" alt={`${company.ceo} signature`} width={200} height={75} className="object-contain opacity-80 mb-2" />
                 <div className="h-px w-full bg-[color:var(--color-gold)]/40" />
               </div>
               <div>
                 <p className="font-display italic text-lg text-[color:var(--color-navy)]">{company.ceo}</p>
-                <p className="text-[11px] tracking-[0.2em] uppercase text-[color:var(--color-stone-dark)] mt-1">CEO</p>
+                <p className="text-[11px] tracking-[0.2em] uppercase text-[color:var(--color-stone-dark)] mt-1">{t("invite.ceoRole")}</p>
               </div>
             </div>
           </Reveal>

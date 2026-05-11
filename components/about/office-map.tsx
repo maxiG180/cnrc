@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import Map, { Marker, NavigationControl, Popup, MapRef } from "react-map-gl/maplibre";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 // Real geographic coordinates [longitude, latitude]
@@ -27,6 +28,7 @@ interface OfficeMapProps {
 }
 
 export function OfficeMap({ onOfficeClick, selectedOffice }: OfficeMapProps = {}) {
+  const t = useTranslations("officeMap");
   const [popupInfo, setPopupInfo] = useState<Office | null>(null);
   const [cursor, setCursor] = useState<string>("grab");
   const [isMobile, setIsMobile] = useState(false);
@@ -179,7 +181,7 @@ export function OfficeMap({ onOfficeClick, selectedOffice }: OfficeMapProps = {}
                     {popupInfo.name}
                   </p>
                   <p className="text-base text-[color:var(--color-ink)]/70 mt-2">
-                    {popupInfo.isInternational ? "Internacional" : "Portugal"}
+                    {popupInfo.isInternational ? t("international") : t("portugal")}
                   </p>
                 </div>
               </div>
@@ -192,19 +194,19 @@ export function OfficeMap({ onOfficeClick, selectedOffice }: OfficeMapProps = {}
         <div className="p-4 bg-[color:var(--color-bone)] flex items-center justify-center gap-6 text-sm border-t border-[color:var(--color-stone)]/20">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 rounded-full bg-[color:var(--color-gold)] border-2 border-white shadow-sm" />
-            <span className="text-[color:var(--color-ink)]/70">Portugal</span>
+            <span className="text-[color:var(--color-ink)]/70">{t("portugal")}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 rounded-full bg-[color:var(--color-danger)] border-2 border-white shadow-sm" />
-            <span className="text-[color:var(--color-ink)]/70">Internacional</span>
+            <span className="text-[color:var(--color-ink)]/70">{t("international")}</span>
           </div>
         </div>
       </div>
 
       <p className="mt-4 text-center text-sm text-[color:var(--color-ink)]/60">
-        <span className="hidden md:inline">Arraste para mover • Scroll para zoom • </span>
-        <span className="md:hidden">Arraste para mover • Dois dedos para zoom • </span>
-        Clique nos marcadores
+        <span className="hidden md:inline">{t("instructionsDesktop")} </span>
+        <span className="md:hidden">{t("instructionsMobile")} </span>
+        {t("instructionsClick")}
       </p>
 
       <style jsx global>{`

@@ -1,25 +1,27 @@
 import { Container } from "@/components/shared/container";
 import { Reveal } from "@/components/shared/reveal";
+import { getTranslations } from "next-intl/server";
 
-const pillars = [
-  {
-    n: "01",
-    title: "Liderança Nacional em Recuperação de Crédito",
-    body: "Como líderes reconhecidos no setor, proporcionamos aos nossos clientes uma vantagem comercial distinta.",
-  },
-  {
-    n: "02",
-    title: "A Equipa que transforma Desafios em Vitórias",
-    body: "A nossa força assenta na dedicação e excelência da equipa de profissionais da CAMACHO & NUNES.",
-  },
-  {
-    n: "03",
-    title: "A Estratégia começa com a Sabedoria e Experiência",
-    body: "A sabedoria e a experiência são o ponto de partida de qualquer estratégia sólida.",
-  },
-];
+export async function ThreePillars() {
+  const t = await getTranslations("home.pillars");
+  const pillars = [
+    {
+      n: "01",
+      title: t("item1.title"),
+      body: t("item1.body"),
+    },
+    {
+      n: "02",
+      title: t("item2.title"),
+      body: t("item2.body"),
+    },
+    {
+      n: "03",
+      title: t("item3.title"),
+      body: t("item3.body"),
+    },
+  ];
 
-export function ThreePillars() {
   return (
     <Container size="wide">
       <div className="grid gap-12 md:grid-cols-3">

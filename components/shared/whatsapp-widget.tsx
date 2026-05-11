@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { company } from "@/content/shared/company-info";
 
 export function WhatsappWidget() {
+  const t = useTranslations("whatsapp");
   const [isVisible, setIsVisible] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -13,7 +15,7 @@ export function WhatsappWidget() {
 
   // Format phone number for WhatsApp (remove spaces and special chars)
   const whatsappNumber = company.phones.mobile.replace(/\s+/g, "");
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Olá, gostaria de obter mais informações.")}`;
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(t("message"))}`;
 
   // Handle scroll to show/hide button
   useEffect(() => {
@@ -218,7 +220,7 @@ export function WhatsappWidget() {
             ? isFadingOut && !isHovering ? 'visible fading-out' : 'visible'
             : 'hidden'
         }`}>
-          <p>Precisa de ajuda?</p>
+          <p>{t("tooltip")}</p>
           <div className="whatsapp-tooltip-arrow"></div>
         </div>
 
@@ -228,7 +230,7 @@ export function WhatsappWidget() {
           target="_blank"
           rel="noopener noreferrer"
           className={`whatsapp-button ${isVisible ? 'visible' : 'hidden'}`}
-          aria-label="Contactar via WhatsApp"
+          aria-label={t("ariaLabel")}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
