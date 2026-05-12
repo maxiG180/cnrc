@@ -22,8 +22,9 @@ type Area = {
   slug: string;
   eyebrow: string;
   title: string;
-  paragraphs: string[];
+  lead: string;
   bullets?: { heading?: string; items: string[] }[];
+  image: string;
 };
 
 export default async function AreasDeEspecializacaoPage() {
@@ -34,19 +35,21 @@ export default async function AreasDeEspecializacaoPage() {
       slug: "execucoes",
       eyebrow: t("executions.eyebrow"),
       title: t("executions.title"),
-      paragraphs: [t("executions.p1"), t("executions.p2"), t("executions.p3")],
+      lead: t("executions.p1"),
+      image: "/instalacoes/lisboa-sala-audiencias.jpg",
     },
     {
       slug: "arrestos",
       eyebrow: t("seizures.eyebrow"),
       title: t("seizures.title"),
-      paragraphs: [t("seizures.p1"), t("seizures.p2")],
+      lead: t("seizures.p1"),
+      image: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1778196817/Arrombamento1_ylzhc6.png",
     },
     {
       slug: "insolvencia",
       eyebrow: t("insolvency.eyebrow"),
       title: t("insolvency.title"),
-      paragraphs: [t("insolvency.p1")],
+      lead: t("insolvency.p1"),
       bullets: [
         {
           heading: t("insolvency.bulletsHeading"),
@@ -59,24 +62,27 @@ export default async function AreasDeEspecializacaoPage() {
           ],
         },
       ],
+      image: "/Quem%20Somos/As%20Nossas%20Instala%C3%A7%C3%B5es/Lisboa/19_Lisboa_-Sala-de-reunioes-1.jpg",
     },
     {
       slug: "arrombamentos",
       eyebrow: t("breakIns.eyebrow"),
       title: t("breakIns.title"),
-      paragraphs: [t("breakIns.p1"), t("breakIns.p2")],
+      lead: t("breakIns.p1"),
+      image: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1778196818/Arrombamento3_uk6yxl.png",
     },
     {
       slug: "prestacao-de-facto",
       eyebrow: t("factProvision.eyebrow"),
       title: t("factProvision.title"),
-      paragraphs: [t("factProvision.p1"), t("factProvision.p2")],
+      lead: t("factProvision.p1"),
+      image: "/Quem%20Somos/Os%20Nossos%20Escrit%C3%B3rios/Lisboa/10_Lisboa_-Gabinete-Advogados-3.jpg",
     },
     {
       slug: "peritagem-judicial",
       eyebrow: t("expertise.eyebrow"),
       title: t("expertise.title"),
-      paragraphs: [t("expertise.p1")],
+      lead: t("expertise.p1"),
       bullets: [
         {
           heading: t("expertise.bulletsHeading"),
@@ -88,12 +94,14 @@ export default async function AreasDeEspecializacaoPage() {
           ],
         },
       ],
+      image: "/Fotos-Lisboa_Horizontais-10-scaled.jpg",
     },
     {
       slug: "imobiliario",
       eyebrow: t("realEstate.eyebrow"),
       title: t("realEstate.title"),
-      paragraphs: [t("realEstate.p1"), t("realEstate.p2")],
+      lead: t("realEstate.p1"),
+      image: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1778332374/Catelo-Royal-Villas_80-moradias-23042026-_site-1-900x550_yucjcm.png",
     },
   ];
 
@@ -111,54 +119,47 @@ export default async function AreasDeEspecializacaoPage() {
               <span className="block text-[color:var(--color-gold-bright)]">{t("hero.titleHighlight")}</span>
             </h1>
           </Reveal>
-
           <AreaNavLinks areas={areas.map((a) => ({ slug: a.slug, title: a.title }))} />
         </Container>
       </Section>
 
       {areas.map((area, i) => (
-        <Section key={area.slug} id={area.slug} tone={i % 2 === 0 ? "bone" : "bone-soft"} spacing="lg" className="scroll-mt-20">
-          <Container size="wide">
-            <div className="grid gap-12 lg:grid-cols-12">
-              <Reveal className="lg:col-span-4">
+        <Section key={area.slug} id={area.slug} tone={i % 2 === 0 ? "bone" : "bone-soft"} className="!py-0 scroll-mt-20">
+          <div className="grid lg:grid-cols-2">
+            <div className={cn("relative min-h-[280px] lg:min-h-[540px]", i % 2 === 1 && "lg:order-last")}>
+              <Image
+                src={area.image}
+                alt={area.title}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </div>
+
+            <div className="flex flex-col justify-center py-12 px-6 md:py-16 md:px-12 lg:px-16">
+              <Reveal>
                 <p className="eyebrow">{area.eyebrow}</p>
-                <h2 className={cn("mt-4 rule text-4xl md:text-5xl")}>{area.title}</h2>
+                <h2 className="mt-4 rule text-4xl md:text-5xl">{area.title}</h2>
+                <p className="mt-6 text-lg leading-relaxed text-[color:var(--color-ink)]/85">{area.lead}</p>
               </Reveal>
 
-              <div className="lg:col-span-8 space-y-6">
-                <Reveal>
-                  {area.paragraphs.map((p, pi) => (
-                    <p
-                      key={pi}
-                      className={cn(
-                        "leading-relaxed text-[color:var(--color-ink)]/85 max-w-[62ch]",
-                        pi === 0 && "text-lg",
-                        pi > 0 && "mt-5",
-                      )}
-                    >
-                      {p}
-                    </p>
-                  ))}
+              {area.bullets?.map((group, gi) => (
+                <Reveal key={gi} delay={0.1}>
+                  <div className="mt-8">
+                    {group.heading && <p className="eyebrow">{group.heading}</p>}
+                    <ul className="mt-4 space-y-2.5">
+                      {group.items.map((item, ii) => (
+                        <li key={ii} className="flex gap-4">
+                          <span className="mt-3 h-px w-6 shrink-0 bg-[color:var(--color-gold)]" />
+                          <span className="text-[color:var(--color-ink)]/85">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </Reveal>
-
-                {area.bullets?.map((group, gi) => (
-                  <Reveal key={gi} delay={0.1}>
-                    <div className="mt-8">
-                      {group.heading && <p className="eyebrow">{group.heading}</p>}
-                      <ul className="mt-4 space-y-2.5">
-                        {group.items.map((item, ii) => (
-                          <li key={ii} className="flex gap-4">
-                            <span className="mt-3 h-px w-6 shrink-0 bg-[color:var(--color-gold)]" />
-                            <span className="text-[color:var(--color-ink)]/85">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
+              ))}
             </div>
-          </Container>
+          </div>
         </Section>
       ))}
 
