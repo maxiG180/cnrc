@@ -14,12 +14,12 @@ import Autoplay from "embla-carousel-autoplay";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const meiosImages = [
-  "/images/Meios-Operacionais_Helicoptero-2.jpg",
-  "/images/Meios-Operacionais_Helicoptero-3.jpg",
-  "/images/Meios-Operacionais_Com-Empilhador-2.jpg",
-  "/images/Meios-Operacionais_Com-Forca-Policial-22.jpg",
-  "/images/Meios-Operacionais_Com-Veiculo-Arrombamento-14.jpg",
-  "/images/Meios-Operacionais_Com-Bloqueio-Automoveis-25.jpg",
+  "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1778168108/Helic%C3%B3ptero6_m28vz0.png",
+  "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1778168108/Helic%C3%B3ptero5_xgzvav.png",
+  "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1778200454/Empilhador3_fzfjbw.png",
+  "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1778200455/Empilhador4_ulfqna.png",
+  "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779234825/Meios-Operacionais_Com-Forca-Policial-17-900x550.jpg_xypyy1.webp",
+  "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1778199502/Cozinha_M%C3%B3vel1_pemcwu.png",
 ];
 
 function MeiosCarousel() {
@@ -94,7 +94,7 @@ export default function SobreNosPage() {
     <>
       <Section tone="navy-deep" spacing="lg" className="pt-12 relative">
         <div className="absolute inset-0 opacity-20">
-          <Image src="/Logos/CNRC/Logo_CNRC_Light.png" alt="CNRC" fill sizes="100vw" className="object-cover" priority />
+          <Image src="https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779236026/Logo_CNRC_Light_vt8i1d.png" alt="CNRC" fill sizes="100vw" className="object-cover" priority />
         </div>
         <Container size="wide" className="relative z-10">
           <Reveal>
@@ -118,7 +118,7 @@ export default function SobreNosPage() {
             </div>
             <div className="lg:col-span-4">
               <div className="relative w-full max-w-[300px] mx-auto aspect-square">
-                <Image src="/Logos/CNRC/Logo_CNRC.png" alt="CNRC" fill sizes="(min-width:1024px) 300px, 200px" className="object-contain" />
+                <Image src="https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779236022/Logo_CNRC_caeick.png" alt="CNRC" fill sizes="(min-width:1024px) 300px, 200px" className="object-contain" />
               </div>
             </div>
           </div>

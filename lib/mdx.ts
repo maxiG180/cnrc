@@ -23,6 +23,7 @@ export type DiligenciaFrontmatter = {
   intro: string;
   hero?: string;
   heroVideo?: string;
+  heroVideoAspectRatio?: string;
   capabilities?: string[];
   gallery?: string[];
 };

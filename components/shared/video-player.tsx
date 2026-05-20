@@ -12,9 +12,10 @@ type VideoPlayerProps = {
   poster?: string;
   title?: string;
   className?: string;
+  aspectRatio?: string;
 };
 
-export function VideoPlayer({ src, poster, title, className }: VideoPlayerProps) {
+export function VideoPlayer({ src, poster, title, className, aspectRatio = "16/9" }: VideoPlayerProps) {
   const t = useTranslations();
   return (
     <div className={className}>
@@ -22,7 +23,7 @@ export function VideoPlayer({ src, poster, title, className }: VideoPlayerProps)
         title={title ?? t("common.videoTitle")}
         src={src}
         poster={poster}
-        aspectRatio="16/9"
+        aspectRatio={aspectRatio}
         crossOrigin
         playsInline
       >

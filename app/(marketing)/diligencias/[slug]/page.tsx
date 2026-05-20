@@ -66,8 +66,11 @@ export default async function DiligenciaPage({ params }: { params: Promise<Param
 
       {frontmatter.heroVideo && (
         <Section tone="bone" spacing="lg" className="!pb-0">
-          <Container size="wide">
-            <VideoPlayer src={frontmatter.heroVideo} />
+          <Container size="content">
+            <VideoPlayer
+              src={frontmatter.heroVideo}
+              aspectRatio={frontmatter.heroVideoAspectRatio || "16/9"}
+            />
           </Container>
         </Section>
       )}
