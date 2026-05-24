@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sketch 001: Office Section Composition</title>
+  <link rel="stylesheet" href="../themes/default.css">
+  <style>
+    body {
+      padding-top: 50px;
+    }
+
+    /* Variant Navigation */
+    #variant-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9998;
+      background: var(--color-bone);
+      border-bottom: 1px solid var(--color-stone);
+      padding: 12px 20px;
+      display: flex;
+      gap: 12px;
+      font-family: var(--font-sans);
+    }
+
+    .variant-tab {
+      padding: 8px 16px;
+      background: transparent;
+      border: 1px solid var(--color-stone);
+      color: var(--color-ink);
+      cursor: pointer;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      border-radius: var(--radius-md);
+      transition: all 0.15s ease;
+    }
+
+    .variant-tab:hover {
+      border-color: var(--color-gold);
+      color: var(--color-gold-dim);
+    }
+
+    .variant-tab.active {
+      background: var(--color-navy);
+      color: var(--color-bone);
+      border-color: var(--color-navy);
+    }
+
+    .variant {
+      display: none;
+    }
+
+    .variant.active {
+      display: block;
+    }
+
+    /* Common Styles */
+    .office-section {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .office-image {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .eyebrow {
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-weight: 600;
+      color: var(--color-gold);
+    }
+
+    /* Variant A: Full-Bleed with Overlay */
+    #variant-a .office-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(15, 20, 25, 0.85) 0%, rgba(15, 20, 25, 0.4) 60%, transparent 100%);
+    }
+
+    #variant-a .office-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 60px;
+      color: var(--color-bone);
+    }
+
+    #variant-a .office-name {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 600;
+      margin: 0;
+      line-height: 1.1;
+      color: var(--color-bone);
+    }
+
+    #variant-a .office-details {
+      margin-top: 32px;
+      max-width: 480px;
+      font-size: var(--text-lg);
+      line-height: 1.7;
+      color: var(--color-bone);
+      opacity: 0.9;
+    }
+
+    /* Variant B: Split-Screen 50/50 */
+    #variant-b .office-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+    }
+
+    #variant-b .office-image {
+      position: relative;
+    }
+
+    #variant-b .office-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 60px;
+      background: var(--color-bone);
+    }
+
+    #variant-b .office-section:nth-child(even) .office-image {
+      order: 2;
+    }
+
+    #variant-b .office-section:nth-child(even) .office-content {
+      order: 1;
+    }
+
+    #variant-b .office-name {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 600;
+      margin: 16px 0 0 0;
+      line-height: 1.1;
+      color: var(--color-navy);
+    }
+
+    #variant-b .office-details {
+      margin-top: 32px;
+      font-size: var(--text-lg);
+      line-height: 1.7;
+      color: var(--color-ink);
+      opacity: 0.8;
+    }
+
+    /* Variant C: Asymmetric Floating Card */
+    #variant-c .office-section {
+      padding: 0 60px;
+    }
+
+    #variant-c .office-image {
+      position: relative;
+      height: 70vh;
+      margin: 0 auto;
+      max-width: 1400px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-xl);
+    }
+
+    #variant-c .office-content {
+      position: relative;
+      max-width: 600px;
+      margin: -120px auto 0 15%;
+      background: var(--color-bone);
+      padding: 48px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl);
+      z-index: 3;
+    }
+
+    #variant-c .office-section:nth-child(even) .office-content {
+      margin-left: auto;
+      margin-right: 15%;
+    }
+
+    #variant-c .office-name {
+      font-family: var(--font-display);
+      font-size: clamp(2.25rem, 5vw, 3.75rem);
+      font-weight: 600;
+      margin: 16px 0 0 0;
+      line-height: 1.1;
+      color: var(--color-navy);
+    }
+
+    #variant-c .office-details {
+      margin-top: 24px;
+      font-size: var(--text-base);
+      line-height: 1.7;
+      color: var(--color-ink);
+      opacity: 0.8;
+    }
+
+    #variant-c .office-section {
+      padding-bottom: 120px;
+    }
+
+    /* Sketch Toolbar */
+    #sketch-tools {
+      position: fixed;
+      bottom: 12px;
+      right: 12px;
+      z-index: 9999;
+      font-family: system-ui;
+      font-size: 12px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      opacity: 0.4;
+      transition: opacity 0.2s;
+    }
+
+    #sketch-tools:hover {
+      opacity: 1;
+    }
+
+    #sketch-tools select {
+      margin-left: 8px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: none;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="variant-nav">
+  <button class="variant-tab active" onclick="showVariant('a')">A: Full-Bleed Overlay ★ Selected</button>
+  <button class="variant-tab" onclick="showVariant('b')">B: Split-Screen 50/50</button>
+  <button class="variant-tab" onclick="showVariant('c')">C: Asymmetric Floating</button>
+</div>
+
+<!-- Variant A: Full-Bleed with Text Overlay -->
+<div id="variant-a" class="variant active">
+  <section class="office-section">
+    <div class="office-image" style="background-image: url('https://picsum.photos/1920/1080?random=1');"></div>
+    <div class="office-content">
+      <p class="eyebrow">Escritório</p>
+      <h2 class="office-name">Lisboa</h2>
+      <p class="office-details">
+        Sede nacional no coração da capital, equipada com salas de conferência, centro de operações 24/7 e arquivo seguro de documentação.
+        Equipa de 45 profissionais especializados em recuperação de crédito comercial e imobiliário.
+      </p>
+    </div>
+  </section>
+
+  <section class="office-section">
+    <div class="office-image" style="background-image: url('https://picsum.photos/1920/1080?random=2');"></div>
+    <div class="office-content">
+      <p class="eyebrow">Escritório</p>
+      <h2 class="office-name">Barreiro</h2>
+      <p class="office-details">
+        Centro regional para a margem sul, com acesso direto a clientes em Setúbal e Península de Setúbal.
+        Infraestrutura logística completa para operações de campo e coordenação com agentes judiciais.
+      </p>
+    </div>
+  </section>
+
+  <section class="office-section">
+    <div class="office-image" style="background-image: url('https://picsum.photos/1920/1080?random=3');"></div>
+    <div class="office-content">
+      <p class="eyebrow">Escritório</p>
+      <h2 class="office-name">Montijo</h2>
+      <p class="office-details">
+        Base administrativa principal, albergando o departamento financeiro, recursos humanos e tecnologias de informação.
+        Proximidade estratégica ao complexo de instalações operacionais no Pinhal Novo.
+      </p>
+    </div>
+  </section>
+
+  <section class="office-section">
+    <div class="office-image" style="background-image: url('https://picsum.photos/1920/1080?random=4');"></div>
+    <div class="office-content">
+      <p class="eyebrow">Escritório</p>
+      <h2 class="office-name">Braga</h2>
+      <p class="office-details">
+        Expansão para o norte de Portugal, servindo clientes no Minho e Douro Litoral.
+        Escritório moderno com capacidade para 20 profissionais, focado em recuperação judicial e extrajudicial.
+      </p>
+    </div>
+  </section>
+</div>
+
+<!-- Variant B: Split-Screen 50/50 -->
+<div id="variant-b" class="variant">
+  <section class="office-section">
+    <div class="office-image" style="background-image: url('https://picsum.photos/1920/1080?random=5');"></div>
+    <div class="office-content">
+      <p class="eyebrow">Escritório</p>
+      <h2 class="office-name">Lisboa</h2>
+      <p class="office-details">
+        Sede nacional no coração da capital, equipada com salas de conferência, centro de operações 24/7 e arquivo seguro de documentação.
+        Equipa de 45 profissionais especializados em recuperação de crédito comercial e imobiliário.
+      </p>
+    </div>
+  </section>
+
+  <section class="office-section">
+    <div class="office-image" style="background-image: url('https://picsum.photos/1920/1080?random=6');"></div>
+    <div class="office-content">
+      <p class="eyebrow">Escritório</p>
+      <h2 class="office-name">Barreiro</h2>
+      <p class="office-details">
+        Centro regional para a margem sul, com acesso direto a clientes em Setúbal e Península de Setúbal.
+        Infraestrutura logística completa para operações de campo e coordenação com agentes judiciais.
+      </p>
+    </div>
+  </section>
+
+  <section class="office-section">
+    <div class="office-image" style="background-image: url('https://picsum.photos/1920/1080?random=7');"></div>
+    <div class="office-content">
+      <p class="eyebrow">Escritório</p>
+      <h2 class="office-name">Montijo</h2>
+      <p class="office-details">
+        Base administrativa principal, albergando o departamento financeiro, recursos humanos e tecnologias de informação.
+        Proximidade estratégica ao complexo de instalações operacionais no Pinhal Novo.
+      </p>
+    </div>
+  </section>
+
+  <section class="office-section">
+    <div class="office-image" style="background-image: url('https://picsum.photos/1920/1080?random=8');"></div>
+    <div class="office-content">
+      <p class="eyebrow">Escritório</p>
+      <h2 class="office-name">Braga</h2>
+      <p class="office-details">
+        Expansão para o norte de Portugal, servindo clientes no Minho e Douro Litoral.
+        Escritório moderno com capacidade para 20 profissionais, focado em recuperação judicial e extrajudicial.
+      </p>
+    </div>
+  </section>
+</div>
+
+<!-- Variant C: Asymmetric Floating Card -->
+<div id="variant-c" class="variant">
+  <section class="office-section">
+    <div class="office-image" style="background-image: url('https://picsum.photos/1600/900?random=9');"></div>
+    <div class="office-content">
+      <p class="eyebrow">Escritório</p>
+      <h2 class="office-name">Lisboa</h2>
+      <p class="office-details">
+        Sede nacional no coração da capital, equipada com salas de conferência, centro de operações 24/7 e arquivo seguro de documentação.
+        Equipa de 45 profissionais especializados em recuperação de crédito comercial e imobiliário.
+      </p>
+    </div>
+  </section>
+
+  <section class="office-section">
+    <div class="office-image" style="background-image: url('https://picsum.photos/1600/900?random=10');"></div>
+    <div class="office-content">
+      <p class="eyebrow">Escritório</p>
+      <h2 class="office-name">Barreiro</h2>
+      <p class="office-details">
+        Centro regional para a margem sul, com acesso direto a clientes em Setúbal e Península de Setúbal.
+        Infraestrutura logística completa para operações de campo e coordenação com agentes judiciais.
+      </p>
+    </div>
+  </section>
+
+  <section class="office-section">
+    <div class="office-image" style="background-image: url('https://picsum.photos/1600/900?random=11');"></div>
+    <div class="office-content">
+      <p class="eyebrow">Escritório</p>
+      <h2 class="office-name">Montijo</h2>
+      <p class="office-details">
+        Base administrativa principal, albergando o departamento financeiro, recursos humanos e tecnologias de informação.
+        Proximidade estratégica ao complexo de instalações operacionais no Pinhal Novo.
+      </p>
+    </div>
+  </section>
+
+  <section class="office-section">
+    <div class="office-image" style="background-image: url('https://picsum.photos/1600/900?random=12');"></div>
+    <div class="office-content">
+      <p class="eyebrow">Escritório</p>
+      <h2 class="office-name">Braga</h2>
+      <p class="office-details">
+        Expansão para o norte de Portugal, servindo clientes no Minho e Douro Litoral.
+        Escritório moderno com capacidade para 20 profissionais, focado em recuperação judicial e extrajudicial.
+      </p>
+    </div>
+  </section>
+</div>
+
+<!-- Sketch Toolbar -->
+<div id="sketch-tools">
+  🎨 Theme:
+  <select onchange="document.querySelector('link[href*=themes]').href='../themes/'+this.value+'.css'">
+    <option value="default">Default</option>
+  </select>
+</div>
+
+<script>
+  function showVariant(id) {
+    document.querySelectorAll('.variant').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.variant-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('variant-' + id).classList.add('active');
+    event.target.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>

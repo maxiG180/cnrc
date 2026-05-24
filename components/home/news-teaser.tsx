@@ -42,10 +42,12 @@ export async function NewsTeaser() {
 
       const remainingArticles = allSectorArticles.filter((sa) => sa.article.url !== featured?.article.url);
       const sectorsUsed = new Set<string>();
+      const urlsUsed = new Set<string>();
       for (const sa of remainingArticles) {
-        if (!sectorsUsed.has(sa.sector)) {
+        if (!sectorsUsed.has(sa.sector) && !urlsUsed.has(sa.article.url)) {
           sectorArticles.push(sa);
           sectorsUsed.add(sa.sector);
+          urlsUsed.add(sa.article.url);
         }
         if (sectorArticles.length === 3) break;
       }

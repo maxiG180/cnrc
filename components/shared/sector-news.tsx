@@ -110,9 +110,18 @@ export async function SectorNews() {
 
 function filterByTopicKeywords(result: SectorNewsResult, keywords: string[]): SectorNewsResult {
   if (result.status !== "ok") return result;
-  const filtered = result.articles.filter((article) => isRelevantToTopic(article, keywords)).slice(0, 10);
-  if (filtered.length === 0) return { status: "empty", label: result.label };
-  return { ...result, articles: filtered };
+  const filtered = result.articles.filter((article) => isRelevantToTopic(article, keywords));
+
+  // Deduplicate by URL in case the API returns duplicates
+  const seenUrls = new Set<string>();
+  const uniqueArticles = filtered.filter((article) => {
+    if (seenUrls.has(article.url)) return false;
+    seenUrls.add(article.url);
+    return true;
+  }).slice(0, 10);
+
+  if (uniqueArticles.length === 0) return { status: "empty", label: result.label };
+  return { ...result, articles: uniqueArticles };
 }
 
 function isRelevantToTopic(article: GNewsArticle, keywords: string[]) {

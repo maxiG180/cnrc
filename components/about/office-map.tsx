@@ -196,10 +196,6 @@ export function OfficeMap({ onOfficeClick, selectedOffice }: OfficeMapProps = {}
             <div className="w-4 h-4 rounded-full bg-[color:var(--color-gold)] border-2 border-white shadow-sm" />
             <span className="text-[color:var(--color-ink)]/70">{t("portugal")}</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-[color:var(--color-danger)] border-2 border-white shadow-sm" />
-            <span className="text-[color:var(--color-ink)]/70">{t("international")}</span>
-          </div>
         </div>
       </div>
 

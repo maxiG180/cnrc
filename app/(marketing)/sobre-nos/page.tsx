@@ -19,7 +19,7 @@ const meiosImages = [
   "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1778200454/Empilhador3_fzfjbw.png",
   "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1778200455/Empilhador4_ulfqna.png",
   "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779234825/Meios-Operacionais_Com-Forca-Policial-17-900x550.jpg_xypyy1.webp",
-  "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1778199502/Cozinha_M%C3%B3vel1_pemcwu.png",
+  "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779232193/Grua1_tnoxsb.png",
 ];
 
 function MeiosCarousel() {
@@ -248,7 +248,7 @@ export default function SobreNosPage() {
             </p>
             <div className="mt-10 flex items-end gap-6">
               <div className="flex flex-col items-center w-[200px]">
-                <Image src="/assinatura-ceo.png" alt={`${company.ceo} signature`} width={200} height={75} className="object-contain opacity-80 mb-2" />
+                <Image src="https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779236299/assinatura-ceo_ginq9m.png" alt={`${company.ceo} signature`} width={200} height={75} className="object-contain opacity-80 mb-2" />
                 <div className="h-px w-full bg-[color:var(--color-gold)]/40" />
               </div>
               <div>

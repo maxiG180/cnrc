@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sketch 002: Typography Treatment</title>
+  <link rel="stylesheet" href="../themes/default.css">
+  <style>
+    body {
+      padding-top: 50px;
+    }
+
+    /* Variant Navigation */
+    #variant-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9998;
+      background: var(--color-bone);
+      border-bottom: 1px solid var(--color-stone);
+      padding: 12px 20px;
+      display: flex;
+      gap: 12px;
+      font-family: var(--font-sans);
+    }
+
+    .variant-tab {
+      padding: 8px 16px;
+      background: transparent;
+      border: 1px solid var(--color-stone);
+      color: var(--color-ink);
+      cursor: pointer;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      border-radius: var(--radius-md);
+      transition: all 0.15s ease;
+    }
+
+    .variant-tab:hover {
+      border-color: var(--color-gold);
+      color: var(--color-gold-dim);
+    }
+
+    .variant-tab.active {
+      background: var(--color-navy);
+      color: var(--color-bone);
+      border-color: var(--color-navy);
+    }
+
+    .variant {
+      display: none;
+    }
+
+    .variant.active {
+      display: block;
+    }
+
+    /* Base Styles (from Variant A winner) */
+    .office-section {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .office-image {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .office-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(15, 20, 25, 0.85) 0%, rgba(15, 20, 25, 0.4) 60%, transparent 100%);
+    }
+
+    .office-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 60px;
+      color: var(--color-bone);
+    }
+
+    .eyebrow {
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-weight: 600;
+      color: var(--color-gold);
+    }
+
+    .office-details {
+      max-width: 480px;
+      font-size: var(--text-lg);
+      line-height: 1.7;
+      color: var(--color-bone);
+      opacity: 0.9;
+    }
+
+    /* Variant A: Minimal Overlay Text */
+    #variant-a .office-name {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 5rem);
+      font-weight: 500;
+      margin: 12px 0 0 0;
+      line-height: 1.2;
+      color: var(--color-bone);
+      font-style: normal;
+    }
+
+    #variant-a .office-details {
+      margin-top: 24px;
+    }
+
+    /* Variant B: Large Display Dominating */
+    #variant-b .office-name {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 12vw, 9rem);
+      font-weight: 700;
+      margin: 0;
+      line-height: 0.95;
+      color: var(--color-bone);
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+
+    #variant-b .eyebrow {
+      font-size: var(--text-sm);
+      letter-spacing: 0.2em;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    #variant-b .office-details {
+      margin-top: 40px;
+      font-size: var(--text-base);
+    }
+
+    /* Variant C: Decorative Elements */
+    #variant-c .office-name {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 9vw, 7rem);
+      font-weight: 600;
+      margin: 16px 0 0 0;
+      line-height: 1.1;
+      color: var(--color-bone);
+      font-style: italic;
+      position: relative;
+      display: inline-block;
+    }
+
+    #variant-c .office-name::before {
+      content: '';
+      position: absolute;
+      left: -60px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 2px;
+      background: var(--color-gold);
+    }
+
+    #variant-c .office-name::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -12px;
+      width: 120px;
+      height: 3px;
+      background: linear-gradient(to right, var(--color-gold), transparent);
+    }
+
+    #variant-c .office-details {
+      margin-top: 36px;
+    }
+
+    #variant-c .office-number {
+      font-family: var(--font-display);
+      font-size: clamp(8rem, 15vw, 14rem);
+      font-weight: 300;
+      position: absolute;
+      right: 80px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-bone);
+      opacity: 0.08;
+      line-height: 1;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Sketch Toolbar */
+    #sketch-tools {
+      position: fixed;
+      bottom: 12px;
+      right: 12px;
+      z-index: 9999;
+      font-family: system-ui;
+      font-size: 12px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      opacity: 0.4;
+      transition: opacity 0.2s;
+    }
+
+    #sketch-tools:hover {
+      opacity: 1;
+    }
+
+    #sketch-tools select {
+      margin-left: 8px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: none;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="variant-nav">
+  <button class="variant-tab active" onclick="showVariant('a')">A: Minimal Elegant ★ Selected</button>
+  <button class="variant-tab" onclick="showVariant('b')">B: Bold Uppercase</button>
+  <button class="variant-tab" onclick="showVariant('c')">C: Decorative Italic</button>
+</div>
+
+<!-- Variant A: Minimal Overlay Text -->
+<div id="variant-a" class="variant active">
+  <section class="office-section">
+    <div class="office-image" style="background-image: url('https://picsum.photos/1920/1080?random=1');"></div>
+    <div class="office-content">
+      <p class="eyebrow">Escritório</p>
+      <h2 class="office-name">Lisboa</h2>
+      <p class="office-details">
+        Sede nacional no coração da capital, equipada com salas de conferência, centro de operações 24/7 e arquivo seguro de documentação.
+        Equipa de 45 profissionais especializados em recuperação de crédito comercial e imobiliário.
+      </p>
+    </div>
+  </section>
+
+  <section class="office-section">
+    <div class="office-image" style="background-image: url('https://picsum.photos/1920/1080?random=2');"></div>
+    <div class="office-content">
+      <p class="eyebrow">Escritório</p>
+      <h2 class="office-name">Barreiro</h2>
+      <p class="office-details">
+        Centro regional para a margem sul, com acesso direto a clientes em Setúbal e Península de Setúbal.
+        Infraestrutura logística completa para operações de campo e coordenação com agentes judiciais.
+      </p>
+    </div>
+  </section>
+</div>
+
+<!-- Variant B: Large Display Dominating -->
+<div id="variant-b" class="variant">
+  <section class="office-section">
+    <div class="office-image" style="background-image: url('https://picsum.photos/1920/1080?random=3');"></div>
+    <div class="office-content">
+      <p class="eyebrow">Escritório</p>
+      <h2 class="office-name">Lisboa</h2>
+      <p class="office-details">
+        Sede nacional no coração da capital, equipada com salas de conferência, centro de operações 24/7 e arquivo seguro de documentação.
+        Equipa de 45 profissionais especializados.
+      </p>
+    </div>
+  </section>
+
+  <section class="office-section">
+    <div class="office-image" style="background-image: url('https://picsum.photos/1920/1080?random=4');"></div>
+    <div class="office-content">
+      <p class="eyebrow">Escritório</p>
+      <h2 class="office-name">Barreiro</h2>
+      <p class="office-details">
+        Centro regional para a margem sul, com acesso direto a clientes em Setúbal e Península de Setúbal.
+        Infraestrutura logística completa para operações de campo.
+      </p>
+    </div>
+  </section>
+</div>
+
+<!-- Variant C: Decorative Elements -->
+<div id="variant-c" class="variant">
+  <section class="office-section">
+    <div class="office-image" style="background-image: url('https://picsum.photos/1920/1080?random=5');"></div>
+    <div class="office-number">01</div>
+    <div class="office-content">
+      <p class="eyebrow">Escritório</p>
+      <h2 class="office-name">Lisboa</h2>
+      <p class="office-details">
+        Sede nacional no coração da capital, equipada com salas de conferência, centro de operações 24/7 e arquivo seguro de documentação.
+        Equipa de 45 profissionais especializados em recuperação de crédito comercial e imobiliário.
+      </p>
+    </div>
+  </section>
+
+  <section class="office-section">
+    <div class="office-image" style="background-image: url('https://picsum.photos/1920/1080?random=6');"></div>
+    <div class="office-number">02</div>
+    <div class="office-content">
+      <p class="eyebrow">Escritório</p>
+      <h2 class="office-name">Barreiro</h2>
+      <p class="office-details">
+        Centro regional para a margem sul, com acesso direto a clientes em Setúbal e Península de Setúbal.
+        Infraestrutura logística completa para operações de campo e coordenação com agentes judiciais.
+      </p>
+    </div>
+  </section>
+</div>
+
+<!-- Sketch Toolbar -->
+<div id="sketch-tools">
+  🎨 Theme:
+  <select onchange="document.querySelector('link[href*=themes]').href='../themes/'+this.value+'.css'">
+    <option value="default">Default</option>
+  </select>
+</div>
+
+<script>
+  function showVariant(id) {
+    document.querySelectorAll('.variant').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.variant-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('variant-' + id).classList.add('active');
+    event.target.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>
