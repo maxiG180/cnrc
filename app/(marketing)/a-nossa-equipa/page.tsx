@@ -28,8 +28,11 @@ export default async function EquipaPage() {
 
   return (
     <>
-      <Section tone="navy-deep" spacing="lg" className="pt-12">
-        <Container size="wide">
+      <Section tone="navy-deep" spacing="lg" className="pt-12 relative">
+        <div className="absolute inset-0 opacity-20">
+          <Image src="https://res.cloudinary.com/dqd3l6zf5/image/upload/v1778168109/Helic%C3%B3ptero8_wgqcxw.png" alt="" fill sizes="100vw" className="object-cover" priority />
+        </div>
+        <Container size="wide" className="relative z-10">
           <Reveal>
             <p className="eyebrow text-[color:var(--color-gold)]">{t("hero.eyebrow")}</p>
             <h1 className="mt-6 text-[color:var(--color-bone)] max-w-[22ch]">{t("hero.title")}</h1>
@@ -47,7 +50,7 @@ export default async function EquipaPage() {
             <Reveal className="lg:col-span-5" delay={0.1}>
               <div className="relative aspect-[4/5] overflow-hidden">
                 <Image
-                  src="/Quem Somos/Foto-Dr.-Antonio-Nunes-bg-removed.png"
+                  src="https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779236407/Foto-Dr.-Antonio-Nunes-bg-removed_g2rel5.png"
                   alt={`${company.ceo}, CEO ${company.shortName}`}
                   fill
                   sizes="(min-width:1024px) 40vw, 100vw"
@@ -75,7 +78,7 @@ export default async function EquipaPage() {
 
               <div className="mt-10 flex items-end gap-6">
                 <div className="flex flex-col items-center w-[200px]">
-                  <Image src="/assinatura-ceo.png" alt={`${company.ceo} signature`} width={200} height={75} className="object-contain opacity-80 mb-2" />
+                  <Image src="https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779236299/assinatura-ceo_ginq9m.png" alt={`${company.ceo} signature`} width={200} height={75} className="object-contain opacity-80 mb-2" />
                   <div className="h-px w-full bg-[color:var(--color-gold)]/40" />
                 </div>
                 <div>

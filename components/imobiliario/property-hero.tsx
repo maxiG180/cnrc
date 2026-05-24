@@ -318,12 +318,12 @@ export function PropertyHero({ frontmatter }: PropertyHeroProps) {
 
           <div
             className="lightbox-zoom-area flex-1 relative flex items-center justify-center px-4 md:px-8 py-20 overflow-hidden"
-            onWheel={handleWheel}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-            style={{ cursor: scale > 1 ? (isDragging ? "grabbing" : "grab") : "default" }}
+            onWheel={!isVideo ? handleWheel : undefined}
+            onMouseDown={!isVideo ? handleMouseDown : undefined}
+            onMouseMove={!isVideo ? handleMouseMove : undefined}
+            onMouseUp={!isVideo ? handleMouseUp : undefined}
+            onMouseLeave={!isVideo ? handleMouseUp : undefined}
+            style={{ cursor: !isVideo && scale > 1 ? (isDragging ? "grabbing" : "grab") : "default" }}
           >
             {/* Navigation Arrows */}
             {hasMultipleItems && (

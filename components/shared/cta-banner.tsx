@@ -21,14 +21,14 @@ export function CtaBanner({ className, compact }: { className?: string; compact?
           <div className="flex flex-col gap-3 w-full md:w-auto">
             <Link
               href={formatPhoneHref(company.phones.free)}
-              className="inline-flex items-center justify-center gap-3 bg-[color:var(--color-gold)] px-8 py-4 md:px-10 text-[color:var(--color-navy-deep)] text-sm font-medium tracking-wide uppercase hover:bg-[color:var(--color-gold-bright)] transition-colors"
+              className="inline-flex items-center justify-center gap-3 bg-[color:var(--color-gold)] px-8 py-4 md:px-10 text-[color:var(--color-navy-deep)] text-sm font-medium tracking-wide uppercase hover:bg-[color:var(--color-gold-bright)] transition-colors whitespace-nowrap"
             >
               <Phone className="h-5 w-5 animate-[vibrate_0.3s_ease-in-out_infinite]" />
               {company.phones.free}
             </Link>
             <Link
               href="/contactos"
-              className="inline-flex items-center justify-center gap-3 border border-[color:var(--color-bone)]/30 px-8 py-4 md:px-10 text-sm font-medium tracking-wide uppercase hover:border-[color:var(--color-gold)] hover:text-[color:var(--color-gold-bright)] transition-colors"
+              className="inline-flex items-center justify-center gap-3 border border-[color:var(--color-bone)]/30 px-8 py-4 md:px-10 text-sm font-medium tracking-wide uppercase hover:border-[color:var(--color-gold)] hover:text-[color:var(--color-gold-bright)] transition-colors whitespace-nowrap"
             >
               {t("common.talkToTeam")}
             </Link>
