@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 
-const CONTENT_ROOT = path.join(process.cwd(), "content");
+const CONTENT_ROOT = path.join(/*turbopackIgnore: true*/ process.cwd(), "content");
 const DEFAULT_LOCALE = "pt";
 
 export type Locale = "pt" | "en";
