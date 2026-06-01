@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Mail, MapPin, Phone, Clock, ExternalLink } from "lucide-react";
 import { getTranslations } from "next-intl/server";
@@ -23,13 +24,33 @@ export default async function ContactosPage() {
   const t = await getTranslations("contactos");
   return (
     <>
-      <Section tone="navy-deep" spacing="lg" className="pt-12">
+      <Section tone="bone-soft" spacing="lg" className="pt-12">
         <Container size="wide">
-          <Reveal>
-            <p className="eyebrow text-[color:var(--color-gold)]">{t("hero.eyebrow")}</p>
-            <h1 className="mt-6 text-[color:var(--color-bone)] max-w-[16ch]">{t("hero.title")}</h1>
-            <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-[color:var(--color-bone)]/85">{t("hero.subtitle")}</p>
-          </Reveal>
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-0">
+            <div className="lg:col-span-5 flex flex-col justify-center z-10 lg:pr-12">
+              <Reveal>
+                <p className="eyebrow">{t("hero.eyebrow")}</p>
+                <h1 className="mt-6 max-w-[16ch]">{t("hero.title")}</h1>
+                <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-[color:var(--color-ink)]/85">{t("hero.subtitle")}</p>
+              </Reveal>
+            </div>
+            <div className="lg:col-span-7 relative">
+              <Reveal delay={0.1}>
+                <div className="relative aspect-[4/3] lg:aspect-[3/2] overflow-hidden">
+                  <Image
+                    src="https://res.cloudinary.com/dqd3l6zf5/image/upload/v1778168109/Helic%C3%B3ptero8_wgqcxw.png"
+                    alt={t("hero.eyebrow")}
+                    fill
+                    sizes="(min-width:1024px) 58vw, 100vw"
+                    className="object-cover"
+                    priority
+                  />
+                  <div className="absolute inset-0 ring-1 ring-inset ring-[color:var(--color-stone)]/20" />
+                </div>
+                <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-[color:var(--color-gold)]/10 -z-10 hidden lg:block" />
+              </Reveal>
+            </div>
+          </div>
         </Container>
       </Section>
 

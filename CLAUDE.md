@@ -131,7 +131,7 @@ Optimized formats: AVIF, WebP
 - Uses Tailwind CSS 4 with `@tailwindcss/postcss`
 - Custom theme defined in `@theme` block in `globals.css`
 - Utility-first approach with design tokens via CSS variables
-- Access colors via `text-[color:var(--color-navy)]` syntax
+- Colors defined in `@theme` are automatically available as Tailwind utilities (e.g., `bg-navy`, `text-bone`, `hover:bg-navy-soft`)
 - Border colors use `color-mix` for semi-transparent stone borders by default
 
 ### Animation Patterns
@@ -155,9 +155,10 @@ Optimized formats: AVIF, WebP
 3. Use `!pb-0`/`!pt-0` when stacking same-tone sections to avoid padding doubling
 
 **Color usage:**
-- Always use CSS variable syntax: `text-[color:var(--color-navy)]`
+- Use canonical Tailwind classes: `bg-navy`, `text-bone`, `bg-navy/80` (with opacity)
+- Colors from `@theme` in `globals.css` are automatically available as utilities
 - Never hardcode hex values in components
-- Use semantic color names from the design system
+- Use semantic color names from the design system (navy, bone, gold, stone, ink, etc.)
 
 **Copywriting guidelines:**
 - NEVER use em dashes (—) in copy as they are a red flag for AI-generated content

@@ -11,7 +11,7 @@ export async function TrustSection() {
         <Reveal className="lg:col-span-6">
           <div className="relative aspect-[4/3] overflow-hidden">
             <Image
-              src="/instalacoes/lisboa-sala-audiencias.jpg"
+              src="https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779928954/lisboa-sala-audiencias_gsugun.jpg"
               alt={t("home.trust.alt")}
               fill
               sizes="(min-width:1024px) 50vw, 100vw"

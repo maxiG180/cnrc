@@ -6,7 +6,6 @@ import { Section } from "@/components/shared/section";
 import { Container } from "@/components/shared/container";
 import { Reveal } from "@/components/shared/reveal";
 import { CtaBanner } from "@/components/shared/cta-banner";
-import { AreaNavLinks } from "@/components/areas/area-nav-links";
 import { cn } from "@/lib/utils";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -43,7 +42,7 @@ export default async function AreasDeEspecializacaoPage() {
       eyebrow: t("seizures.eyebrow"),
       title: t("seizures.title"),
       lead: t("seizures.p1"),
-      image: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1778196817/Arrombamento1_ylzhc6.png",
+      image: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1778200455/Empilhador4_ulfqna.png",
     },
     {
       slug: "insolvencia",
@@ -62,21 +61,21 @@ export default async function AreasDeEspecializacaoPage() {
           ],
         },
       ],
-      image: "/Quem%20Somos/As%20Nossas%20Instala%C3%A7%C3%B5es/Lisboa/19_Lisboa_-Sala-de-reunioes-1.jpg",
+      image: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779928460/Fotos-Lisboa_Horizontais-25-1536x831_xmrqv9.jpg",
     },
     {
       slug: "arrombamentos",
       eyebrow: t("breakIns.eyebrow"),
       title: t("breakIns.title"),
       lead: t("breakIns.p1"),
-      image: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1778196818/Arrombamento3_uk6yxl.png",
+      image: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1778196821/Arrombamento9_urpwsi.png",
     },
     {
       slug: "prestacao-de-facto",
       eyebrow: t("factProvision.eyebrow"),
       title: t("factProvision.title"),
       lead: t("factProvision.p1"),
-      image: "/Quem%20Somos/Os%20Nossos%20Escrit%C3%B3rios/Lisboa/10_Lisboa_-Gabinete-Advogados-3.jpg",
+      image: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779928462/Fotos-Lisboa_Horizontais-6-1536x1193_kxl2vh.jpg",
     },
     {
       slug: "peritagem-judicial",
@@ -94,7 +93,7 @@ export default async function AreasDeEspecializacaoPage() {
           ],
         },
       ],
-      image: "/Fotos-Lisboa_Horizontais-10-scaled.jpg",
+      image: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779928457/Fotos-Lisboa_Horizontais-10-1536x984_kf6fes.jpg",
     },
     {
       slug: "imobiliario",
@@ -107,19 +106,14 @@ export default async function AreasDeEspecializacaoPage() {
 
   return (
     <>
-      <Section tone="navy-deep" spacing="lg" className="pt-12 relative">
-        <div className="absolute inset-0 opacity-20">
-          <Image src="/Logos/CNRC/Logo_CNRC_Light.png" alt="CNRC" fill sizes="100vw" className="object-cover" priority />
-        </div>
-        <Container size="wide" className="relative z-10">
+      <Section tone="navy-deep" spacing="md" className="!py-16">
+        <Container size="content">
           <Reveal>
             <p className="eyebrow text-[color:var(--color-gold)]">{t("hero.eyebrow")}</p>
-            <h1 className="mt-6 text-[color:var(--color-bone)] max-w-[18ch]">
-              {t("hero.titleLine1")}
-              <span className="block text-[color:var(--color-gold-bright)]">{t("hero.titleHighlight")}</span>
+            <h1 className="mt-4 text-[color:var(--color-bone)] max-w-[20ch]">
+              {t("hero.titleLine1")} <span className="text-[color:var(--color-gold-bright)]">{t("hero.titleHighlight")}</span>
             </h1>
           </Reveal>
-          <AreaNavLinks areas={areas.map((a) => ({ slug: a.slug, title: a.title }))} />
         </Container>
       </Section>
 

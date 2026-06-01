@@ -6,10 +6,10 @@ import { useTranslations } from "next-intl";
 import { company } from "@/content/shared/company-info";
 
 const officeImages: Record<string, string> = {
-  lisboa: "/images/office-lisboa.jpg",
-  barreiro: "/images/office-barreiro.jpg",
-  montijo: "/images/office-montijo.jpg",
-  braga: "/images/office-coimbra.jpg", // Using coimbra as placeholder for braga
+  lisboa: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779931499/office-lisboa_aljhrp.jpg",
+  barreiro: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779931500/office-barreiro_rp6z54.jpg",
+  montijo: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779931497/office-montijo_eupval.jpg",
+  braga: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779931498/office-braga_f18d6v.jpg",
 };
 
 const officeDescriptions: Record<string, { pt: string; en: string }> = {
@@ -35,23 +35,35 @@ export function OfficeJourney() {
   const t = useTranslations("escritorios");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showChapter, setShowChapter] = useState(true);
+  const [showScrollHint, setShowScrollHint] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
       const sections = document.querySelectorAll('.office-journey-section');
-      let newIndex = 0;
+      let newIndex = -1;
+      let foundSection = false;
 
       sections.forEach((section, index) => {
         const rect = section.getBoundingClientRect();
         if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
           newIndex = index;
+          foundSection = true;
         }
       });
 
-      if (newIndex !== currentIndex) {
+      if (foundSection && newIndex !== currentIndex) {
         setCurrentIndex(newIndex);
         setShowChapter(true);
         setTimeout(() => setShowChapter(false), 2000);
+      } else if (!foundSection) {
+        setShowChapter(false);
+      }
+
+      // Hide scroll hint after last office section
+      if (sections.length > 0) {
+        const lastSection = sections[sections.length - 1];
+        const lastRect = lastSection.getBoundingClientRect();
+        setShowScrollHint(lastRect.bottom > window.innerHeight / 2);
       }
     };
 
@@ -78,14 +90,16 @@ export function OfficeJourney() {
       </div>
 
       {/* Scroll Hint */}
-      <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-3 opacity-60 hover:opacity-100 transition-opacity">
-        <div className="w-6 h-10 border-2 border-[color:var(--color-bone)] rounded-xl relative">
-          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-1 h-2 bg-[color:var(--color-bone)] rounded-full animate-scroll-bounce" />
+      {showScrollHint && (
+        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-3 opacity-60 hover:opacity-100 transition-opacity">
+          <div className="w-6 h-10 border-2 border-[color:var(--color-bone)] rounded-xl relative">
+            <div className="absolute top-2 left-1/2 -translate-x-1/2 w-1 h-2 bg-[color:var(--color-bone)] rounded-full animate-scroll-bounce" />
+          </div>
+          <span className="text-[color:var(--color-bone)] text-xs uppercase tracking-[0.15em] font-semibold">
+            Scroll
+          </span>
         </div>
-        <span className="text-[color:var(--color-bone)] text-xs uppercase tracking-[0.15em] font-semibold">
-          Scroll
-        </span>
-      </div>
+      )}
 
       {/* Office Sections */}
       {company.offices.map((office, index) => (

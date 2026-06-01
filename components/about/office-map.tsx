@@ -16,10 +16,10 @@ export interface Office {
 }
 
 export const offices: Office[] = [
-  { name: "Lisboa", slug: "lisboa", coordinates: [-9.1393, 38.7223], isInternational: false, image: "/images/office-lisboa.jpg" },
-  { name: "Barreiro", slug: "barreiro", coordinates: [-9.0719, 38.6634], isInternational: false, image: "/images/office-barreiro.jpg" },
-  { name: "Montijo", slug: "montijo", coordinates: [-8.9739, 38.7074], isInternational: false, image: "/images/office-montijo.jpg" },
-  { name: "Braga", slug: "braga", coordinates: [-8.4261, 41.5454], isInternational: false, image: "/images/office-braga.jpg" },
+  { name: "Lisboa", slug: "lisboa", coordinates: [-9.1393, 38.7223], isInternational: false, image: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779929837/office-lisboa_ygj6ef.jpg" },
+  { name: "Barreiro", slug: "barreiro", coordinates: [-9.0719, 38.6634], isInternational: false, image: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779929837/office-barreiro_xi8djl.jpg" },
+  { name: "Montijo", slug: "montijo", coordinates: [-8.9739, 38.7074], isInternational: false, image: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779929837/office-montijo_p2b5pk.jpg" },
+  { name: "Braga", slug: "braga", coordinates: [-8.4261, 41.5454], isInternational: false, image: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779929836/office-braga_pqyb7b.jpg" },
 ];
 
 interface OfficeMapProps {
@@ -79,10 +79,14 @@ export function OfficeMap({ onOfficeClick, selectedOffice }: OfficeMapProps = {}
           <Map
             ref={mapRef}
             initialViewState={{
-              longitude: -8.0,
-              latitude: 39.5,
-              zoom: 5.8,
+              longitude: -8.5,
+              latitude: 39.6,
+              zoom: 7,
             }}
+            maxBounds={[
+              [-9.6, 36.8], // Southwest corner of Portugal
+              [-6.0, 42.3]  // Northeast corner of Portugal
+            ]}
             style={{ width: "100%", height: "100%" }}
             mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
           scrollZoom={!isMobile}
@@ -96,7 +100,7 @@ export function OfficeMap({ onOfficeClick, selectedOffice }: OfficeMapProps = {}
           bearing={0}
           minPitch={0}
           maxPitch={0}
-          minZoom={4}
+          minZoom={6}
           maxZoom={12}
           cursor={cursor}
           onMouseEnter={() => setCursor("grab")}
@@ -138,13 +142,6 @@ export function OfficeMap({ onOfficeClick, selectedOffice }: OfficeMapProps = {}
                       fill={office.isInternational ? "var(--color-danger)" : "var(--color-gold)"}
                       stroke="white"
                       strokeWidth="2"
-                    />
-                    <circle
-                      cx="12"
-                      cy="9"
-                      r="3"
-                      fill="white"
-                      opacity="0.9"
                     />
                   </svg>
                 </div>
@@ -188,14 +185,6 @@ export function OfficeMap({ onOfficeClick, selectedOffice }: OfficeMapProps = {}
             </Popup>
           )}
         </Map>
-        </div>
-
-        {/* Legend */}
-        <div className="p-4 bg-[color:var(--color-bone)] flex items-center justify-center gap-6 text-sm border-t border-[color:var(--color-stone)]/20">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-[color:var(--color-gold)] border-2 border-white shadow-sm" />
-            <span className="text-[color:var(--color-ink)]/70">{t("portugal")}</span>
-          </div>
         </div>
       </div>
 

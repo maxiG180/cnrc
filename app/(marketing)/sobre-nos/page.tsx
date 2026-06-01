@@ -143,13 +143,19 @@ export default function SobreNosPage() {
                     >
                       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 flex-shrink-0 transition-transform group-hover:scale-125 drop-shadow-sm">
                         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill={office.slug === "huelva" ? "var(--color-danger)" : "var(--color-gold)"} stroke="white" strokeWidth="2" />
-                        <circle cx="12" cy="9" r="3" fill="white" opacity="0.9" />
                       </svg>
                       <span className="group-hover:translate-x-1 transition-transform">{office.name}</span>
                     </button>
                   </li>
                 ))}
               </ul>
+              <div className="mt-8 flex items-center gap-3">
+                <div className="h-px flex-1 bg-gradient-to-r from-[color:var(--color-gold)]/40 to-transparent" />
+                <p className="text-base font-display italic text-[color:var(--color-gold-dim)]">
+                  {t("structure.expanding")}
+                </p>
+                <div className="h-px flex-1 bg-gradient-to-l from-[color:var(--color-gold)]/40 to-transparent" />
+              </div>
             </Reveal>
             <Reveal className="lg:col-span-7" delay={0.1}>
               <OfficeMap selectedOffice={selectedOffice} />
