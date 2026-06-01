@@ -124,7 +124,14 @@ export default async function ListingPage({ params }: { params: Promise<Params> 
       <Section tone="bone" spacing="lg">
         <Container size="content">
           <article className="prose-legal">
-            <MDXRemote source={content} />
+            <MDXRemote
+              source={content}
+              options={{
+                mdxOptions: {
+                  development: false,
+                }
+              }}
+            />
           </article>
         </Container>
       </Section>

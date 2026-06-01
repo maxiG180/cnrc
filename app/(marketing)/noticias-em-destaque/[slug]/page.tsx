@@ -80,7 +80,14 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
       <Section tone="bone" spacing="lg">
         <Container size="content">
           <article className="prose-legal">
-            <MDXRemote source={content} />
+            <MDXRemote
+              source={content}
+              options={{
+                mdxOptions: {
+                  development: false,
+                }
+              }}
+            />
           </article>
 
           {frontmatter.tags && frontmatter.tags.length > 0 && (

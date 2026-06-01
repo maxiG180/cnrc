@@ -78,7 +78,14 @@ export default async function DiligenciaPage({ params }: { params: Promise<Param
       <Section tone="bone" spacing="lg" className={frontmatter.heroVideo ? "!pt-0" : ""}>
         <Container size="content">
           <article className="prose-legal">
-            <MDXRemote source={content} />
+            <MDXRemote
+              source={content}
+              options={{
+                mdxOptions: {
+                  development: false,
+                }
+              }}
+            />
           </article>
         </Container>
       </Section>
