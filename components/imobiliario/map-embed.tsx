@@ -4,7 +4,6 @@ import { useMemo, useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Map, { Source, Layer, NavigationControl, Popup, MapRef } from "react-map-gl/maplibre";
-import type { CircleLayer, SymbolLayer } from "react-map-gl/maplibre";
 import { useTranslations } from "next-intl";
 import type { ListingFrontmatter } from "@/lib/mdx";
 import { useMapClusters, type ClusterFeature } from "./use-map-clusters";
@@ -395,22 +394,22 @@ export function MapEmbed({ listings, frontmatter, onMarkerClick, onClusterClick,
   }
 
   // Layer styles
-  const clusterLayer: CircleLayer = {
+  const clusterLayer = {
     id: "clusters",
-    type: "circle",
-    filter: ["has", "point_count"],
+    type: "circle" as const,
+    filter: ["has", "point_count"] as any,
     paint: {
       "circle-color": "#1a1a2e",
-      "circle-radius": ["step", ["get", "point_count"], 20, 10, 25, 50, 30],
+      "circle-radius": ["step", ["get", "point_count"], 20, 10, 25, 50, 30] as any,
       "circle-stroke-width": 2,
       "circle-stroke-color": "#fff",
     },
   };
 
-  const clusterCountLayer: SymbolLayer = {
+  const clusterCountLayer = {
     id: "cluster-count",
-    type: "symbol",
-    filter: ["has", "point_count"],
+    type: "symbol" as const,
+    filter: ["has", "point_count"] as any,
     layout: {
       "text-field": "{point_count_abbreviated}",
       "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
@@ -421,14 +420,14 @@ export function MapEmbed({ listings, frontmatter, onMarkerClick, onClusterClick,
     },
   };
 
-  const unclusteredPointLayer: SymbolLayer = {
+  const unclusteredPointLayer = {
     id: "unclustered-point",
-    type: "symbol",
-    filter: ["!", ["has", "point_count"]],
+    type: "symbol" as const,
+    filter: ["!", ["has", "point_count"]] as any,
     layout: {
       "icon-image": "house-marker",
       "icon-size": 0.8,
-      "icon-anchor": "bottom",
+      "icon-anchor": "bottom" as const,
       "icon-allow-overlap": true,
     },
   };
