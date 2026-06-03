@@ -9,6 +9,7 @@ const officeImages: Record<string, string> = {
   lisboa: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779931499/office-lisboa_aljhrp.jpg",
   barreiro: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779931500/office-barreiro_rp6z54.jpg",
   montijo: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779931497/office-montijo_eupval.jpg",
+  coimbra: "https://picsum.photos/seed/coimbra-office/1920/1080",
   braga: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779931498/office-braga_f18d6v.jpg",
 };
 
@@ -24,6 +25,10 @@ const officeDescriptions: Record<string, { pt: string; en: string }> = {
   montijo: {
     pt: "Base administrativa principal, albergando o departamento financeiro, recursos humanos e tecnologias de informação. Proximidade estratégica ao complexo de instalações operacionais no Pinhal Novo.",
     en: "Main administrative base, housing the financial department, human resources and information technology. Strategic proximity to the operational facilities complex in Pinhal Novo."
+  },
+  coimbra: {
+    pt: "Presença na região Centro, assegurando cobertura entre Lisboa e Porto. Escritório dedicado ao acompanhamento de processos na Beira Litoral e à articulação com os tribunais da região de Coimbra.",
+    en: "Presence in the Centro region, ensuring coverage between Lisbon and Porto. Office dedicated to handling cases in Beira Litoral and coordination with the courts of the Coimbra region."
   },
   braga: {
     pt: "Expansão para o norte de Portugal, servindo clientes no Minho e Douro Litoral. Escritório moderno com capacidade para 20 profissionais, focado em recuperação judicial e extrajudicial.",
@@ -73,9 +78,9 @@ export function OfficeJourney() {
 
   return (
     <>
-      {/* Chapter Indicator */}
+      {/* Chapter Indicator (desktop only — overlaps content on mobile) */}
       <div
-        className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none transition-opacity duration-500 ${
+        className={`hidden md:block fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none transition-opacity duration-500 ${
           showChapter ? 'opacity-100' : 'opacity-0'
         }`}
       >
@@ -117,7 +122,7 @@ export function OfficeJourney() {
               className="object-cover"
               priority={index === 0}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0f1419]/85 via-[#0f1419]/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0f1419]/95 via-[#0f1419]/60 to-[#0f1419]/25 md:bg-gradient-to-r md:from-[#0f1419]/85 md:via-[#0f1419]/40 md:to-transparent" />
           </div>
 
           {/* Content */}
