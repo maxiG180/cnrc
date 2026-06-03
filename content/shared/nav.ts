@@ -2,6 +2,8 @@ export type NavChild = {
   labelKey: string;
   href: string;
   descriptionKey?: string;
+  /** When true, render the list of company offices beneath this item. */
+  showOffices?: boolean;
 };
 
 export type NavGroup = {
@@ -19,7 +21,7 @@ export const mainNav: NavGroup[] = [
     children: [
       { labelKey: "nav.subnav.aboutUs", href: "/sobre-nos", descriptionKey: "nav.subnav.aboutUsDesc" },
       { labelKey: "nav.subnav.ourTeam", href: "/a-nossa-equipa", descriptionKey: "nav.subnav.ourTeamDesc" },
-      { labelKey: "nav.subnav.ourOffices", href: "/os-nossos-escritorios", descriptionKey: "nav.subnav.ourOfficesDesc" },
+      { labelKey: "nav.subnav.ourOffices", href: "/os-nossos-escritorios", descriptionKey: "nav.subnav.ourOfficesDesc", showOffices: true },
       { labelKey: "nav.subnav.ourFacilities", href: "/as-nossas-instalacoes", descriptionKey: "nav.subnav.ourFacilitiesDesc" },
       { labelKey: "nav.subnav.areasOfSpecialization", href: "/areas-de-especializacao", descriptionKey: "nav.subnav.areasOfSpecializationDesc" },
     ],

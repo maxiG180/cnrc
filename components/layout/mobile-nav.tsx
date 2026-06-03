@@ -79,6 +79,21 @@ export function MobileNav({ open, onClose }: { open: boolean; onClose: () => voi
                           >
                             {t(c.labelKey)}
                           </Link>
+                          {c.showOffices && (
+                            <ul className="mt-1 mb-1 flex flex-wrap gap-x-3 gap-y-1 pl-3">
+                              {company.offices.map((o) => (
+                                <li key={o.slug}>
+                                  <Link
+                                    href="/os-nossos-escritorios"
+                                    onClick={onClose}
+                                    className="block py-0.5 text-xs text-[color:var(--color-stone-dark)] hover:text-[color:var(--color-gold-dim)]"
+                                  >
+                                    {o.name}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
                         </li>
                       ))}
                       {group.columns?.map((col) => (
