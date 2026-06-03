@@ -183,20 +183,6 @@ function MegaPanel({ group }: { group: NavGroup }) {
                     <p className="mt-1 text-xs text-[color:var(--color-stone-dark)]">{t(c.descriptionKey)}</p>
                   )}
                 </Link>
-                {c.showOffices && (
-                  <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
-                    {company.offices.map((o) => (
-                      <li key={o.slug}>
-                        <Link
-                          href="/os-nossos-escritorios"
-                          className="text-xs text-[color:var(--color-stone-dark)] hover:text-[color:var(--color-gold-dim)] transition-colors"
-                        >
-                          {o.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
               </li>
             ))}
           </ul>
