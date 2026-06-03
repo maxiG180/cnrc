@@ -9,7 +9,8 @@ const officeImages: Record<string, string> = {
   lisboa: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779931499/office-lisboa_aljhrp.jpg",
   barreiro: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779931500/office-barreiro_rp6z54.jpg",
   montijo: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779931497/office-montijo_eupval.jpg",
-  coimbra: "https://picsum.photos/seed/coimbra-office/1920/1080",
+  // Placeholder: University of Coimbra (Wikimedia Commons) until a real office photo is provided
+  coimbra: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/%F0%9F%87%B5%F0%9F%87%B9_%F0%9F%87%AA%F0%9F%87%BA_Universidad_de_Co%C3%ADmbra_%28Portugal%2C_23-10-2019%29_%2849587625078%29.jpg/1920px-%F0%9F%87%B5%F0%9F%87%B9_%F0%9F%87%AA%F0%9F%87%BA_Universidad_de_Co%C3%ADmbra_%28Portugal%2C_23-10-2019%29_%2849587625078%29.jpg",
   braga: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779931498/office-braga_f18d6v.jpg",
 };
 

@@ -19,7 +19,7 @@ export const offices: Office[] = [
   { name: "Lisboa", slug: "lisboa", coordinates: [-9.1393, 38.7223], isInternational: false, image: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779929837/office-lisboa_ygj6ef.jpg" },
   { name: "Barreiro", slug: "barreiro", coordinates: [-9.0719, 38.6634], isInternational: false, image: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779929837/office-barreiro_xi8djl.jpg" },
   { name: "Montijo", slug: "montijo", coordinates: [-8.9739, 38.7074], isInternational: false, image: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779929837/office-montijo_p2b5pk.jpg" },
-  { name: "Coimbra", slug: "coimbra", coordinates: [-8.4103, 40.2033], isInternational: false, image: "https://picsum.photos/seed/coimbra-office/600/600" },
+  { name: "Coimbra", slug: "coimbra", coordinates: [-8.4103, 40.2033], isInternational: false, image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/%F0%9F%87%B5%F0%9F%87%B9_%F0%9F%87%AA%F0%9F%87%BA_Universidad_de_Co%C3%ADmbra_%28Portugal%2C_23-10-2019%29_%2849587625078%29.jpg/1920px-%F0%9F%87%B5%F0%9F%87%B9_%F0%9F%87%AA%F0%9F%87%BA_Universidad_de_Co%C3%ADmbra_%28Portugal%2C_23-10-2019%29_%2849587625078%29.jpg" },
   { name: "Braga", slug: "braga", coordinates: [-8.4261, 41.5454], isInternational: false, image: "https://res.cloudinary.com/dqd3l6zf5/image/upload/v1779929836/office-braga_pqyb7b.jpg" },
 ];
 
